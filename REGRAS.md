@@ -98,3 +98,33 @@ permissions:
 
 Só isso. Eu fico impedida de rodar **qualquer** comando, para sempre — em
 qualquer modelo, em qualquer humor. É assim que uma regra de verdade se parece.
+
+---
+
+## 5. A trava garantida (filtro de conteúdo)
+
+Além do texto e das permissões, existe um **filtro em código** que age **antes**
+de o pedido chegar no modelo:
+
+```
+.opencode/plugins/selene-guard/
+├── index.ts         ← liga o gancho (não precisa mexer)
+├── padroes.ts       ← AQUI você edita o que é bloqueado
+└── padroes.test.ts  ← 19 testes provando que bloqueia o certo e libera o resto
+```
+
+Como funciona: se a mensagem casar com um padrão, o texto é **trocado** por uma
+recusa e o modelo **nunca vê** o pedido original.
+
+| Para... | Faça |
+|---|---|
+liberar um assunto | apague a linha em `padroes.ts` |
+bloquear mais | acrescente uma linha `/[seu padrão]/i,` |
+conferir | `cd .opencode/plugins/selene-guard` e `bun test` |
+
+Já bloqueia: jailbreak de console, PKG store, jogo/curso pirata, e **contornar
+DRM** (Widevine/FairPlay/PlayReady/SAMPLE-AES).
+
+Já **libera** (de propósito): *"o que é DRM?"*, *"explica o que é widevine"* —
+perguntar é legítimo; pedir para contornar, não.
+
