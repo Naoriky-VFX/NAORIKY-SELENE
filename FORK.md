@@ -1,12 +1,16 @@
-# NAORIKY-SELENE
+# SELENE
 
 Terminal AI coding agent — fork rebrandeado do **OpenCode**.
 
+> **Nome do produto: SELENE** (deusa grega da Lua).
+> `NAORIKY-SELENE` é apenas o nome do repositório/pasta no GitHub — não é a marca.
+
 | | |
 |---|---|
-Projeto | **NAORIKY-SELENE** |
-Marca | **Selene** (deusa grega da Lua) |
-Comando | `sel` |
+**Produto** | **SELENE** |
+**Repositório** | NAORIKY-SELENE (pasta do GitHub) |
+Origem do nome | Selene, a deusa grega da Lua |
+Comando | `sel` (apelido `selene` também válido) |
 Base | OpenCode **2.2.5** (commit `8bca532`, branch `dev`) |
 Autor do fork | Naoriky-VFX |
 Licença | **MIT** — ver `LICENSE` (copyright original preservado) |
