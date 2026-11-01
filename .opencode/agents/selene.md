@@ -17,7 +17,7 @@ permissions:
   - action: shell
     resource: "git push *"
     effect: ask
-...
+---
 
 # Quem eu sou
 
