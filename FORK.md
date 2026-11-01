@@ -50,13 +50,36 @@ Linux ARM64 | 🔵 depois (exige emulação ou runner ARM) |
 **Nada foi removido do código:** uma pessoa com Mac ainda pode compilar da
 fonte. Só não publicamos binário para macOS.
 
+## Como compilar (Windows x64)
+
+```powershell
+# 1. dependências (uma vez)
+cd "D:\PROJETOS DE PROGRAMAÇÃO\NAORIKY-SELENE"
+bun install
+
+# 2. build da CLI
+cd packages\cli
+$env:OPENCODE_TARGET   = "windows-x64"
+$env:OPENCODE_BIN      = "sel"
+$env:OPENCODE_CLI_NAME = "sel"
+$env:OPENCODE_VERSION  = "0.1.0"
+$env:OPENCODE_CHANNEL  = "latest"
+bun run build
+```
+
+Saída: `packages/cli/dist/cli-windows-x64/bin/sel.exe` (~252 MB, binário único).
+
+Instalado nesta máquina em `%LOCALAPPDATA%\SELENE\sel.exe` (no PATH do usuário).
+
 ## Estado
 
 - [x] Código do OpenCode 2.2.5 importado
 - [x] Tema Selene criado
 - [x] Escopo de plataformas definido (macOS fora)
-- [ ] Renomear comando `opencode` → `sel`
+- [x] Agente `selene` com regras editáveis (`.opencode/agents/selene.md`)
+- [x] Guarda de conteúdo com 19 testes (`.opencode/plugins/selene-guard/`)
+- [x] **Build Windows x64** — `sel v0.1.0` funcionando
+- [x] Comando renomeado para `sel`
 - [ ] Logo / ícone / identidade visual
-- [ ] Build Windows x64
 - [ ] Workflow de release próprio (sem assinatura)
 - [ ] Desktop / web rebrandados
