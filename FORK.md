@@ -50,6 +50,15 @@ Linux ARM64 | 🔵 depois (exige emulação ou runner ARM) |
 **Nada foi removido do código:** uma pessoa com Mac ainda pode compilar da
 fonte. Só não publicamos binário para macOS.
 
+## Nota sobre o `AGENTS.md`
+
+O guia de desenvolvimento do OpenCode veio junto no fork (16 KB de regras para
+contribuir no projeto original). Ele foi renomeado para **`AGENTS.upstream.md`**
+para não ser carregado como regra deste projeto.
+
+As regras que valem aqui são as do **`REGRAS.md`** e do agente
+`.opencode/agents/selene.md`.
+
 ## Como compilar (Windows x64)
 
 ```powershell
