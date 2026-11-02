@@ -127,7 +127,7 @@ test("re-registered commands keep their opencode object until its data changes",
     }))
     opencode = () =>
       keymap.getCommandEntries({ visibility: "registered" }).find((entry) => entry.command.name === "demo.command")
-        ?.command.selene
+        ?.command.opencode
     command = () => commands().find((item) => item.id === "demo.command")
     return <box />
   }
@@ -192,11 +192,11 @@ test("re-registered commands keep inline slash objects until their fields change
   try {
     const first = registered()
     setVersion(1)
-    expect(registered()?.selene).toBe(first?.selene)
+    expect(registered()?.opencode).toBe(first?.opencode)
     expect(registered()?.slash).toBe(first?.slash)
 
     setAliases(["d", "dm"])
-    expect(registered()?.selene).not.toBe(first?.selene)
+    expect(registered()?.opencode).not.toBe(first?.opencode)
     expect(command()?.slash?.aliases).toEqual(["d", "dm"])
   } finally {
     app.renderer.destroy()
