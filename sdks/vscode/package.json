@@ -1,7 +1,7 @@
 {
   "name": "selene",
   "displayName": "SELENE CODE",
-  "description": "A SELENE no seu VS Code — o agente abre no terminal, ao lado do código.",
+  "description": "Agente de programação no terminal, ao lado do seu código.",
   "version": "0.1.1",
   "publisher": "naoriky",
   "repository": {
