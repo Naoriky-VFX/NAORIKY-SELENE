@@ -321,8 +321,9 @@ const make = Effect.gen(function* () {
             { cause },
           ),
       })
-    const version = core ? data.versions?.stable : (data.tag_name ?? "").trim().replace(/^v/, "")
-    const packageName = core ? "opencode" : "github"
+    const version = core ? data.versions?.stable : (data.version ?? (data.tag_name ?? "").trim().replace(/^v/, ""))
+    // GitHub não informa `metadata.package`; nesse caso é a instalação manual (sel.exe).
+    const packageName = core ? "opencode" : (data.metadata?.package ?? "github")
     if (!version || !packageName)
       return yield* Effect.fail(
         new UpgradeError({
