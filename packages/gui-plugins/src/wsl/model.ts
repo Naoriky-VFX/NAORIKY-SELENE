@@ -75,7 +75,7 @@ export function addServerViewModel(input: {
   const existingServerDistros = new Set((state?.servers ?? []).map((item) => item.config.distro))
   const addableInstalledDistros = visibleInstalledDistros.filter((item) => !existingServerDistros.has(item.name))
   const selectedDistro = addServerSelectedDistro(input.selectedDistro, visibleInstalledDistros, addableInstalledDistros)
-  const opencodeCheck = selectedDistro ? (state?.seleneChecks[selectedDistro] ?? null) : null
+  const opencodeCheck = selectedDistro ? (state?.opencodeChecks[selectedDistro] ?? null) : null
   const installableDistros = addServerInstallableDistros(visibleInstalledDistros, visibleOnlineDistros)
   const filteredInstallableDistros = addServerFilteredInstallableDistros(installableDistros, input.catalogSearch)
   const catalogTarget = addServerCatalogTarget(input.catalogTarget, filteredInstallableDistros)
@@ -175,7 +175,7 @@ function addServerDistroStatus(input: {
     return { label: { key: "onboarding.distroStatus.missingTools" }, tone: "warning" }
   }
 
-  const check = input.state?.seleneChecks[input.name]
+  const check = input.state?.opencodeChecks[input.name]
 
   if (!check) {
     if (input.probingAddable || (job?.kind === "probe-addable" && job.distros.includes(input.name))) {
@@ -211,7 +211,7 @@ function addServerPrimaryButton(input: {
   const probingOpencode =
     probingSelected ||
     (ready &&
-      (!input.seleneCheck ||
+      (!input.opencodeCheck ||
         (!!input.selectedDistro &&
           input.state?.job?.kind === "probe-addable" &&
           input.state.job.distros.includes(input.selectedDistro))))
@@ -230,8 +230,8 @@ function addServerPrimaryButton(input: {
     }
   }
 
-  if (!addServerOpencodeReady(input.seleneCheck)) {
-    const update = !!input.seleneCheck?.resolvedPath && input.seleneCheck.matchesDesktop === false
+  if (!addServerOpencodeReady(input.opencodeCheck)) {
+    const update = !!input.opencodeCheck?.resolvedPath && input.opencodeCheck.matchesDesktop === false
 
     return {
       variant: "neutral",
@@ -271,7 +271,7 @@ function addServerSelectedDistroSettled(state: WslServersState | undefined, sele
 
   if (!wslDistroReady(state, selectedDistro)) return true
 
-  return !!state.seleneChecks[selectedDistro]
+  return !!state.opencodeChecks[selectedDistro]
 }
 
 function addServerInstallableDistros(installedDistros: WslInstalledDistro[], onlineDistros: WslOnlineDistro[]) {
@@ -322,7 +322,7 @@ function addableProbePlan(input: {
 
     if (!state.distroProbes[item.name]) return [`distro:${item.name}`]
 
-    if (wslDistroReady(state, item.name) && !state.seleneChecks[item.name]) return [`opencode:${item.name}`]
+    if (wslDistroReady(state, item.name) && !state.opencodeChecks[item.name]) return [`opencode:${item.name}`]
 
     return []
   })
