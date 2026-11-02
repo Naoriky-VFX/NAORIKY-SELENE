@@ -1,4 +1,4 @@
-# SELENE
+# SELENE Code
 
 Agente de programação no terminal, dentro do VS Code.
 

@@ -1,7 +1,8 @@
-# Changelog — SELENE Agent
+# Changelog — SELENE Code
 
 ## 0.1.1
 
+- Nome: **SELENE Code**.
 - Ícone novo: a bola SELENE (legível em 16–32 px na lista de extensões).
 - Créditos ao projeto original em `CREDITS.md`.
 
