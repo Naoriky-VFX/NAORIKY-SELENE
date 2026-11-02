@@ -375,7 +375,7 @@ export const OpencodePlugin = define<
       if (integrated) ConfigProviderPlugin.integrate(providers, integrated)
     })
     yield* ctx.provider.transform((providers) => {
-      const item = providers.get(Provider.ID.selene)
+      const item = providers.get(Provider.ID.opencode)
       if (!item) return
       const hasKey = Boolean(process.env.SELENE_API_KEY || snapshot.connection || item.provider.settings?.apiKey)
       providers.update(item.provider.id, (provider) => {
@@ -386,7 +386,7 @@ export const OpencodePlugin = define<
       })
     })
     yield* ctx.model.transform((models) => {
-      const item = models.provider.get(Provider.ID.selene)
+      const item = models.provider.get(Provider.ID.opencode)
       if (!item) return
       const hasKey = Boolean(
         process.env.SELENE_API_KEY ||
@@ -461,7 +461,7 @@ export const OpencodePlugin = define<
     const guard = Effect.fn("OpencodePlugin.guard")(function* (next: typeof snapshot) {
       yield* Effect.forEach(explainers, (registration) => registration.dispose, { discard: true })
       explainers = yield* Effect.forEach(
-        next.connection ? new Set([Provider.ID.selene, ...Object.keys(next.remote?.providers ?? {})]) : [],
+        next.connection ? new Set([Provider.ID.opencode, ...Object.keys(next.remote?.providers ?? {})]) : [],
         (providerID) => ctx.session.hook("http.response", explain, { providerID }).pipe(Scope.provide(scope)),
       )
     })

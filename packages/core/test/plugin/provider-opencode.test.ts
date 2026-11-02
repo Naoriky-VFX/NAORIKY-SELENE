@@ -814,7 +814,7 @@ describe("OpencodePlugin", () => {
             yield* TestClock.adjust("1 minute")
             yield* drain
             expect(yield* consolePolicies(config)).toEqual([sudo])
-            expect(yield* providers.get(Provider.ID.selene)).toBeDefined()
+            expect(yield* providers.get(Provider.ID.opencode)).toBeDefined()
           }
 
           state.policies = [env, { action: "tool.use", resource: "shell:*", effect: "future-effect" }]
@@ -826,7 +826,7 @@ describe("OpencodePlugin", () => {
           yield* TestClock.adjust("1 minute")
           yield* drain
           expect(yield* consolePolicies(config)).toEqual([])
-          expect(yield* providers.get(Provider.ID.selene)).toBeDefined()
+          expect(yield* providers.get(Provider.ID.opencode)).toBeDefined()
 
           state.policies = [{ action: "future.use", effect: { next: true } }, env]
           yield* TestClock.adjust("1 minute")
@@ -969,7 +969,7 @@ describe("OpencodePlugin", () => {
               TestClock.adjust("1 second").pipe(Effect.andThen(rejected(Provider.ID.make("remote")))),
             ),
           ).toEqual(Array.from({ length: 20 }, () => explained))
-          expect(yield* rejected(Provider.ID.selene)).toEqual(explained)
+          expect(yield* rejected(Provider.ID.opencode)).toEqual(explained)
           expect(yield* rejected(Provider.ID.anthropic)).toEqual(denied)
           expect(state.requests).toBe(2)
         }),
@@ -1611,14 +1611,14 @@ describe("OpencodePlugin", () => {
         const catalog = yield* Provider.Service
         const models = yield* Model.Service
         yield* catalog.transform((catalog) => {
-          catalog.update(Provider.ID.selene, () => {})
-          catalog.models.update(Provider.ID.selene, Model.ID.make("paid"), (draft) => {
+          catalog.update(Provider.ID.opencode, () => {})
+          catalog.models.update(Provider.ID.opencode, Model.ID.make("paid"), (draft) => {
             draft.cost = cost(1)
           })
         })
         yield* addPlugin()
-        expect(required(yield* catalog.get(Provider.ID.selene)).settings?.apiKey).toBe("public")
-        expect(required(yield* models.get(Provider.ID.selene, Model.ID.make("paid"))).enabled).toBe(false)
+        expect(required(yield* catalog.get(Provider.ID.opencode)).settings?.apiKey).toBe("public")
+        expect(required(yield* models.get(Provider.ID.opencode, Model.ID.make("paid"))).enabled).toBe(false)
       }),
     ),
   )
@@ -1629,16 +1629,16 @@ describe("OpencodePlugin", () => {
         const catalog = yield* Provider.Service
         const models = yield* Model.Service
         yield* catalog.transform((catalog) => {
-          catalog.update(Provider.ID.selene, () => {})
-          catalog.models.update(Provider.ID.selene, Model.ID.make("free"), (draft) => {
+          catalog.update(Provider.ID.opencode, () => {})
+          catalog.models.update(Provider.ID.opencode, Model.ID.make("free"), (draft) => {
             draft.cost = cost(0)
           })
         })
         yield* addPlugin()
-        expect(required(yield* catalog.get(Provider.ID.selene)).settings?.apiKey).toBe("public")
-        expect(required(yield* catalog.get(Provider.ID.selene)).activation).toBe("enabled")
-        expect((yield* catalog.available()).map((provider) => provider.id)).toContain(Provider.ID.selene)
-        expect(required(yield* models.get(Provider.ID.selene, Model.ID.make("free"))).enabled).toBe(true)
+        expect(required(yield* catalog.get(Provider.ID.opencode)).settings?.apiKey).toBe("public")
+        expect(required(yield* catalog.get(Provider.ID.opencode)).activation).toBe("enabled")
+        expect((yield* catalog.available()).map((provider) => provider.id)).toContain(Provider.ID.opencode)
+        expect(required(yield* models.get(Provider.ID.opencode, Model.ID.make("free"))).enabled).toBe(true)
       }),
     ),
   )
@@ -1649,14 +1649,14 @@ describe("OpencodePlugin", () => {
         const catalog = yield* Provider.Service
         const models = yield* Model.Service
         yield* catalog.transform((catalog) => {
-          catalog.update(Provider.ID.selene, () => {})
-          catalog.models.update(Provider.ID.selene, Model.ID.make("output-only"), (draft) => {
+          catalog.update(Provider.ID.opencode, () => {})
+          catalog.models.update(Provider.ID.opencode, Model.ID.make("output-only"), (draft) => {
             draft.cost = cost(0, 1)
           })
         })
         yield* addPlugin()
-        expect(required(yield* catalog.get(Provider.ID.selene)).settings?.apiKey).toBe("public")
-        expect(required(yield* models.get(Provider.ID.selene, Model.ID.make("output-only"))).enabled).toBe(true)
+        expect(required(yield* catalog.get(Provider.ID.opencode)).settings?.apiKey).toBe("public")
+        expect(required(yield* models.get(Provider.ID.opencode, Model.ID.make("output-only"))).enabled).toBe(true)
       }),
     ),
   )
@@ -1674,14 +1674,14 @@ describe("OpencodePlugin", () => {
           }),
         )
         yield* catalog.transform((catalog) => {
-          catalog.update(Provider.ID.selene, () => {})
-          catalog.models.update(Provider.ID.selene, Model.ID.make("paid"), (draft) => {
+          catalog.update(Provider.ID.opencode, () => {})
+          catalog.models.update(Provider.ID.opencode, Model.ID.make("paid"), (draft) => {
             draft.cost = cost(1)
           })
         })
         yield* addPlugin().pipe(Effect.provideService(HttpClient.HttpClient, noRemoteConfig))
-        expect(required(yield* catalog.get(Provider.ID.selene)).settings?.apiKey).toBeUndefined()
-        expect(required(yield* models.get(Provider.ID.selene, Model.ID.make("paid"))).enabled).toBe(true)
+        expect(required(yield* catalog.get(Provider.ID.opencode)).settings?.apiKey).toBeUndefined()
+        expect(required(yield* models.get(Provider.ID.opencode, Model.ID.make("paid"))).enabled).toBe(true)
       }),
     ),
   )
@@ -1699,16 +1699,16 @@ describe("OpencodePlugin", () => {
           })
         })
         yield* catalog.transform((catalog) => {
-          catalog.update(Provider.ID.selene, () => {})
-          catalog.models.update(Provider.ID.selene, Model.ID.make("paid"), (draft) => {
+          catalog.update(Provider.ID.opencode, () => {})
+          catalog.models.update(Provider.ID.opencode, Model.ID.make("paid"), (draft) => {
             draft.cost = cost(1)
           })
         })
         // An env credential has no server metadata, so the plugin would ask the
         // default Console for remote config; answer 404 (no remote config) locally.
         yield* addPlugin().pipe(Effect.provideService(HttpClient.HttpClient, noRemoteConfig))
-        expect(required(yield* catalog.get(Provider.ID.selene)).settings?.apiKey).toBeUndefined()
-        expect(required(yield* models.get(Provider.ID.selene, Model.ID.make("paid"))).enabled).toBe(true)
+        expect(required(yield* catalog.get(Provider.ID.opencode)).settings?.apiKey).toBeUndefined()
+        expect(required(yield* models.get(Provider.ID.opencode, Model.ID.make("paid"))).enabled).toBe(true)
       }),
     ),
   )
@@ -1719,18 +1719,18 @@ describe("OpencodePlugin", () => {
         const catalog = yield* Provider.Service
         const models = yield* Model.Service
         yield* catalog.transform((catalog) => {
-          catalog.update(Provider.ID.selene, (draft) => {
+          catalog.update(Provider.ID.opencode, (draft) => {
             draft.package = Provider.aisdk("test-provider")
             draft.settings = { apiKey: "configured" }
             draft.activation = "enabled"
           })
-          catalog.models.update(Provider.ID.selene, Model.ID.make("paid"), (draft) => {
+          catalog.models.update(Provider.ID.opencode, Model.ID.make("paid"), (draft) => {
             draft.cost = cost(1)
           })
         })
         yield* addPlugin()
-        expect(required(yield* catalog.get(Provider.ID.selene)).settings?.apiKey).toBe("configured")
-        expect(required(yield* models.get(Provider.ID.selene, Model.ID.make("paid"))).enabled).toBe(true)
+        expect(required(yield* catalog.get(Provider.ID.opencode)).settings?.apiKey).toBe("configured")
+        expect(required(yield* models.get(Provider.ID.opencode, Model.ID.make("paid"))).enabled).toBe(true)
       }),
     ),
   )
@@ -2160,11 +2160,11 @@ for (const key of [undefined, "secret"]) {
             }),
           )
           yield* catalog.transform((editor) => {
-            editor.update(Provider.ID.selene, () => {})
-            editor.models.update(Provider.ID.selene, Model.ID.make("free"), (model) => {
+            editor.update(Provider.ID.opencode, () => {})
+            editor.models.update(Provider.ID.opencode, Model.ID.make("free"), (model) => {
               model.cost = cost(0)
             })
-            editor.models.update(Provider.ID.selene, Model.ID.make("paid"), (model) => {
+            editor.models.update(Provider.ID.opencode, Model.ID.make("paid"), (model) => {
               model.cost = cost(1)
             })
           })
@@ -2186,13 +2186,13 @@ for (const key of [undefined, "secret"]) {
             })
           }
           const available = yield* eventually(models.available(), (models) =>
-            models.some((model) => model.providerID === Provider.ID.selene),
+            models.some((model) => model.providerID === Provider.ID.opencode),
           )
-          expect((yield* catalog.available()).map((provider) => provider.id)).toContain(Provider.ID.selene)
+          expect((yield* catalog.available()).map((provider) => provider.id)).toContain(Provider.ID.opencode)
           expect(available.map((model) => model.id)).toEqual([Model.ID.make("paid")])
           expect(yield* models.all()).toEqual(available)
           expect((yield* models.default())?.id).toBe(Model.ID.make("paid"))
-          expect(yield* models.get(Provider.ID.selene, Model.ID.make("free"))).toBeUndefined()
+          expect(yield* models.get(Provider.ID.opencode, Model.ID.make("free"))).toBeUndefined()
         }).pipe(Effect.provide(PluginTestLayer)),
       ),
   )

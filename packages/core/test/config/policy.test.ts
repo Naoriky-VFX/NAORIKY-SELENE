@@ -195,7 +195,7 @@ describe("ConfigPolicyPlugin.Plugin", () => {
       yield* catalog.transform((catalog) => {
         catalog.update(Provider.ID.openai, () => {})
         catalog.update(Provider.ID.anthropic, () => {})
-        catalog.update(Provider.ID.selene, () => {})
+        catalog.update(Provider.ID.opencode, () => {})
       })
       yield* addPlugin([
         organizationPolicy([provider("deny", "*"), provider("allow", "opencode")]),
@@ -204,7 +204,7 @@ describe("ConfigPolicyPlugin.Plugin", () => {
 
       expect(yield* catalog.get(Provider.ID.anthropic)).toBeUndefined()
       expect(yield* catalog.get(Provider.ID.openai)).toBeUndefined()
-      expect(yield* catalog.get(Provider.ID.selene)).toBeDefined()
+      expect(yield* catalog.get(Provider.ID.opencode)).toBeDefined()
     }),
   )
 
@@ -270,7 +270,7 @@ describe("integration policy", () => {
       })
       yield* catalog.transform((catalog) => {
         // The signed-out free tier enables OpenCode without any connection.
-        catalog.update(Provider.ID.selene, (provider) => {
+        catalog.update(Provider.ID.opencode, (provider) => {
           provider.activation = "enabled"
         })
         // An env API key: Anthropic's integration with no account.
@@ -329,7 +329,7 @@ describe("integration policy", () => {
         value: consoleCredential("org_other"),
       })
       yield* catalog.transform((catalog) => {
-        catalog.update(Provider.ID.selene, () => {})
+        catalog.update(Provider.ID.opencode, () => {})
         catalog.update(Provider.ID.anthropic, () => {})
       })
       yield* addPlugin([
@@ -341,7 +341,7 @@ describe("integration policy", () => {
       ])
       expect(yield* catalog.get(Provider.ID.anthropic)).toBeDefined()
       // `opencode` names only account-less use; a connected account needs `opencode#*` or its own ID.
-      expect(yield* catalog.get(Provider.ID.selene)).toBeUndefined()
+      expect(yield* catalog.get(Provider.ID.opencode)).toBeUndefined()
     }),
   )
 

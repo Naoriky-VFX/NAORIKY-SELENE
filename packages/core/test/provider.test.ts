@@ -35,7 +35,7 @@ describe("Provider", () => {
       Object.values(snapshot)
         .flatMap((provider) => Object.values(provider.models ?? {}))
         .flatMap((model) => Object.values(model.api ?? {}))
-        .map((api) => api.sdk?.seleneai)
+        .map((api) => api.sdk?.opencodeai)
         .filter((specifier): specifier is string => specifier?.startsWith("@opencode/ai/") === true),
     )
     // Protocol entrypoints export no model(), so Core skips the APIs that name them.

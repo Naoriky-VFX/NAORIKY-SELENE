@@ -159,9 +159,9 @@ it.effect(
       const requests: HttpClientRequest.HttpClientRequest[] = []
       const opencode = { opencode: [credential("console", "oauth")] }
 
-      yield* start("gpt-live-1", { openai: [credential("chatgpt", "oauth")], ...selene }, requests)
+      yield* start("gpt-live-1", { openai: [credential("chatgpt", "oauth")], ...opencode }, requests)
       yield* start("gpt-live-1", { opencode: [{ type: "env", name: "SELENE_API_KEY" }] }, requests)
-      yield* start("gpt-live-1", { openai: [credential("active", "key")], ...selene }, requests)
+      yield* start("gpt-live-1", { openai: [credential("active", "key")], ...opencode }, requests)
       expect(
         requests.map((req): (string | undefined)[] => [
           req.url,
