@@ -101,9 +101,9 @@ const paths = {
   appData: join(home, "AppData", "Roaming"),
   localAppData: join(home, "AppData", "Local"),
   temp: join(home, "AppData", "Local", "Temp"),
-  db: join(home, ".local", "share", "opencode", "opencode.db"),
+  db: join(home, ".local", "share", "selene", "opencode.db"),
   config: join(home, ".config", "opencode"),
-  registration: join(home, ".local", "state", "opencode", "service.json"),
+  registration: join(home, ".local", "state", "selene", "service.json"),
   logs: join(userData, "logs"),
 }
 
