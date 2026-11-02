@@ -1,0 +1,79 @@
+name: Publicar extensão (SELENE)
+
+on:
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: "Incremento de versão"
+        required: true
+        default: patch
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+          - none
+      versao:
+        description: "Ou uma versão exata (ex: 0.2.0) — sobrepõe o incremento"
+        required: false
+        type: string
+
+permissions:
+  contents: write
+  id-token: write # necessário para o Trusted Publishing (OIDC)
+
+jobs:
+  publicar:
+    name: Empacotar e publicar
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: sdks/vscode
+    steps:
+      - name: Baixar o código
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Instalar Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Instalar Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Instalar dependências
+        run: bun install --frozen-lockfile || bun install
+
+      - name: Definir versão exata (quando informada)
+        if: ${{ inputs.versao != '' }}
+        run: npm version "${{ inputs.versao }}" --no-git-tag-version --allow-same-version
+
+      - name: Publicar no Marketplace (OIDC)
+        if: ${{ inputs.versao == '' && inputs.bump != 'none' }}
+        run: npx --yes @vscode/vsce publish "${{ inputs.bump }}" --oidc
+
+      - name: Publicar a versão atual (sem incrementar)
+        if: ${{ inputs.versao == '' && inputs.bump == 'none' }}
+        run: npx --yes @vscode/vsce publish --oidc
+
+      - name: Mostrar a versão publicada
+        run: node -p "'publicado: ' + require('./package.json').version"
+
+      - name: Registrar a versão no repositório
+        working-directory: .
+        run: |
+          set -e
+          if git diff --quiet -- sdks/vscode/package.json; then
+            echo "sem alteração de versão para commitar"
+            exit 0
+          fi
+          VERSAO=$(node -p "require('./sdks/vscode/package.json').version")
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add sdks/vscode/package.json sdks/vscode/CHANGELOG.md || true
+          git commit -m "chore(extensao): publica a versao ${VERSAO}"
+          git push

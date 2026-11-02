@@ -1,15 +1,15 @@
 {
   "name": "selene",
-  "displayName": "SELENE",
+  "displayName": "SELENE Agent",
   "description": "SELENE para VS Code — abre o SELENE no terminal, na aba ao lado.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "publisher": "naoriky",
   "repository": {
     "type": "git",
     "url": "https://github.com/Naoriky-VFX/NAORIKY-SELENE"
   },
   "license": "MIT",
-  "icon": "images/icon.png",
+  "icon": "images/icon-orb-limpo.png",
   "galleryBanner": {
     "color": "#07070d",
     "theme": "dark"
