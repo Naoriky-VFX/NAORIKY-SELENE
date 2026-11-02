@@ -93,7 +93,7 @@ test.each([
       light: getOpenCodeTheme().light,
     },
   ],
-] as const)("falls back to OpenCode when configured V2 theme %s is invalid", async (_label, source) => {
+] as const)("falls back to the default theme when configured V2 theme %s is invalid", async (_label, source) => {
   let themes: ReturnType<typeof useThemes> | undefined
   let failure: ThemeError | undefined
   let unsubscribe: (() => void) | undefined
@@ -121,7 +121,7 @@ test.each([
 
   try {
     await wait(() => themes?.ready === true)
-    expect(themes?.selected).toBe("opencode")
+    expect(themes?.selected).toBe("selene")
     expect(failure?.name).toBe("invalid")
     expect(failure?.error).toBeInstanceOf(Error)
     expect(failure?.error.message.length).toBeGreaterThan(0)
@@ -153,7 +153,7 @@ test("dialog surfaces are absolute and can be inherited through the theme contex
 
   const app = await testRender(
     () => (
-      <ConfigProvider config={createTuiResolvedConfig({ theme: { name: "opencode", mode: "dark" } })}>
+      <ConfigProvider config={createTuiResolvedConfig({ theme: { name: "selene", mode: "dark" } })}>
         <ThemeProvider mode="dark" source={{ discover: async () => ({}) }}>
           <Probe />
         </ThemeProvider>
@@ -172,7 +172,7 @@ test("dialog surfaces are absolute and can be inherited through the theme contex
     expect(dialog.background.base).toBe(themes.currentTokens().background.raised.base)
     expect(contextual.background.base).toBe(dialog.background.base)
     expect(contextual.text.base).toBe(dialog.text.base)
-    expect(dialog.decrease(dialog.background.raised.base)).toBe(themes.currentTokens().hue.neutral[600])
+    expect(dialog.decrease(dialog.background.raised.base)).toBe(themes.currentTokens().hue.neutral[700])
   } finally {
     app.renderer.destroy()
   }

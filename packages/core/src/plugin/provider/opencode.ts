@@ -170,9 +170,13 @@ export const OpencodePlugin = define<
     const disableFree = ["1", "true"].includes(process.env.SELENE_DISABLE_FREE_MODELS?.toLowerCase() ?? "")
     const bus = yield* Bus.Service
     const client = yield* HttpClient.HttpClient
+    // SELENE: o tier gratuito exige um cliente >= 1.18.0. Mandamos uma versao compativel
+    // apenas nesta conexao, para a interface continuar exibindo a versao da propria SELENE.
+    const FREE_TIER_VERSION = "2.2.5"
+    const freeTierAgent = App.useragent({ ...ctx.app, version: FREE_TIER_VERSION })
     // Every request here goes to the Console, which reads the User-Agent to tell which OpenCode a member runs
     // and whether it evaluates the policies it is being sent.
-    const http = HttpClient.mapRequest(client, HttpClientRequest.setHeader("User-Agent", App.useragent(ctx.app)))
+    const http = HttpClient.mapRequest(client, HttpClientRequest.setHeader("User-Agent", freeTierAgent))
     const config = yield* Config.Service
     const discovery = yield* InstructionDiscovery.Service
     const skills = yield* Skill.Service
