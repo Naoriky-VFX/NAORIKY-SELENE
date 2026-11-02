@@ -11,9 +11,6 @@ import {
 } from "@opentui/core"
 import { createEffect, createMemo, onMount, createSignal, onCleanup, on, Show, Switch, Match, For } from "solid-js"
 import path from "path"
-
-// Nome exibido do agente na barra de status (o id interno continua "build").
-const AGENT_LABELS: Record<string, string> = { build: "Selene" }
 import { useLocal } from "../../context/local"
 import { useTheme, useThemes } from "../../context/theme"
 import { tint } from "../../theme/color"
@@ -1561,7 +1558,7 @@ export function Prompt(props: PromptProps) {
       const agent = local.agent.current()
       const model = local.model.parsed()
       return {
-        agentLabel: agent ? (AGENT_LABELS[agent.id] ?? Locale.titlecase(agent.id)) : undefined,
+        agentLabel: agent ? Locale.titlecase(agent.id) : undefined,
         agentColor: agent ? local.agent.color(agent.id) : undefined,
         modelLabel: model.model,
         providerLabel: model.provider,
