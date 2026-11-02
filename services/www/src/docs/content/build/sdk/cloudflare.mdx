@@ -19,7 +19,7 @@ export class OpenCodeDO {
   private readonly opencode: Promise<OpenCodeWorkerd.Interface>
 
   constructor(state: DurableObjectState) {
-    this.opencode = state.blockConcurrencyWhile(() =>
+    this.selene = state.blockConcurrencyWhile(() =>
       OpenCodeWorkerd.create({
         storage: state.storage,
         config: { default_agent: "build" },
@@ -29,7 +29,7 @@ export class OpenCodeDO {
   }
 
   async fetch() {
-    const opencode = await this.opencode
+    const opencode = await this.selene
     return Response.json(await opencode.server.info())
   }
 }
@@ -40,7 +40,7 @@ initialization fails. The retained Promise gives request handlers direct access 
 
 ```ts
 constructor(state: DurableObjectState) {
-  this.opencode = state.blockConcurrencyWhile(() =>
+  this.selene = state.blockConcurrencyWhile(() =>
     OpenCodeWorkerd.create({ storage: state.storage }),
   )
 }

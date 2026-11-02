@@ -8,7 +8,7 @@ disabled by default.
 
 Enable warming in any [OpenCode configuration file](/config):
 
-```jsonc title="opencode.jsonc"
+```jsonc title="selene.jsonc"
 {
   "$schema": "https://opencode.ai/config.json",
   "warming": true,
@@ -24,7 +24,7 @@ minutes have passed since the latest non-warming request.
 Use the object form to change the warming prompt, idle interval, or active
 window:
 
-```jsonc title="opencode.jsonc"
+```jsonc title="selene.jsonc"
 {
   "$schema": "https://opencode.ai/config.json",
   "warming": {
@@ -44,7 +44,7 @@ window:
 Omitted object fields keep their defaults. For example, this changes only the
 interval:
 
-```jsonc title="opencode.jsonc"
+```jsonc title="selene.jsonc"
 {
   "warming": {
     "interval": "2 minutes",
@@ -59,7 +59,7 @@ expires. OpenCode uses 90% of the model's [`cache.ttl`](/config) setting, so a
 `"5m"` cache is warmed every 4.5 minutes. Models without a `cache.ttl` are not
 warmed.
 
-```jsonc title="opencode.jsonc"
+```jsonc title="selene.jsonc"
 {
   "warming": { "interval": "auto", "duration": "2 hours" },
   "providers": {
@@ -78,7 +78,7 @@ warning.
 values greater than zero, and `interval` must be shorter than `duration`;
 otherwise OpenCode skips warming and logs a warning.
 
-```jsonc title="opencode.jsonc"
+```jsonc title="selene.jsonc"
 {
   "warming": {
     "interval": "30 seconds",
@@ -154,7 +154,7 @@ uninterrupted 30-minute window: at minutes 4, 8, 12, 16, 20, 24, and 28.
 Set `warming` to `false` to disable it explicitly. Omitting the field also
 leaves warming disabled.
 
-```jsonc title="opencode.jsonc"
+```jsonc title="selene.jsonc"
 {
   "warming": false,
 }

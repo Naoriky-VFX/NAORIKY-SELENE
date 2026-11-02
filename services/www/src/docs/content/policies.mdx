@@ -13,7 +13,7 @@ ever tighten what permissions and providers would otherwise allow.
 
 ## Configure
 
-Deny one provider everywhere by adding a statement to `opencode.jsonc`:
+Deny one provider everywhere by adding a statement to `selene.jsonc`:
 
 ```jsonc
 {
@@ -168,7 +168,7 @@ well-known origin delivers. The resource is `<integration>#<account>`, where the
 account is the connected organization or account ID, such as
 `opencode#org_01M3CAP8H43Z49CER6NT0Y3ZF1`. Without a connected account it is the
 bare integration ID: the signed-out free tier is `opencode`, an `ANTHROPIC_API_KEY`
-environment variable is `anthropic`, and a provider from `opencode.json` is its
+environment variable is `anthropic`, and a provider from `selene.json` is its
 provider ID.
 
 This MDM policy requires one Console workspace and nothing else:
@@ -186,7 +186,7 @@ This MDM policy requires one Console workspace and nothing else:
 
 `/connect` offers only the Console so members can sign in. The free tier, personal
 Console accounts, other organizations, environment API keys, and providers from
-`opencode.json` are all unavailable. The workspace's providers, MCP servers, and
+`selene.json` are all unavailable. The workspace's providers, MCP servers, and
 web search work, and changing them in the Console needs no new MDM profile.
 
 Only managed policies can withhold the MCP servers and config an integration
@@ -255,22 +255,22 @@ configuration and the connected Console always outrank user and project files.
 
 | Authority   | Source                                                                                                         |
 | ----------- | -------------------------------------------------------------------------------------------------------------- |
-| 1 (highest) | macOS managed preferences (`/Library/Managed Preferences/ai.opencode.managed.plist`)                           |
-| 2           | System `opencode.json(c)` (`/Library/Application Support/opencode`, `/etc/opencode`, `%ProgramData%\opencode`) |
+| 1 (highest) | macOS managed preferences (`/Library/Managed Preferences/ai.selene.managed.plist`)                           |
+| 2           | System `selene.json(c)` (`/Library/Application Support/opencode`, `/etc/opencode`, `%ProgramData%\opencode`) |
 | 3           | Connected OpenCode Console workspace                                                                           |
-| 4           | Global `~/.config/opencode/opencode.json(c)`                                                                   |
-| 5           | Direct `opencode.json(c)`; outer directories beat inner ones                                                   |
-| 6 (lowest)  | `.opencode/opencode.json(c)`; outer directories beat inner ones                                                |
+| 4           | Global `~/.config/selene/selene.json(c)`                                                                   |
+| 5           | Direct `selene.json(c)`; outer directories beat inner ones                                                   |
+| 6 (lowest)  | `.selene/selene.json(c)`; outer directories beat inner ones                                                |
 
 A repository cannot re-enable a provider you deny globally:
 
-```jsonc title="~/.config/opencode/opencode.jsonc"
+```jsonc title="~/.config/selene/selene.jsonc"
 {
   "policies": [{ "action": "provider.use", "resource": "openai", "effect": "deny" }],
 }
 ```
 
-```jsonc title="project/opencode.jsonc"
+```jsonc title="project/selene.jsonc"
 {
   "policies": [{ "action": "provider.use", "resource": "openai", "effect": "allow" }],
 }

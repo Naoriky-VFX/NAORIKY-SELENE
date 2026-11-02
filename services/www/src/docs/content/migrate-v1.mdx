@@ -18,7 +18,7 @@ Supported V1 functionality outside those areas is intended to remain compatible 
 schema never had a V2 equivalent and are intentionally ignored; these are listed under
 [Accepted but unsupported fields](#accepted-but-unsupported-fields).
 
-Existing supported server config fields, agent definitions, command definitions, skills, and other files in `.opencode/`
+Existing supported server config fields, agent definitions, command definitions, skills, and other files in `.selene/`
 should continue to work without changes. If supported behavior described in this guide stops working in V2, treat it as a
 compatibility bug rather than an expected migration requirement.
 
@@ -44,21 +44,21 @@ point V1 at files after converting them to native V2-only shapes.
 
 ## Configuration
 
-This section covers both JSON/JSONC configuration and file-based definitions under `.opencode/`.
+This section covers both JSON/JSONC configuration and file-based definitions under `.selene/`.
 
 ### Use your existing configuration
 
 V2 reads existing system, global, and project configuration from the same locations as V1:
 
 ```text
-/Library/Application Support/opencode/opencode.json(c)
-/etc/opencode/opencode.json(c)
-%ProgramData%\opencode\opencode.json(c)
-/Library/Managed Preferences/<user>/ai.opencode.managed.plist
-/Library/Managed Preferences/ai.opencode.managed.plist
-~/.config/opencode/opencode.json(c)
-<project>/opencode.json(c)
-<project>/.opencode/opencode.json(c)
+/Library/Application Support/opencode/selene.json(c)
+/etc/opencode/selene.json(c)
+%ProgramData%\opencode\selene.json(c)
+/Library/Managed Preferences/<user>/ai.selene.managed.plist
+/Library/Managed Preferences/ai.selene.managed.plist
+~/.config/selene/selene.json(c)
+<project>/selene.json(c)
+<project>/.selene/selene.json(c)
 ```
 
 V2 normalizes supported V1 and native V2 fields in memory without rewriting the source
@@ -182,7 +182,7 @@ Agent [`request.body`](/agents#request) is kept but not sent to the model, so V1
 have no effect there. Set them on a model variant instead. DeepSeek only applies `temperature` with thinking off, so
 this variant turns thinking off too:
 
-```jsonc title="opencode.jsonc"
+```jsonc title="selene.jsonc"
 {
   "providers": {
     "opencode": {
@@ -313,7 +313,7 @@ V1 separates extra skill paths and URLs. V2 combines both into one ordered array
 }
 ```
 
-Existing skill files and automatic `.opencode/skills/` discovery do not change. See [Skills](/skills).
+Existing skill files and automatic `.selene/skills/` discovery do not change. See [Skills](/skills).
 
 ### Commands
 
@@ -470,7 +470,7 @@ You may keep these fields in V1 syntax. OpenCode normalizes them without warning
 The V1 schema also accepted fields that have no supported V2 behavior. V2 ignores these values and emits a warning so
 they are not mistaken for active configuration:
 
-- `logLevel`: use `OPENCODE_LOG_LEVEL` when starting OpenCode.
+- `logLevel`: use `SELENE_LOG_LEVEL` when starting OpenCode.
 - `server`: use the V2 service and explicit server options; the server API is an intentional breaking change.
 - Top-level `subagent_depth`: use `experimental.subagent_depth` instead.
 - `compaction.tail_turns` and `compaction.prune`: V2 uses `compaction.keep.tokens` and checkpoint-based compaction instead.
@@ -490,7 +490,7 @@ V1 agent files may use `agent/`, `agents/`, `mode/`, or `modes/`. V2 still disco
 V2 location is:
 
 ```text
-.opencode/agents/<name>.md
+.selene/agents/<name>.md
 ```
 
 Files under a V1 `mode/` or `modes/` directory represent primary agents. When moving one into `agents/`, add
@@ -514,7 +514,7 @@ as V1. Convert a file's frontmatter all at once rather than mixing the two forma
 V1 command files may use `command/` or `commands/`. V2 discovers both. The preferred location is:
 
 ```text
-.opencode/commands/<name>.md
+.selene/commands/<name>.md
 ```
 
 Move files from `command/` to the same relative path under `commands/` to preserve command names. The Markdown body remains
@@ -537,10 +537,10 @@ See [Commands](/commands).
 
 ### Skill files
 
-V2 discovers skills from both `.opencode/skill/` and `.opencode/skills/`. The preferred layout is:
+V2 discovers skills from both `.selene/skill/` and `.selene/skills/`. The preferred layout is:
 
 ```text
-.opencode/skills/<skill-id>/SKILL.md
+.selene/skills/<skill-id>/SKILL.md
 ```
 
 Move the complete skill directory, not only `SKILL.md`, so relative scripts, references, and other supporting files remain
@@ -549,7 +549,7 @@ require a V2 rewrite. See [Skills](/skills).
 
 ### Instruction files
 
-Existing `AGENTS.md` files stay in place. V2 discovers the global `~/.config/opencode/AGENTS.md` and ambient `AGENTS.md`
+Existing `AGENTS.md` files stay in place. V2 discovers the global `~/.config/selene/AGENTS.md` and ambient `AGENTS.md`
 files from the current directory up to home. For projects outside home, discovery stops at the project root.
 
 If a V1 setup relied on a `CLAUDE.md` fallback, move that guidance into the applicable `AGENTS.md`. V2 currently only
@@ -561,7 +561,7 @@ the affected project details. See [Instructions](/instructions).
 V2 replaces layered V1 `tui.json(c)` files with one global terminal client configuration file:
 
 ```text
-~/.config/opencode/cli.json
+~/.config/selene/cli.json
 ```
 
 The terminal client owns this file; the background service does not load it. When `cli.json` is absent, the first V2
@@ -591,7 +591,7 @@ Rename `plugin` to `plugins`. Replace a package-and-options tuple with an object
 }
 ```
 
-V2 discovers local plugins from both `.opencode/plugin/` and `.opencode/plugins/`; use `.opencode/plugins/` for V2 files.
+V2 discovers local plugins from both `.selene/plugin/` and `.selene/plugins/`; use `.selene/plugins/` for V2 files.
 Configured local paths must be directories, so move the ported plugin to `./plugin/local/index.ts`.
 
 <Callout type="warning">
@@ -613,15 +613,15 @@ endpoints, request types, and responses.
 
 V2 servers still use HTTP Basic auth, with these changes:
 
-- `OPENCODE_PASSWORD` sets the password. `OPENCODE_SERVER_PASSWORD` still works.
-- `OPENCODE_SERVER_USERNAME` is no longer supported. The username is always `opencode`.
+- `SELENE_PASSWORD` sets the password. `SELENE_SERVER_PASSWORD` still works.
+- `SELENE_SERVER_USERNAME` is no longer supported. The username is always `opencode`.
 
 ```bash
 # V1
-OPENCODE_SERVER_USERNAME=alice OPENCODE_SERVER_PASSWORD=secret opencode serve
+SELENE_SERVER_USERNAME=alice SELENE_SERVER_PASSWORD=secret opencode serve
 
 # V2
-OPENCODE_PASSWORD=secret opencode serve
+SELENE_PASSWORD=secret opencode serve
 ```
 
 See [Web](/cli/web#authentication).

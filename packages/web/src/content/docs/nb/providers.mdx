@@ -18,7 +18,7 @@ For å legge til en leverandør må du:
 ### Legitimasjon
 
 Når du legger til en leverandørs API-nøkler med `/connect`-kommandoen, lagres de
-i `~/.local/share/opencode/auth.json`.
+i `~/.local/share/selene/auth.json`.
 
 ---
 
@@ -33,7 +33,7 @@ konfig.
 
 Du kan tilpasse base-URL-en for enhver leverandør ved å angi alternativet `baseURL`. Dette er nyttig når du bruker proxy-tjenester eller tilpassede endepunkter.
 
-```json title="opencode.json" {6}
+```json title="selene.json" {6}
 {
   "$schema": "https://opencode.ai/config.json",
   "provider": {
@@ -194,9 +194,9 @@ Slik bruker du Amazon Bedrock med OpenCode:
 
    #### Konfigurasjonsfil (anbefalt)
 
-   For prosjektspesifikk eller vedvarende konfigurasjon, bruk `opencode.json`:
+   For prosjektspesifikk eller vedvarende konfigurasjon, bruk `selene.json`:
 
-   ```json title="opencode.json"
+   ```json title="selene.json"
    {
      "$schema": "https://opencode.ai/config.json",
      "provider": {
@@ -223,7 +223,7 @@ Slik bruker du Amazon Bedrock med OpenCode:
 
    Hvis du bruker VPC-endepunkter for Bedrock:
 
-   ```json title="opencode.json"
+   ```json title="selene.json"
    {
      "$schema": "https://opencode.ai/config.json",
      "provider": {
@@ -267,7 +267,7 @@ Slik bruker du Amazon Bedrock med OpenCode:
 :::note
 For egendefinerte slutningsprofiler, bruk modellen og leverandørnavnet i nøkkelen og sett egenskapen `id` til arn. Dette sikrer korrekt caching:
 
-```json title="opencode.json"
+```json title="selene.json"
 {
   "$schema": "https://opencode.ai/config.json",
   "provider": {
@@ -329,7 +329,7 @@ Eller hvis du allerede har en API-nøkkel, kan du velge **Angi API-nøkkel manue
 
 Du kan konfigurere opencode til å bruke lokale modeller via [Atomic Chat](https://atomic.chat) — et skrivebordsprogram som kjører lokale LLM-er bak en OpenAI-kompatibel API-server (standard endepunkt `http://127.0.0.1:1337/v1`).
 
-```json title="opencode.json" "atomic-chat" {5, 6, 8, 10-14}
+```json title="selene.json" "atomic-chat" {5, 6, 8, 10-14}
 {
   "$schema": "https://opencode.ai/config.json",
   "provider": {
@@ -557,7 +557,7 @@ Cloudflare AI Gateway lar deg få tilgang til modeller fra OpenAI, Anthropic, Wo
 
    Du kan også legge til modeller gjennom OpenCode-konfigurasjonen.
 
-   ```json title="opencode.json"
+   ```json title="selene.json"
    {
      "$schema": "https://opencode.ai/config.json",
      "provider": {
@@ -761,7 +761,7 @@ for å lagre token i OpenCode auth-lagring.
 OpenCode bruker en liten modell for noen AI oppgaver som å generere økttittelen.
 Den er konfigurert til å bruke gpt-5-nano som standard, hostet av OpenCode. For å låse OpenCode
 for kun å bruke din egen GitLab-hostede forekomst, legg til følgende i din
-`opencode.json` fil.
+`selene.json` fil.
 
 ```json
 {
@@ -822,9 +822,9 @@ Mer dokumentasjon på [opencode-gitlab-auth](https://www.npmjs.com/package/openc
 
 ##### Konfigurasjon
 
-Tilpass gjennom `opencode.json`:
+Tilpass gjennom `selene.json`:
 
-```json title="opencode.json"
+```json title="selene.json"
 {
   "$schema": "https://opencode.ai/config.json",
   "provider": {
@@ -841,7 +841,7 @@ Tilpass gjennom `opencode.json`:
 
 For å få tilgang til GitLab-verktøy (sammenslåingsforespørsler, problemer, pipelines, CI/CD, etc.):
 
-```json title="opencode.json"
+```json title="selene.json"
 {
   "$schema": "https://opencode.ai/config.json",
   "plugin": ["opencode-gitlab-plugin"]
@@ -1024,7 +1024,7 @@ I tilfelle du ser en funksjon eller modell fra Helicone som ikke konfigureres au
 
 Her er [Helicone's Model Directory](https://helicone.ai/models), du trenger denne for å hente ID-ene til modellene du vil legge til.
 
-```jsonc title="~/.config/opencode/opencode.jsonc"
+```jsonc title="~/.config/selene/selene.jsonc"
 {
   "$schema": "https://opencode.ai/config.json",
   "provider": {
@@ -1052,7 +1052,7 @@ Her er [Helicone's Model Directory](https://helicone.ai/models), du trenger denn
 
 Helicone støtter tilpassede headere for funksjoner som bufring, brukersporing og øktadministrasjon. Legg dem til leverandørkonfigurasjonen din ved å bruke `options.headers`:
 
-```jsonc title="~/.config/opencode/opencode.jsonc"
+```jsonc title="~/.config/selene/selene.jsonc"
 {
   "$schema": "https://opencode.ai/config.json",
   "provider": {
@@ -1081,7 +1081,7 @@ npm install -g opencode-helicone-session
 
 Legg den til i konfigurasjonen din.
 
-```json title="opencode.json"
+```json title="selene.json"
 {
   "plugin": ["opencode-helicone-session"]
 }
@@ -1106,7 +1106,7 @@ Se [Helicone Header Directory](https://docs.helicone.ai/helicone-headers/header-
 
 Du kan konfigurere OpenCode for å bruke lokale modeller gjennom [llama.cpp](https://github.com/ggml-org/llama.cpp) llama-server-verktøyet.
 
-```json title="opencode.json" "llama.cpp" {5, 6, 8, 10-15}
+```json title="selene.json" "llama.cpp" {5, 6, 8, 10-15}
 {
   "$schema": "https://opencode.ai/config.json",
   "provider": {
@@ -1173,7 +1173,7 @@ IO.NET tilbyr 17 modeller optimert for ulike brukstilfeller:
 
 Du kan konfigurere OpenCode for å bruke lokale modeller gjennom LM Studio.
 
-```json title="opencode.json" "lmstudio" {5, 6, 8, 10-14}
+```json title="selene.json" "lmstudio" {5, 6, 8, 10-14}
 {
   "$schema": "https://opencode.ai/config.json",
   "provider": {
@@ -1294,7 +1294,7 @@ Du kan konfigurere OpenCode for å bruke lokale modeller gjennom Ollama.
 Ollama kan automatisk konfigurere seg selv for OpenCode. Se [Ollama-integrasjonsdokumentene](https://docs.ollama.com/integrations/opencode) for detaljer.
 :::
 
-```json title="opencode.json" "ollama" {5, 6, 8, 10-14}
+```json title="selene.json" "ollama" {5, 6, 8, 10-14}
 {
   "$schema": "https://opencode.ai/config.json",
   "provider": {
@@ -1458,7 +1458,7 @@ OpenCode Models er en liste over testede og verifiserte modeller levert av OpenC
 
    Du kan også legge til flere modeller gjennom OpenCode-konfigurasjonen.
 
-   ```json title="opencode.json" {6}
+   ```json title="selene.json" {6}
    {
      "$schema": "https://opencode.ai/config.json",
      "provider": {
@@ -1473,7 +1473,7 @@ OpenCode Models er en liste over testede og verifiserte modeller levert av OpenC
 
 5. Du kan også tilpasse dem gjennom OpenCode-konfigurasjonen. Her er et eksempel på å spesifisere en leverandør
 
-   ```json title="opencode.json"
+   ```json title="selene.json"
    {
      "$schema": "https://opencode.ai/config.json",
      "provider": {
@@ -1689,7 +1689,7 @@ Vercel AI Gateway lar deg få tilgang til modeller fra OpenAI, Anthropic, Google
 
 Du kan også tilpasse modeller gjennom OpenCode-konfigurasjonen. Her er et eksempel på spesifisering av leverandørrutingsrekkefølge.
 
-```json title="opencode.json"
+```json title="selene.json"
 {
   "$schema": "https://opencode.ai/config.json",
   "provider": {
@@ -1799,7 +1799,7 @@ Noen nyttige rutealternativer:
 
    Du kan også legge til flere modeller gjennom OpenCode-konfigurasjonen.
 
-   ```json title="opencode.json" {6}
+   ```json title="selene.json" {6}
    {
      "$schema": "https://opencode.ai/config.json",
      "provider": {
@@ -1858,16 +1858,16 @@ Du kan bruke hvilken som helst OpenAI-kompatibel leverandør med OpenCode. De fl
 
    ┌  Add credential
    │
-   ▲  This only stores a credential for myprovider - you will need to configure it in opencode.json, check the docs for examples.
+   ▲  This only stores a credential for myprovider - you will need to configure it in selene.json, check the docs for examples.
    │
    ◇  Enter your API key
    │  sk-...
    └
    ```
 
-4. Opprett eller oppdater `opencode.json`-filen i prosjektkatalogen:
+4. Opprett eller oppdater `selene.json`-filen i prosjektkatalogen:
 
-   ```json title="opencode.json" ""myprovider"" {5-15}
+   ```json title="selene.json" ""myprovider"" {5-15}
    {
      "$schema": "https://opencode.ai/config.json",
      "provider": {
@@ -1905,7 +1905,7 @@ Du kan bruke hvilken som helst OpenAI-kompatibel leverandør med OpenCode. De fl
 
 Her er et eksempel på innstilling av alternativene `apiKey`, `headers` og modell `limit`.
 
-```json title="opencode.json" {9,11,17-20}
+```json title="selene.json" {9,11,17-20}
 {
   "$schema": "https://opencode.ai/config.json",
   "provider": {

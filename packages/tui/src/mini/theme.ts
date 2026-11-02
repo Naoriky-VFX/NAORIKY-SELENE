@@ -286,7 +286,7 @@ export async function resolveRunTheme(
     renderer.themeMode ??
     (colors && terminalMode(colors)) ??
     (config?.mode === "light" ? "light" : "dark")
-  const name = config?.name ?? "opencode"
+  const name = config?.name ?? "selene"
   if (name === "system" && !colors) {
     return mode === "light" ? RUN_THEME_FALLBACK_LIGHT : RUN_THEME_FALLBACK
   }
@@ -321,7 +321,7 @@ async function themeSource(
   if (name === "system" && colors) return generateSystem(colors, mode)
   const { Global } = await import("@opencode/util/global")
   const custom = await discoverThemes(
-    configDirectories(process.env.OPENCODE_CONFIG_DIR ?? Global.Path.config, process.cwd()),
+    configDirectories(process.env.SELENE_CONFIG_DIR ?? Global.Path.config, process.cwd()),
   )
   const source = custom[name] ?? allThemes()[name] ?? getOpenCodeTheme()
   return isThemeSource(source) ? source : getOpenCodeTheme()

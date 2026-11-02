@@ -4,7 +4,7 @@ Each environment has one R2 bucket, a Worker, and a `/files/*` route on its doma
 
 | Environment | Bucket and Worker           | Public URL                       |
 | ----------- | --------------------------- | -------------------------------- |
-| Development | `opencode-dev-files`        | `https://dev.opencode.ai/files/` |
+| Development | `opencode-dev-files`        | `https://dev.selene.ai/files/` |
 | Production  | `opencode-production-files` | `https://opencode.ai/files/`     |
 
 The Worker removes `/files/` and URL-decodes the remaining path to obtain the R2

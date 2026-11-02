@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test"
 import { ClientError, OpenCode } from "@opencode/client/promise"
-import { OPENCODE_VERSION } from "../src/version"
+import { SELENE_VERSION } from "../src/version"
 import path from "node:path"
 import { createMiniConnection, mergeInput as mergeInteractiveInput, resolveMiniTarget } from "../src/mini"
 import { mergeInput as mergeNonInteractiveInput, parseRunModel } from "../src/run/run"
@@ -32,7 +32,7 @@ describe("mini command", () => {
       port: 0,
       fetch() {
         return Response.json({
-          version: OPENCODE_VERSION,
+          version: SELENE_VERSION,
           pid: process.pid,
           urls: [],
           paths: { tmp: "/tmp/opencode" },
@@ -44,7 +44,7 @@ describe("mini command", () => {
       fetch(request) {
         authorization.push(request.headers.get("authorization"))
         return Response.json({
-          version: OPENCODE_VERSION,
+          version: SELENE_VERSION,
           pid: process.pid,
           urls: [],
           paths: { tmp: "/tmp/opencode" },
@@ -80,8 +80,8 @@ describe("mini command", () => {
   })
 
   test("re-resolves a managed target when the endpoint moves before transport construction", async () => {
-    const initial = OpenCode.make({ baseUrl: "https://initial.opencode.test" })
-    const replacement = OpenCode.make({ baseUrl: "https://replacement.opencode.test" })
+    const initial = OpenCode.make({ baseUrl: "https://initial.selene.test" })
+    const replacement = OpenCode.make({ baseUrl: "https://replacement.selene.test" })
     const controller = new AbortController()
     const seen: (typeof initial)[] = []
     let reconnects = 0
@@ -159,7 +159,7 @@ describe("mini command", () => {
         requests.push(url.pathname)
         if (url.pathname === "/api/info")
           return Response.json({
-            version: OPENCODE_VERSION,
+            version: SELENE_VERSION,
             pid: process.pid,
             urls: [],
             paths: { tmp: "/tmp/opencode" },

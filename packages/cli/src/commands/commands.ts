@@ -27,7 +27,7 @@ export const Server = GlobalFlag.Setting("server")({
 
 const ServerFlags = [Standalone, Server] as const
 
-declare const OPENCODE_CLI_NAME: string | undefined
+declare const SELENE_CLI_NAME: string | undefined
 
 const ServerParams = {
   standalone: Standalone.flag,
@@ -46,13 +46,13 @@ const PermissionParams = {
   ),
 }
 
-const Root = Spec.make(typeof OPENCODE_CLI_NAME === "string" ? OPENCODE_CLI_NAME : "opencode", {
+const Root = Spec.make(typeof SELENE_CLI_NAME === "string" ? SELENE_CLI_NAME : "opencode", {
   description: "SELENE — agente de programação no terminal",
   params: {
     ...ServerParams,
     ...PermissionParams,
     directory: Argument.String("directory").pipe(
-      Argument.withDescription("Directory to start OpenCode in"),
+      Argument.withDescription("Directory to start SELENE in"),
       Argument.optional,
     ),
     continue: Flag.Boolean("continue").pipe(

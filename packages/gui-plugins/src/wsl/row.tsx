@@ -16,7 +16,7 @@ export default function WslRow(props: {
   request: <T>(key: string, action: () => Promise<T>) => void
 }) {
   const plugin = usePlugin()
-  const check = () => props.state()?.opencodeChecks[props.distro]
+  const check = () => props.state()?.seleneChecks[props.distro]
   const opencodeAction = () => wslOpencodeAction(check())
 
   const busy = () => {

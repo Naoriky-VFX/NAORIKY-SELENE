@@ -41,7 +41,7 @@ const serviceLayer = Layer.effect(
     yield* Effect.logInfo("app starting", {
       version: VERSION,
       packaged: app.isPackaged,
-      onboardingTest: process.env.OPENCODE_TEST_ONBOARDING === "1",
+      onboardingTest: process.env.SELENE_TEST_ONBOARDING === "1",
       marks,
     })
     const exportDebug = exportDebugLogsEffect(fs, path).pipe(Effect.orDie)

@@ -80,7 +80,7 @@ brew install --cask opencode-desktop
 
 #### Κατάλογος Εγκατάστασης
 
-Το script εγκατάστασης εγκαθιστά το OpenCode στο `$HOME/.opencode/bin`.
+Το script εγκατάστασης εγκαθιστά το OpenCode στο `$HOME/.selene/bin`.
 
 ### Πράκτορες
 

@@ -21,10 +21,10 @@ as `claude-agent/opus#high`.
 
 You can also connect from the CLI with `auth login claude-agent`.
 
-OpenCode finds `claude` on your `PATH`. To use another copy, set `OPENCODE_CLAUDE_PATH` on the server.
+OpenCode finds `claude` on your `PATH`. To use another copy, set `SELENE_CLAUDE_PATH` on the server.
 
 ```bash
-opencode service set env OPENCODE_CLAUDE_PATH /opt/claude/bin/claude
+opencode service set env SELENE_CLAUDE_PATH /opt/claude/bin/claude
 ```
 
 ## How it works
@@ -55,7 +55,7 @@ Cost depends on how Claude Code is signed in.
 Connection settings on the `claude-agent` provider are passed to Claude Code. They override the same variables set in
 your shell.
 
-```jsonc title="opencode.jsonc"
+```jsonc title="selene.jsonc"
 {
   "$schema": "https://opencode.ai/config.json",
   "providers": {
@@ -96,6 +96,6 @@ Set them on a model to override the provider's values for that model.
 
 | Error or symptom | Check |
 | --- | --- |
-| `Claude Code is not installed` | Install Claude Code, or set `OPENCODE_CLAUDE_PATH` to its path. |
+| `Claude Code is not installed` | Install Claude Code, or set `SELENE_CLAUDE_PATH` to its path. |
 | `Claude Code is not logged in` | Run `claude auth login`, then connect Claude Agent again. |
 | `Claude Code ... is too old` | Run `claude update`. |

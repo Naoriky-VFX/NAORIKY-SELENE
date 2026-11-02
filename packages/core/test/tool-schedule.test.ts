@@ -109,7 +109,7 @@ const call = (registry: Tool.Interface, name: string, input: unknown, session = 
       type: "tool-call",
       id: `call-${name}`,
       name: "execute",
-      input: { code: `return await tools.opencode.${name}(${JSON.stringify(input)})` },
+      input: { code: `return await tools.selene.${name}(${JSON.stringify(input)})` },
     },
   })
 const run = (registry: Tool.Interface, name: string, input: unknown, session = sessionID) =>

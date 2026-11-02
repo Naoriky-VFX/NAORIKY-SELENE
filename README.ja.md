@@ -80,7 +80,7 @@ brew install --cask opencode-desktop
 
 #### インストールディレクトリ
 
-インストールスクリプトは、OpenCode を `$HOME/.opencode/bin` にインストールします。
+インストールスクリプトは、OpenCode を `$HOME/.selene/bin` にインストールします。
 
 ### Agents
 

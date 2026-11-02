@@ -49,7 +49,7 @@ socket path limits; temporary cleaners skip sockets. A stopping daemon removes
 its own files and runtime directory, and a starting daemon removes abandoned
 sibling runtime directories older than ten minutes.
 
-On Unix, set `OPENCODE_PTY_SOCKET_DIR` to use a different socket directory. The
+On Unix, set `SELENE_PTY_SOCKET_DIR` to use a different socket directory. The
 value must be an absolute path without `..` components. Sockets go in an
 `opencode-pty-<uid>` child of that directory, which gets the existing ownership
 and symlink checks and mode `0700`; the directory itself is left unchanged.
@@ -379,7 +379,7 @@ runtime), plus `SHA256SUMS`, a machine-readable `release-manifest.json`, and
 GitHub build-provenance attestations. Release builds force Ghostty's Zig code
 generation to its baseline CPU target so artifacts do not inherit
 instruction-set extensions from CI runners (Windows builds set
-`OPENCODE_ZIG_CPU=baseline`, since the Unix Zig wrapper is a shell script).
+`SELENE_ZIG_CPU=baseline`, since the Unix Zig wrapper is a shell script).
 Linux GNU artifacts support glibc 2.30 and newer.
 
 Tagged releases also publish `@opencode/pty` to npm with optional,

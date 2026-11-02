@@ -92,7 +92,7 @@ export function ProviderModelSections<T extends ModelItem>(props: {
   // Only the keyless catalog is free; a Zen key or Console account keeps the provider's own name.
   const name = (group: ModelGroup<T>) =>
     group.category === "opencode" && group.items.every((item) => !item.cost?.input)
-      ? language.t("provider.connect.opencode.freeName")
+      ? language.t("provider.connect.selene.freeName")
       : group.items[0].provider.name
 
   function Header(input: { id: string; icon: JSX.Element; title: JSX.Element; badge?: string; action?: JSX.Element }) {
@@ -154,7 +154,7 @@ export function ProviderModelSections<T extends ModelItem>(props: {
               <Header
                 id={CONSOLE_GROUP_KEY}
                 icon={<OpenCodeLogo class="size-4 shrink-0" />}
-                title={language.t("provider.connect.opencode.name")}
+                title={language.t("provider.connect.selene.name")}
                 badge={managed().group.workspace}
               />
               <Show when={props.expanded(CONSOLE_GROUP_KEY)}>

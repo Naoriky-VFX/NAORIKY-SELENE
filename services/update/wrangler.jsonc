@@ -14,7 +14,7 @@
   ],
   "routes": [
     {
-      "pattern": "update.opencode.ai",
+      "pattern": "update.selene.ai",
       "custom_domain": true,
     },
     {

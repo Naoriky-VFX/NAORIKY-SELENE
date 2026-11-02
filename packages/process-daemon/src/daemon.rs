@@ -111,11 +111,11 @@ mod tests {
         );
         assert_eq!(
             resolve_runtime_root(Some("relative".into()), home.clone()),
-            PathBuf::from("/home/user/.local/state/opencode/pty")
+            PathBuf::from("/home/user/.local/state/selene/pty")
         );
         assert_eq!(
             resolve_runtime_root(None, home),
-            PathBuf::from("/home/user/.local/state/opencode/pty")
+            PathBuf::from("/home/user/.local/state/selene/pty")
         );
     }
 

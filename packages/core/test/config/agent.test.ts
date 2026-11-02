@@ -193,12 +193,12 @@ permissions:
                   "*.env.*": "deny",
                   "*.env.example": "allow",
                   "*.dev.vars": "deny",
-                  "~/.local/share/opencode/mcp-auth.json": "deny",
-                  "$HOME/.local/share/opencode/mcp-auth.json": "deny",
+                  "~/.local/share/selene/mcp-auth.json": "deny",
+                  "$HOME/.local/share/selene/mcp-auth.json": "deny",
                 },
                 external_directory: {
                   "*": "ask",
-                  "~/.local/share/opencode/*": "deny",
+                  "~/.local/share/selene/*": "deny",
                 },
               },
             }),
@@ -214,7 +214,7 @@ permissions:
                   { action: "external_directory", resource: "*", effect: "allow" },
                   {
                     action: "external_directory",
-                    resource: "~/.local/share/opencode/*",
+                    resource: "~/.local/share/selene/*",
                     effect: "deny",
                   },
                   { action: "read", resource: "*.env", effect: "deny" },
@@ -685,7 +685,7 @@ Mixed fields.`,
           )
 
           yield* configTest.emitChange({ type: "create", path: path.join(tmp.path, "commands", "review.md") })
-          yield* configTest.emitChange({ type: "update", path: path.join(tmp.path, "opencode.json") })
+          yield* configTest.emitChange({ type: "update", path: path.join(tmp.path, "selene.json") })
           yield* drain
           expect(reloads).toBe(0)
 

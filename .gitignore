@@ -22,7 +22,7 @@ ts-dist
 /result
 refs
 Session.vim
-/opencode.json
+/selene.json
 a.out
 target
 .scripts
@@ -36,3 +36,9 @@ logs/
 *.bun-build
 tsconfig.tsbuildinfo
 /artifacts/
+# --- SELENE ---
+packages/cli/.bun-cache/
+CONVERSAS.md
+CHECKPOINT.md
+*.vsix
+sdks/vscode/dist/

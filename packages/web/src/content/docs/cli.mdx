@@ -76,7 +76,7 @@ This command will guide you through creating a new agent with a custom system pr
 
 | Flag                                        | Short | Description                                                                                                                                                                                                                |
 | ------------------------------------------- | ----- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <nobr><code>{"--path"}</code></nobr>        |       | Config directory whose `agents/` subdirectory receives the file (defaults to global or `.opencode` based on the prompt)                                                                                                    |
+| <nobr><code>{"--path"}</code></nobr>        |       | Config directory whose `agents/` subdirectory receives the file (defaults to global or `.selene` based on the prompt)                                                                                                    |
 | <nobr><code>{"--description"}</code></nobr> |       | What the agent should do                                                                                                                                                                                                   |
 | <nobr><code>{"--mode"}</code></nobr>        |       | Agent mode: `all`, `primary`, or `subagent`                                                                                                                                                                                |
 | <nobr><code>{"--permissions"}</code></nobr> |       | Comma-separated list of permissions to allow (default: all). Available: `bash`, `read`, `edit`, `glob`, `grep`, `webfetch`, `task`, `todowrite`, `websearch`, `lsp`, `skill`. Anything omitted is denied. Alias: `--tools` |
@@ -122,8 +122,8 @@ opencode attach http://10.20.30.40:4096
 | <nobr><code>{"--continue"}</code></nobr> | `-c`  | Continue the last session                                                  |
 | <nobr><code>{"--session"}</code></nobr>  | `-s`  | Session ID to continue                                                     |
 | <nobr><code>{"--fork"}</code></nobr>     |       | Fork the session when continuing (use with `--continue` or `--session`)    |
-| <nobr><code>{"--password"}</code></nobr> | `-p`  | Basic auth password (defaults to `OPENCODE_SERVER_PASSWORD`)               |
-| <nobr><code>{"--username"}</code></nobr> | `-u`  | Basic auth username (defaults to `OPENCODE_SERVER_USERNAME` or `opencode`) |
+| <nobr><code>{"--password"}</code></nobr> | `-p`  | Basic auth password (defaults to `SELENE_SERVER_PASSWORD`)               |
+| <nobr><code>{"--username"}</code></nobr> | `-u`  | Basic auth username (defaults to `SELENE_SERVER_USERNAME` or `opencode`) |
 
 ---
 
@@ -139,7 +139,7 @@ opencode auth [command]
 
 #### login
 
-OpenCode is powered by the provider list at [Models.dev](https://models.dev), so you can use `opencode auth login` to configure API keys for any provider you'd like to use. This is stored in `~/.local/share/opencode/auth.json`.
+OpenCode is powered by the provider list at [Models.dev](https://models.dev), so you can use `opencode auth login` to configure API keys for any provider you'd like to use. This is stored in `~/.local/share/selene/auth.json`.
 
 ```bash
 opencode auth login
@@ -384,8 +384,8 @@ opencode run --attach http://localhost:4096 "Explain async/await in JavaScript"
 | <nobr><code>{"--format"}</code></nobr>   |       | Format: default (formatted) or json (raw JSON events)                      |
 | <nobr><code>{"--title"}</code></nobr>    |       | Title for the session (uses truncated prompt if no value provided)         |
 | <nobr><code>{"--attach"}</code></nobr>   |       | Attach to a running opencode server (e.g., http://localhost:4096)          |
-| <nobr><code>{"--password"}</code></nobr> | `-p`  | Basic auth password (defaults to `OPENCODE_SERVER_PASSWORD`)               |
-| <nobr><code>{"--username"}</code></nobr> | `-u`  | Basic auth username (defaults to `OPENCODE_SERVER_USERNAME` or `opencode`) |
+| <nobr><code>{"--password"}</code></nobr> | `-p`  | Basic auth password (defaults to `SELENE_SERVER_PASSWORD`)               |
+| <nobr><code>{"--username"}</code></nobr> | `-u`  | Basic auth username (defaults to `SELENE_SERVER_USERNAME` or `opencode`) |
 | <nobr><code>{"--dir"}</code></nobr>      |       | Directory to run in, or path on the remote server when attaching           |
 | <nobr><code>{"--port"}</code></nobr>     |       | Port for the local server (defaults to random port)                        |
 | <nobr><code>{"--variant"}</code></nobr>  |       | Model variant (provider-specific reasoning effort)                         |
@@ -402,7 +402,7 @@ Start a headless OpenCode server for API access. Check out the [server docs](/do
 opencode serve
 ```
 
-This starts an HTTP server that provides API access to opencode functionality without the TUI interface. Set `OPENCODE_SERVER_PASSWORD` to enable HTTP basic auth (username defaults to `opencode`).
+This starts an HTTP server that provides API access to opencode functionality without the TUI interface. Set `SELENE_SERVER_PASSWORD` to enable HTTP basic auth (username defaults to `opencode`).
 
 #### Flags
 
@@ -512,7 +512,7 @@ Start a headless OpenCode server with a web interface.
 opencode web
 ```
 
-This starts an HTTP server and opens a web browser to access OpenCode through a web interface. Set `OPENCODE_SERVER_PASSWORD` to enable HTTP basic auth (username defaults to `opencode`).
+This starts an HTTP server and opens a web browser to access OpenCode through a web interface. Set `SELENE_SERVER_PASSWORD` to enable HTTP basic auth (username defaults to `opencode`).
 
 #### Flags
 
@@ -750,44 +750,44 @@ OpenCode can be configured using environment variables.
 
 | Variable                              | Type    | Description                                                                  |
 | ------------------------------------- | ------- | ---------------------------------------------------------------------------- |
-| `OPENCODE_GIT_BASH_PATH`              | string  | Path to Git Bash executable on Windows                                       |
-| `OPENCODE_CONFIG`                     | string  | Path to config file                                                          |
-| `OPENCODE_TUI_CONFIG`                 | string  | Path to TUI config file                                                      |
-| `OPENCODE_CONFIG_DIR`                 | string  | Path to config directory                                                     |
-| `OPENCODE_CONFIG_CONTENT`             | string  | Inline json config content                                                   |
-| `OPENCODE_DISABLE_AUTOUPDATE`         | boolean | Disable automatic update checks                                              |
-| `OPENCODE_DISABLE_PRUNE`              | boolean | Disable pruning of old data                                                  |
-| `OPENCODE_DISABLE_TERMINAL_TITLE`     | boolean | Disable automatic terminal title updates                                     |
-| `OPENCODE_PERMISSION`                 | string  | Inlined json permissions config                                              |
-| `OPENCODE_DISABLE_DEFAULT_PLUGINS`    | boolean | Disable default plugins                                                      |
-| `OPENCODE_DISABLE_LSP_DOWNLOAD`       | boolean | Disable automatic LSP server downloads                                       |
-| `OPENCODE_ENABLE_EXPERIMENTAL_MODELS` | boolean | Enable experimental models                                                   |
-| `OPENCODE_DISABLE_AUTOCOMPACT`        | boolean | Disable automatic context compaction                                         |
-| `OPENCODE_DISABLE_CLAUDE_CODE`        | boolean | Disable reading from `.claude` (prompt + skills)                             |
-| `OPENCODE_DISABLE_CLAUDE_CODE_PROMPT` | boolean | Disable reading `~/.claude/CLAUDE.md`                                        |
-| `OPENCODE_DISABLE_CLAUDE_CODE_SKILLS` | boolean | Disable loading `.claude/skills`                                             |
-| `OPENCODE_DISABLE_MODELS_FETCH`       | boolean | Disable fetching models from remote sources                                  |
-| `OPENCODE_DISABLE_MOUSE`              | boolean | Disable mouse capture in the TUI                                             |
-| `OPENCODE_FAKE_VCS`                   | string  | Fake VCS provider for testing purposes                                       |
-| `OPENCODE_CLIENT`                     | string  | Client identifier (defaults to `cli`)                                        |
-| `OPENCODE_ENABLE_EXA`                 | boolean | Enable Exa web search tools                                                  |
-| `OPENCODE_ENABLE_PARALLEL`            | boolean | Enable Parallel web search tools                                             |
-| `OPENCODE_SERVER_PASSWORD`            | string  | Enable basic auth for `serve`/`web`                                          |
-| `OPENCODE_SERVER_USERNAME`            | string  | Override basic auth username (default `opencode`)                            |
-| `OPENCODE_MODELS_URL`                 | string  | Custom URL for fetching models configuration                                 |
-| `OPENCODE_MODELS_PATH`                | string  | Load the model catalog from a local JSON file                                |
-| `OPENCODE_DB`                         | string  | Database path; relative paths resolve under the data directory               |
-| `OPENCODE_PURE`                       | boolean | Run without external plugins, like `--pure`                                  |
-| `OPENCODE_DISABLE_PROJECT_CONFIG`     | boolean | Disable project configuration and project instruction files                  |
-| `OPENCODE_DISABLE_EXTERNAL_SKILLS`    | boolean | Disable skill discovery in `.claude` and `.agents` directories               |
-| `OPENCODE_DISABLE_EMBEDDED_WEB_UI`    | boolean | Disable the bundled web UI and use the remote UI fallback                    |
-| `OPENCODE_DISABLE_FFF`                | boolean | Use ripgrep instead of the native file finder; enabled by default on Windows |
-| `OPENCODE_ENABLE_QUESTION_TOOL`       | boolean | Enable the question tool for clients other than the CLI, app, and desktop    |
-| `OPENCODE_ALWAYS_NOTIFY_UPDATE`       | boolean | Show update notifications even without a newer version                       |
-| `OPENCODE_SHOW_TTFD`                  | boolean | Show time-to-first-delta timing                                              |
-| `OPENCODE_LOG_LEVEL`                  | string  | Log level: `DEBUG`, `INFO`, `WARN`, or `ERROR`                               |
-| `OPENCODE_PRINT_LOGS`                 | string  | Set to `1` to also print logs to stderr                                      |
-| `OPENCODE_AUTO_HEAP_SNAPSHOT`         | boolean | Capture a heap snapshot when memory usage exceeds 2 GiB                      |
+| `SELENE_GIT_BASH_PATH`              | string  | Path to Git Bash executable on Windows                                       |
+| `SELENE_CONFIG`                     | string  | Path to config file                                                          |
+| `SELENE_TUI_CONFIG`                 | string  | Path to TUI config file                                                      |
+| `SELENE_CONFIG_DIR`                 | string  | Path to config directory                                                     |
+| `SELENE_CONFIG_CONTENT`             | string  | Inline json config content                                                   |
+| `SELENE_DISABLE_AUTOUPDATE`         | boolean | Disable automatic update checks                                              |
+| `SELENE_DISABLE_PRUNE`              | boolean | Disable pruning of old data                                                  |
+| `SELENE_DISABLE_TERMINAL_TITLE`     | boolean | Disable automatic terminal title updates                                     |
+| `SELENE_PERMISSION`                 | string  | Inlined json permissions config                                              |
+| `SELENE_DISABLE_DEFAULT_PLUGINS`    | boolean | Disable default plugins                                                      |
+| `SELENE_DISABLE_LSP_DOWNLOAD`       | boolean | Disable automatic LSP server downloads                                       |
+| `SELENE_ENABLE_EXPERIMENTAL_MODELS` | boolean | Enable experimental models                                                   |
+| `SELENE_DISABLE_AUTOCOMPACT`        | boolean | Disable automatic context compaction                                         |
+| `SELENE_DISABLE_CLAUDE_CODE`        | boolean | Disable reading from `.claude` (prompt + skills)                             |
+| `SELENE_DISABLE_CLAUDE_CODE_PROMPT` | boolean | Disable reading `~/.claude/CLAUDE.md`                                        |
+| `SELENE_DISABLE_CLAUDE_CODE_SKILLS` | boolean | Disable loading `.claude/skills`                                             |
+| `SELENE_DISABLE_MODELS_FETCH`       | boolean | Disable fetching models from remote sources                                  |
+| `SELENE_DISABLE_MOUSE`              | boolean | Disable mouse capture in the TUI                                             |
+| `SELENE_FAKE_VCS`                   | string  | Fake VCS provider for testing purposes                                       |
+| `SELENE_CLIENT`                     | string  | Client identifier (defaults to `cli`)                                        |
+| `SELENE_ENABLE_EXA`                 | boolean | Enable Exa web search tools                                                  |
+| `SELENE_ENABLE_PARALLEL`            | boolean | Enable Parallel web search tools                                             |
+| `SELENE_SERVER_PASSWORD`            | string  | Enable basic auth for `serve`/`web`                                          |
+| `SELENE_SERVER_USERNAME`            | string  | Override basic auth username (default `opencode`)                            |
+| `SELENE_MODELS_URL`                 | string  | Custom URL for fetching models configuration                                 |
+| `SELENE_MODELS_PATH`                | string  | Load the model catalog from a local JSON file                                |
+| `SELENE_DB`                         | string  | Database path; relative paths resolve under the data directory               |
+| `SELENE_PURE`                       | boolean | Run without external plugins, like `--pure`                                  |
+| `SELENE_DISABLE_PROJECT_CONFIG`     | boolean | Disable project configuration and project instruction files                  |
+| `SELENE_DISABLE_EXTERNAL_SKILLS`    | boolean | Disable skill discovery in `.claude` and `.agents` directories               |
+| `SELENE_DISABLE_EMBEDDED_WEB_UI`    | boolean | Disable the bundled web UI and use the remote UI fallback                    |
+| `SELENE_DISABLE_FFF`                | boolean | Use ripgrep instead of the native file finder; enabled by default on Windows |
+| `SELENE_ENABLE_QUESTION_TOOL`       | boolean | Enable the question tool for clients other than the CLI, app, and desktop    |
+| `SELENE_ALWAYS_NOTIFY_UPDATE`       | boolean | Show update notifications even without a newer version                       |
+| `SELENE_SHOW_TTFD`                  | boolean | Show time-to-first-delta timing                                              |
+| `SELENE_LOG_LEVEL`                  | string  | Log level: `DEBUG`, `INFO`, `WARN`, or `ERROR`                               |
+| `SELENE_PRINT_LOGS`                 | string  | Set to `1` to also print logs to stderr                                      |
+| `SELENE_AUTO_HEAP_SNAPSHOT`         | boolean | Capture a heap snapshot when memory usage exceeds 2 GiB                      |
 
 ---
 
@@ -797,22 +797,22 @@ These environment variables enable experimental features that may change or be r
 
 | Variable                                        | Type    | Description                             |
 | ----------------------------------------------- | ------- | --------------------------------------- |
-| `OPENCODE_EXPERIMENTAL`                         | boolean | Enable the experimental umbrella flag   |
-| `OPENCODE_EXPERIMENTAL_ICON_DISCOVERY`          | boolean | Enable icon discovery                   |
-| `OPENCODE_EXPERIMENTAL_DISABLE_COPY_ON_SELECT`  | boolean | Disable copy on select in TUI           |
-| `OPENCODE_EXPERIMENTAL_BASH_DEFAULT_TIMEOUT_MS` | number  | Default timeout for bash commands in ms |
-| `OPENCODE_EXPERIMENTAL_OUTPUT_TOKEN_MAX`        | number  | Max output tokens for LLM responses     |
-| `OPENCODE_EXPERIMENTAL_FILEWATCHER`             | boolean | Enable file watcher for entire dir      |
-| `OPENCODE_EXPERIMENTAL_OXFMT`                   | boolean | Enable oxfmt formatter                  |
-| `OPENCODE_EXPERIMENTAL_LSP_TOOL`                | boolean | Enable experimental LSP tool            |
-| `OPENCODE_EXPERIMENTAL_DISABLE_FILEWATCHER`     | boolean | Disable file watcher                    |
-| `OPENCODE_EXPERIMENTAL_EXA`                     | boolean | Enable experimental Exa features        |
-| `OPENCODE_EXPERIMENTAL_LSP_TY`                  | boolean | Enable TY LSP for python files          |
-| `OPENCODE_EXPERIMENTAL_CODE_MODE`               | boolean | Enable code-mode tool execution         |
-| `OPENCODE_EXPERIMENTAL_WEBSOCKETS`              | boolean | Use WebSockets for OpenAI requests      |
-| `OPENCODE_EXPERIMENTAL_PLAN_MODE`               | boolean | Enable plan mode                        |
-| `OPENCODE_EXPERIMENTAL_BACKGROUND_SUBAGENTS`    | boolean | Enable background subagent tasks        |
-| `OPENCODE_EXPERIMENTAL_EVENT_SYSTEM`            | boolean | Enable experimental event system        |
-| `OPENCODE_EXPERIMENTAL_NATIVE_LLM`              | boolean | Enable native LLM request path          |
-| `OPENCODE_EXPERIMENTAL_PARALLEL`                | boolean | Enable parallel web search execution    |
-| `OPENCODE_EXPERIMENTAL_WORKSPACES`              | boolean | Enable workspace support                |
+| `SELENE_EXPERIMENTAL`                         | boolean | Enable the experimental umbrella flag   |
+| `SELENE_EXPERIMENTAL_ICON_DISCOVERY`          | boolean | Enable icon discovery                   |
+| `SELENE_EXPERIMENTAL_DISABLE_COPY_ON_SELECT`  | boolean | Disable copy on select in TUI           |
+| `SELENE_EXPERIMENTAL_BASH_DEFAULT_TIMEOUT_MS` | number  | Default timeout for bash commands in ms |
+| `SELENE_EXPERIMENTAL_OUTPUT_TOKEN_MAX`        | number  | Max output tokens for LLM responses     |
+| `SELENE_EXPERIMENTAL_FILEWATCHER`             | boolean | Enable file watcher for entire dir      |
+| `SELENE_EXPERIMENTAL_OXFMT`                   | boolean | Enable oxfmt formatter                  |
+| `SELENE_EXPERIMENTAL_LSP_TOOL`                | boolean | Enable experimental LSP tool            |
+| `SELENE_EXPERIMENTAL_DISABLE_FILEWATCHER`     | boolean | Disable file watcher                    |
+| `SELENE_EXPERIMENTAL_EXA`                     | boolean | Enable experimental Exa features        |
+| `SELENE_EXPERIMENTAL_LSP_TY`                  | boolean | Enable TY LSP for python files          |
+| `SELENE_EXPERIMENTAL_CODE_MODE`               | boolean | Enable code-mode tool execution         |
+| `SELENE_EXPERIMENTAL_WEBSOCKETS`              | boolean | Use WebSockets for OpenAI requests      |
+| `SELENE_EXPERIMENTAL_PLAN_MODE`               | boolean | Enable plan mode                        |
+| `SELENE_EXPERIMENTAL_BACKGROUND_SUBAGENTS`    | boolean | Enable background subagent tasks        |
+| `SELENE_EXPERIMENTAL_EVENT_SYSTEM`            | boolean | Enable experimental event system        |
+| `SELENE_EXPERIMENTAL_NATIVE_LLM`              | boolean | Enable native LLM request path          |
+| `SELENE_EXPERIMENTAL_PARALLEL`                | boolean | Enable parallel web search execution    |
+| `SELENE_EXPERIMENTAL_WORKSPACES`              | boolean | Enable workspace support                |

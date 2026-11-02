@@ -14,9 +14,9 @@ rather than bundling them into your plugin.
 bun add --peer @opencode/plugin effect@4.0.1
 ```
 
-Export an Effect plugin from `.opencode/plugins/` to load it automatically.
+Export an Effect plugin from `.selene/plugins/` to load it automatically.
 
-```ts title=".opencode/plugins/concise/index.ts"
+```ts title=".selene/plugins/concise/index.ts"
 import { Plugin } from "@opencode/plugin/effect"
 import { Effect } from "effect"
 
@@ -30,10 +30,10 @@ export default Plugin.define({
 })
 ```
 
-Published packages and plugin directories outside `.opencode/plugins/` use the same `plugins` configuration as other server
+Published packages and plugin directories outside `.selene/plugins/` use the same `plugins` configuration as other server
 plugins.
 
-```jsonc title="opencode.jsonc"
+```jsonc title="selene.jsonc"
 {
   "$schema": "https://opencode.ai/config.json",
   "plugins": [
@@ -153,9 +153,9 @@ interface Plugin<R = Scope.Scope> {
 
 ### Options
 
-Pass options with the object form in `opencode.json(c)`.
+Pass options with the object form in `selene.json(c)`.
 
-```jsonc title="opencode.jsonc"
+```jsonc title="selene.jsonc"
 {
   "plugins": [
     {
@@ -928,7 +928,7 @@ effect: (ctx) =>
         id: Skill.ID.make("review"),
         name: Skill.Name.make("Review"),
         description: "Review the current changes",
-        path: Skill.Info.fields.path.make("/workspace/.opencode/skills/review/SKILL.md"),
+        path: Skill.Info.fields.path.make("/workspace/.selene/skills/review/SKILL.md"),
         content: "Review the current changes for correctness and missing tests.",
       }))
       const review = editor.get("review")

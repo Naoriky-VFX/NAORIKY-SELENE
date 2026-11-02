@@ -74,8 +74,8 @@ opencode attach http://10.20.30.40:4096
 | <nobr><code>{"--continue"}</code></nobr> | `-c`     | Продолжить последний сеанс                                                                       |
 | <nobr><code>{"--session"}</code></nobr>  | `-s`     | Идентификатор сеанса для продолжения                                                             |
 | <nobr><code>{"--fork"}</code></nobr>     |          | Создать ответвление сеанса при продолжении (используйте с `--continue` или `--session`)          |
-| <nobr><code>{"--password"}</code></nobr> | `-p`     | Пароль базовой аутентификации (по умолчанию `OPENCODE_SERVER_PASSWORD`)                          |
-| <nobr><code>{"--username"}</code></nobr> | `-u`     | Имя пользователя базовой аутентификации (по умолчанию `OPENCODE_SERVER_USERNAME` или `opencode`) |
+| <nobr><code>{"--password"}</code></nobr> | `-p`     | Пароль базовой аутентификации (по умолчанию `SELENE_SERVER_PASSWORD`)                          |
+| <nobr><code>{"--username"}</code></nobr> | `-u`     | Имя пользователя базовой аутентификации (по умолчанию `SELENE_SERVER_USERNAME` или `opencode`) |
 
 ---
 
@@ -91,7 +91,7 @@ opencode auth [command]
 
 #### login
 
-opencode использует список провайдеров с [Models.dev](https://models.dev), поэтому вы можете использовать `opencode auth login` для настройки ключей API для любого поставщика, которого вы хотите использовать. Это хранится в `~/.local/share/opencode/auth.json`.
+opencode использует список провайдеров с [Models.dev](https://models.dev), поэтому вы можете использовать `opencode auth login` для настройки ключей API для любого поставщика, которого вы хотите использовать. Это хранится в `~/.local/share/selene/auth.json`.
 
 ```bash
 opencode auth login
@@ -319,8 +319,8 @@ opencode run --attach http://localhost:4096 "Explain async/await in JavaScript"
 | <nobr><code>{"--format"}</code></nobr>   |          | Формат: по умолчанию (отформатированный) или json (необработанные события JSON).                 |
 | <nobr><code>{"--title"}</code></nobr>    |          | Название сеанса (использует усеченное приглашение, если значение не указано)                     |
 | <nobr><code>{"--attach"}</code></nobr>   |          | Подключитесь к работающему серверу opencode (например, http://localhost:4096)                    |
-| <nobr><code>{"--password"}</code></nobr> | `-p`     | Пароль базовой аутентификации (по умолчанию `OPENCODE_SERVER_PASSWORD`)                          |
-| <nobr><code>{"--username"}</code></nobr> | `-u`     | Имя пользователя базовой аутентификации (по умолчанию `OPENCODE_SERVER_USERNAME` или `opencode`) |
+| <nobr><code>{"--password"}</code></nobr> | `-p`     | Пароль базовой аутентификации (по умолчанию `SELENE_SERVER_PASSWORD`)                          |
+| <nobr><code>{"--username"}</code></nobr> | `-u`     | Имя пользователя базовой аутентификации (по умолчанию `SELENE_SERVER_USERNAME` или `opencode`) |
 | <nobr><code>{"--dir"}</code></nobr>      |          | Каталог для выполнения или путь на удалённом сервере при подключении                             |
 | <nobr><code>{"--variant"}</code></nobr>  |          | Вариант модели (уровень рассуждений для провайдера)                                              |
 | <nobr><code>{"--thinking"}</code></nobr> |          | Показать блоки размышлений                                                                       |
@@ -336,7 +336,7 @@ opencode run --attach http://localhost:4096 "Explain async/await in JavaScript"
 opencode serve
 ```
 
-При этом запускается HTTP-сервер, который обеспечивает доступ API к функциям opencode без интерфейса TUI. Установите `OPENCODE_SERVER_PASSWORD`, чтобы включить базовую аутентификацию HTTP (имя пользователя по умолчанию — `opencode`).
+При этом запускается HTTP-сервер, который обеспечивает доступ API к функциям opencode без интерфейса TUI. Установите `SELENE_SERVER_PASSWORD`, чтобы включить базовую аутентификацию HTTP (имя пользователя по умолчанию — `opencode`).
 
 #### Флаги
 
@@ -429,7 +429,7 @@ opencode import session.json
 opencode web
 ```
 
-При этом запускается HTTP-сервер и открывается веб-браузер для доступа к opencode через веб-интерфейс. Установите `OPENCODE_SERVER_PASSWORD`, чтобы включить базовую аутентификацию HTTP (имя пользователя по умолчанию — `opencode`).
+При этом запускается HTTP-сервер и открывается веб-браузер для доступа к opencode через веб-интерфейс. Установите `SELENE_SERVER_PASSWORD`, чтобы включить базовую аутентификацию HTTP (имя пользователя по умолчанию — `opencode`).
 
 #### Флаги
 
@@ -528,29 +528,29 @@ opencode можно настроить с помощью переменных с
 
 | Переменная                            | Тип                 | Описание                                                                         |
 | ------------------------------------- | ------------------- | -------------------------------------------------------------------------------- |
-| `OPENCODE_GIT_BASH_PATH`              | строка              | Путь к исполняемому файлу Git Bash в Windows                                     |
-| `OPENCODE_CONFIG`                     | строка              | Путь к файлу конфигурации                                                        |
-| `OPENCODE_TUI_CONFIG`                 | строка              | Путь к файлу конфигурации TUI                                                    |
-| `OPENCODE_CONFIG_DIR`                 | строка              | Путь к каталогу конфигурации                                                     |
-| `OPENCODE_CONFIG_CONTENT`             | строка              | Встроенное содержимое конфигурации json                                          |
-| `OPENCODE_DISABLE_AUTOUPDATE`         | логическое значение | Отключить автоматическую проверку обновлений                                     |
-| `OPENCODE_DISABLE_PRUNE`              | логическое значение | Отключить удаление старых данных                                                 |
-| `OPENCODE_DISABLE_TERMINAL_TITLE`     | логическое значение | Отключить автоматическое обновление заголовка терминала                          |
-| `OPENCODE_PERMISSION`                 | строка              | Встроенная конфигурация разрешений json                                          |
-| `OPENCODE_DISABLE_DEFAULT_PLUGINS`    | логическое значение | Отключить плагины по умолчанию                                                   |
-| `OPENCODE_DISABLE_LSP_DOWNLOAD`       | логическое значение | Отключить автоматическую загрузку LSP-сервера                                    |
-| `OPENCODE_ENABLE_EXPERIMENTAL_MODELS` | логическое значение | Включить экспериментальные модели                                                |
-| `OPENCODE_DISABLE_AUTOCOMPACT`        | логическое значение | Отключить автоматическое сжатие контекста                                        |
-| `OPENCODE_DISABLE_CLAUDE_CODE`        | логическое значение | Отключить чтение из `.claude` (подсказка + навыки)                               |
-| `OPENCODE_DISABLE_CLAUDE_CODE_PROMPT` | логическое значение | Отключить чтение `~/.claude/CLAUDE.md`                                           |
-| `OPENCODE_DISABLE_CLAUDE_CODE_SKILLS` | логическое значение | Отключить загрузку `.claude/skills`                                              |
-| `OPENCODE_DISABLE_MODELS_FETCH`       | логическое значение | Отключить получение моделей из удаленных источников                              |
-| `OPENCODE_FAKE_VCS`                   | строка              | Поддельный поставщик VCS для целей тестирования                                  |
-| `OPENCODE_CLIENT`                     | строка              | Идентификатор клиента (по умолчанию `cli`)                                       |
-| `OPENCODE_ENABLE_EXA`                 | логическое значение | Включить инструменты веб-поиска Exa                                              |
-| `OPENCODE_SERVER_PASSWORD`            | строка              | Включить базовую аутентификацию для `serve`/`web`                                |
-| `OPENCODE_SERVER_USERNAME`            | строка              | Переопределить имя пользователя базовой аутентификации (по умолчанию `opencode`) |
-| `OPENCODE_MODELS_URL`                 | строка              | Пользовательский URL-адрес для получения конфигурации модели                     |
+| `SELENE_GIT_BASH_PATH`              | строка              | Путь к исполняемому файлу Git Bash в Windows                                     |
+| `SELENE_CONFIG`                     | строка              | Путь к файлу конфигурации                                                        |
+| `SELENE_TUI_CONFIG`                 | строка              | Путь к файлу конфигурации TUI                                                    |
+| `SELENE_CONFIG_DIR`                 | строка              | Путь к каталогу конфигурации                                                     |
+| `SELENE_CONFIG_CONTENT`             | строка              | Встроенное содержимое конфигурации json                                          |
+| `SELENE_DISABLE_AUTOUPDATE`         | логическое значение | Отключить автоматическую проверку обновлений                                     |
+| `SELENE_DISABLE_PRUNE`              | логическое значение | Отключить удаление старых данных                                                 |
+| `SELENE_DISABLE_TERMINAL_TITLE`     | логическое значение | Отключить автоматическое обновление заголовка терминала                          |
+| `SELENE_PERMISSION`                 | строка              | Встроенная конфигурация разрешений json                                          |
+| `SELENE_DISABLE_DEFAULT_PLUGINS`    | логическое значение | Отключить плагины по умолчанию                                                   |
+| `SELENE_DISABLE_LSP_DOWNLOAD`       | логическое значение | Отключить автоматическую загрузку LSP-сервера                                    |
+| `SELENE_ENABLE_EXPERIMENTAL_MODELS` | логическое значение | Включить экспериментальные модели                                                |
+| `SELENE_DISABLE_AUTOCOMPACT`        | логическое значение | Отключить автоматическое сжатие контекста                                        |
+| `SELENE_DISABLE_CLAUDE_CODE`        | логическое значение | Отключить чтение из `.claude` (подсказка + навыки)                               |
+| `SELENE_DISABLE_CLAUDE_CODE_PROMPT` | логическое значение | Отключить чтение `~/.claude/CLAUDE.md`                                           |
+| `SELENE_DISABLE_CLAUDE_CODE_SKILLS` | логическое значение | Отключить загрузку `.claude/skills`                                              |
+| `SELENE_DISABLE_MODELS_FETCH`       | логическое значение | Отключить получение моделей из удаленных источников                              |
+| `SELENE_FAKE_VCS`                   | строка              | Поддельный поставщик VCS для целей тестирования                                  |
+| `SELENE_CLIENT`                     | строка              | Идентификатор клиента (по умолчанию `cli`)                                       |
+| `SELENE_ENABLE_EXA`                 | логическое значение | Включить инструменты веб-поиска Exa                                              |
+| `SELENE_SERVER_PASSWORD`            | строка              | Включить базовую аутентификацию для `serve`/`web`                                |
+| `SELENE_SERVER_USERNAME`            | строка              | Переопределить имя пользователя базовой аутентификации (по умолчанию `opencode`) |
+| `SELENE_MODELS_URL`                 | строка              | Пользовательский URL-адрес для получения конфигурации модели                     |
 
 ---
 
@@ -560,20 +560,20 @@ opencode можно настроить с помощью переменных с
 
 | Переменная                                      | Тип                 | Описание                                               |
 | ----------------------------------------------- | ------------------- | ------------------------------------------------------ |
-| `OPENCODE_EXPERIMENTAL`                         | логическое значение | Включить экспериментальные функции под общим флагом    |
-| `OPENCODE_EXPERIMENTAL_ICON_DISCOVERY`          | логическое значение | Включить обнаружение значков                           |
-| `OPENCODE_EXPERIMENTAL_DISABLE_COPY_ON_SELECT`  | логическое значение | Отключить копирование при выборе в TUI                 |
-| `OPENCODE_EXPERIMENTAL_BASH_DEFAULT_TIMEOUT_MS` | число               | Таймаут по умолчанию для команд bash в мс              |
-| `OPENCODE_EXPERIMENTAL_OUTPUT_TOKEN_MAX`        | число               | Максимальное количество токенов вывода для ответов LLM |
-| `OPENCODE_EXPERIMENTAL_FILEWATCHER`             | логическое значение | Включить просмотр файлов для всего каталога            |
-| `OPENCODE_EXPERIMENTAL_OXFMT`                   | логическое значение | Включить форматтер oxfmt                               |
-| `OPENCODE_EXPERIMENTAL_LSP_TOOL`                | логическое значение | Включить экспериментальный инструмент LSP              |
-| `OPENCODE_EXPERIMENTAL_DISABLE_FILEWATCHER`     | логическое значение | Отключить просмотрщик файлов                           |
-| `OPENCODE_EXPERIMENTAL_EXA`                     | логическое значение | Включить экспериментальные функции Exa                 |
-| `OPENCODE_EXPERIMENTAL_LSP_TY`                  | логическое значение | Включить TY LSP для файлов python                      |
-| `OPENCODE_EXPERIMENTAL_PLAN_MODE`               | логическое значение | Включить режим плана                                   |
-| `OPENCODE_EXPERIMENTAL_EVENT_SYSTEM`            | логическое значение | Включить экспериментальную систему событий             |
-| `OPENCODE_EXPERIMENTAL_NATIVE_LLM`              | логическое значение | Включить нативный путь запросов LLM                    |
-| `OPENCODE_EXPERIMENTAL_PARALLEL`                | логическое значение | Включить параллельное выполнение веб-поиска            |
-| `OPENCODE_EXPERIMENTAL_SCOUT`                   | логическое значение | Включить субагент Scout                                |
-| `OPENCODE_EXPERIMENTAL_WORKSPACES`              | логическое значение | Включить поддержку рабочих областей                    |
+| `SELENE_EXPERIMENTAL`                         | логическое значение | Включить экспериментальные функции под общим флагом    |
+| `SELENE_EXPERIMENTAL_ICON_DISCOVERY`          | логическое значение | Включить обнаружение значков                           |
+| `SELENE_EXPERIMENTAL_DISABLE_COPY_ON_SELECT`  | логическое значение | Отключить копирование при выборе в TUI                 |
+| `SELENE_EXPERIMENTAL_BASH_DEFAULT_TIMEOUT_MS` | число               | Таймаут по умолчанию для команд bash в мс              |
+| `SELENE_EXPERIMENTAL_OUTPUT_TOKEN_MAX`        | число               | Максимальное количество токенов вывода для ответов LLM |
+| `SELENE_EXPERIMENTAL_FILEWATCHER`             | логическое значение | Включить просмотр файлов для всего каталога            |
+| `SELENE_EXPERIMENTAL_OXFMT`                   | логическое значение | Включить форматтер oxfmt                               |
+| `SELENE_EXPERIMENTAL_LSP_TOOL`                | логическое значение | Включить экспериментальный инструмент LSP              |
+| `SELENE_EXPERIMENTAL_DISABLE_FILEWATCHER`     | логическое значение | Отключить просмотрщик файлов                           |
+| `SELENE_EXPERIMENTAL_EXA`                     | логическое значение | Включить экспериментальные функции Exa                 |
+| `SELENE_EXPERIMENTAL_LSP_TY`                  | логическое значение | Включить TY LSP для файлов python                      |
+| `SELENE_EXPERIMENTAL_PLAN_MODE`               | логическое значение | Включить режим плана                                   |
+| `SELENE_EXPERIMENTAL_EVENT_SYSTEM`            | логическое значение | Включить экспериментальную систему событий             |
+| `SELENE_EXPERIMENTAL_NATIVE_LLM`              | логическое значение | Включить нативный путь запросов LLM                    |
+| `SELENE_EXPERIMENTAL_PARALLEL`                | логическое значение | Включить параллельное выполнение веб-поиска            |
+| `SELENE_EXPERIMENTAL_SCOUT`                   | логическое значение | Включить субагент Scout                                |
+| `SELENE_EXPERIMENTAL_WORKSPACES`              | логическое значение | Включить поддержку рабочих областей                    |

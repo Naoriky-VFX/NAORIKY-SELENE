@@ -13,28 +13,28 @@ import { CLI_BINARIES, nodePtyPackage } from "./script/utils"
 const { FileMatcher } = createRequire(import.meta.resolve("electron-builder"))("app-builder-lib/out/fileMatcher")
 
 const channels = [
-  { channel: "dev", appId: "ai.opencode.desktop.dev", feed: "dev" },
-  { channel: "beta", appId: "ai.opencode.desktop.beta", feed: "beta" },
-  { channel: "prod", appId: "ai.opencode.desktop", feed: "latest" },
+  { channel: "dev", appId: "ai.selene.desktop.dev", feed: "dev" },
+  { channel: "beta", appId: "ai.selene.desktop.beta", feed: "beta" },
+  { channel: "prod", appId: "ai.selene.desktop", feed: "latest" },
 ] as const
 
 function load(channel: string, target?: string): Configuration {
-  const previous = process.env.OPENCODE_CHANNEL
-  const previousTarget = process.env.OPENCODE_TARGET
-  process.env.OPENCODE_CHANNEL = channel
+  const previous = process.env.SELENE_CHANNEL
+  const previousTarget = process.env.SELENE_TARGET
+  process.env.SELENE_CHANNEL = channel
 
-  if (target !== undefined) process.env.OPENCODE_TARGET = target
-  else delete process.env.OPENCODE_TARGET
+  if (target !== undefined) process.env.SELENE_TARGET = target
+  else delete process.env.SELENE_TARGET
 
   try {
     return getConfig()
   } finally {
-    delete process.env.OPENCODE_CHANNEL
-    delete process.env.OPENCODE_TARGET
+    delete process.env.SELENE_CHANNEL
+    delete process.env.SELENE_TARGET
 
-    if (previous !== undefined) process.env.OPENCODE_CHANNEL = previous
+    if (previous !== undefined) process.env.SELENE_CHANNEL = previous
 
-    if (previousTarget !== undefined) process.env.OPENCODE_TARGET = previousTarget
+    if (previousTarget !== undefined) process.env.SELENE_TARGET = previousTarget
   }
 }
 
@@ -82,9 +82,9 @@ test.each(channels)("channel identity for $channel", ({ channel, appId, feed }) 
 
 test("legacy Linux launcher stays hidden", async () => {
   const desktop = await Bun.file(path.join(import.meta.dirname, "resources/linux/opencode-desktop.desktop")).text()
-  expect(desktop).toContain("Exec=/opt/OpenCode/ai.opencode %U")
-  expect(desktop).toContain("Icon=ai.opencode")
-  expect(desktop).toContain("StartupWMClass=ai.opencode.desktop")
+  expect(desktop).toContain("Exec=/opt/OpenCode/ai.selene %U")
+  expect(desktop).toContain("Icon=ai.selene")
+  expect(desktop).toContain("StartupWMClass=ai.selene.desktop")
   expect(desktop).toContain("NoDisplay=true")
 })
 

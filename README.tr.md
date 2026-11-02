@@ -80,7 +80,7 @@ brew install --cask opencode-desktop
 
 #### Kurulum Dizini (Installation Directory)
 
-Kurulum betiği, OpenCode'u `$HOME/.opencode/bin` dizinine kurar.
+Kurulum betiği, OpenCode'u `$HOME/.selene/bin` dizinine kurar.
 
 ### Ajanlar
 

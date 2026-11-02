@@ -2,7 +2,7 @@
 title: "Plugins"
 ---
 
-Plugins configured in `opencode.json(c)` that expose a TUI component are loaded automatically by the CLI. To learn how
+Plugins configured in `selene.json(c)` that expose a TUI component are loaded automatically by the CLI. To learn how
 to build plugins, see [Building plugins](/build/plugins). You do not need to add the same package to `cli.json`. The CLI
 gets the active plugin list from the connected OpenCode server, so this also works when the server is remote.
 
@@ -47,14 +47,14 @@ Pass plugin options with the object form:
 }
 ```
 
-OpenCode also discovers plugins under the global config directory and project `.opencode` directories. Each plugin uses
+OpenCode also discovers plugins under the global config directory and project `.selene` directories. Each plugin uses
 the same layout as a published package, with server and TUI entrypoints kept together.
 
 ```text title="Plugin discovery paths"
 <global-config>/plugins/status/index.ts
 <global-config>/plugins/status/tui.ts
-<project>/.opencode/plugins/status/index.ts
-<project>/.opencode/plugins/status/tui.ts
+<project>/.selene/plugins/status/index.ts
+<project>/.selene/plugins/status/tui.ts
 ```
 
 Discovered plugins can import `@opencode/plugin/tui` directly; OpenCode resolves the package at runtime. See

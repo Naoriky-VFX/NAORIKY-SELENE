@@ -162,13 +162,13 @@ const appBindingCommands = [
   "variant.cycle",
   "variant.list",
   "provider.connect",
-  "opencode.settings",
-  "opencode.status",
-  "opencode.update",
+  "selene.settings",
+  "selene.status",
+  "selene.update",
   "server.pair",
   "service.restart",
   "location.reload",
-  "opencode.debug",
+  "selene.debug",
   "theme.switch",
   "theme.switch_mode",
   "theme.mode.lock",
@@ -273,7 +273,7 @@ export const run = Effect.fn("Tui.run")(function* (input: TuiInput) {
             }),
           )
         }
-        if (process.env.OPENCODE_DRIVE) {
+        if (process.env.SELENE_DRIVE) {
           const { Drive } = yield* Effect.promise(() => import("@opencode/simulation/frontend"))
           return yield* Drive.create(options, input.app.version)
         }
@@ -367,21 +367,21 @@ export const run = Effect.fn("Tui.run")(function* (input: TuiInput) {
                             >
                               <TuiStartupProvider
                                 value={{
-                                  initialRoute: process.env.OPENCODE_STORY
+                                  initialRoute: process.env.SELENE_STORY
                                     ? {
                                         type: "plugin",
                                         id: "opencode.storybook",
                                         name: "storybook",
-                                        // OPENCODE_STORY=1 opens the index; any other value opens that story.
+                                        // SELENE_STORY=1 opens the index; any other value opens that story.
                                         data:
-                                          process.env.OPENCODE_STORY === "1"
+                                          process.env.SELENE_STORY === "1"
                                             ? undefined
-                                            : { story: process.env.OPENCODE_STORY },
+                                            : { story: process.env.SELENE_STORY },
                                       }
-                                    : process.env.OPENCODE_ROUTE
-                                      ? JSON.parse(process.env.OPENCODE_ROUTE)
+                                    : process.env.SELENE_ROUTE
+                                      ? JSON.parse(process.env.SELENE_ROUTE)
                                       : undefined,
-                                  skipInitialLoading: Boolean(process.env.OPENCODE_FAST_BOOT),
+                                  skipInitialLoading: Boolean(process.env.SELENE_FAST_BOOT),
                                 }}
                               >
                                 <ClipboardProvider value={clipboard}>
@@ -641,14 +641,14 @@ function App() {
     if (!terminalTitleEnabled()) return
 
     if (route.data.type === "home") {
-      setTerminalTitle(renderer, "OpenCode")
+      setTerminalTitle(renderer, "SELENE")
       return
     }
 
     if (route.data.type === "session") {
       const title = session?.title
       if (!title || isFallbackTitle(title)) {
-        setTerminalTitle(renderer, "OpenCode")
+        setTerminalTitle(renderer, "SELENE")
         return
       }
 
@@ -735,7 +735,7 @@ function App() {
     if (config.data.highlights === false) return
     if (route.data.type !== "home" || dialog.stack.length > 0 || promptRef.current?.current.text) return
     if (args.prompt || args.continue || args.sessionID || args.newSessionID) return
-    if (process.env.OPENCODE_DRIVE || process.env.OPENCODE_STORY || process.env.OPENCODE_ROUTE) return
+    if (process.env.SELENE_DRIVE || process.env.SELENE_STORY || process.env.SELENE_ROUTE) return
     void claim(storage, {
       version: app.version,
       count: items.length,
@@ -1032,7 +1032,7 @@ function App() {
       ...(app.highlights?.length
         ? [
             {
-              name: "opencode.highlights",
+              name: "selene.highlights",
               title: "Show release highlights",
               slash: { name: "highlights" },
               run: () => dialog.replace(() => <DialogHighlights version={app.version} items={app.highlights ?? []} />),
@@ -1041,7 +1041,7 @@ function App() {
           ]
         : []),
       {
-        name: "opencode.settings",
+        name: "selene.settings",
         title: "Open settings",
         suggested: true,
         slash: { name: "settings" },
@@ -1051,7 +1051,7 @@ function App() {
         category: "System",
       },
       {
-        name: "opencode.status",
+        name: "selene.status",
         title: "View status",
         slash: { name: "status" },
         run: () => {
@@ -1062,8 +1062,8 @@ function App() {
       ...(updater.open
         ? [
             {
-              name: "opencode.update",
-              title: "Update OpenCode",
+              name: "selene.update",
+              title: "Update SELENE",
               slash: { name: "update" },
               run: () => updater.open?.("manual"),
               category: "System",
@@ -1117,7 +1117,7 @@ function App() {
         category: "System",
       },
       {
-        name: "opencode.debug",
+        name: "selene.debug",
         title: "View debug info",
         slash: { name: "debug" },
         run: () => {

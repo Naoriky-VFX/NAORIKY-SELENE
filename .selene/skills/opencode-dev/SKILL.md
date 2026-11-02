@@ -13,7 +13,7 @@ opencode is a client/server system, not a single monolithic process:
 
 - **Server process** runs the Effect HTTP API (`packages/server`) and owns all domain state: sessions, database, plugins, permissions, Location services. It's started by the `serve` command (`packages/cli/src/commands/handlers/serve.ts`).
 - **TUI process** is a separate process that runs no application logic itself — it's an HTTP/SSE client of the server via `@opencode/client` (`OpenCode.make`).
-- **Discovery**: CLI processes find the shared server through a JSON registration file at `~/.local/state/opencode/service.json` (or `service-local.json` for the local/dev channel) containing `{id, version, url, pid, password}`; the password is used for HTTP Basic auth. Before reusing a registration, the client calls `GET /api/info` to confirm the server is alive, is the registered PID, and is version-compatible. `opencode service status` prints the registered URL.
+- **Discovery**: CLI processes find the shared server through a JSON registration file at `~/.local/state/selene/service.json` (or `service-local.json` for the local/dev channel) containing `{id, version, url, pid, password}`; the password is used for HTTP Basic auth. Before reusing a registration, the client calls `GET /api/info` to confirm the server is alive, is the registered PID, and is version-compatible. `opencode service status` prints the registered URL.
 - **Sharing**: because of this registration/health-check dance, many concurrent `opencode`/TUI invocations converge on one shared background daemon rather than each spawning their own. If no compatible healthy daemon is found, a new one is spawned detached (`serve --service`) and registers itself.
 - **`bun dev service start|status|stop|restart`** manages this shared background daemon's lifecycle directly — useful when you need to force a fresh server, confirm one is running, or kill a stuck one.
 - **Standalone mode** (`--standalone`) opts a single invocation out of the shared daemon: it spawns a private one-off `serve --stdio --port 0` child tied to that invocation's lifetime, with its own random password. Use this to isolate a debugging session from your other running opencode sessions.
@@ -84,7 +84,7 @@ bun dev api <operationId> --param key=value
 
 ## Auditing installed `opencode` sessions
 
-Installed (released) sessions use `~/.local/share/opencode/opencode.db` and `~/.local/share/opencode/log/opencode.log`. A local/dev checkout uses `opencode-local.db` and `opencode-local.log` instead, and `OPENCODE_DB` overrides the database. Run `opencode service status` before `opencode api`, because `opencode api` starts a server when none is healthy.
+Installed (released) sessions use `~/.local/share/selene/selene.db` and `~/.local/share/selene/log/selene.log`. A local/dev checkout uses `opencode-local.db` and `opencode-local.log` instead, and `SELENE_DB` overrides the database. Run `opencode service status` before `opencode api`, because `opencode api` starts a server when none is healthy.
 
 For a supplied `ses_...` ID, compare three sources:
 
@@ -96,30 +96,30 @@ Locate an uncertain database without modifying it:
 
 ```bash
 SESSION=ses_...
-for db in ~/.local/share/opencode/*.db; do
+for db in ~/.local/share/selene/*.db; do
   sqlite3 "file:$db?mode=ro" "select 1 from session where id='$SESSION' limit 1" 2>/dev/null | grep -q 1 && printf '%s\n' "$db"
 done
 ```
 
 ## Logs
 
-- Log files live under `~/.local/share/opencode/log/`. In a local/dev checkout the active file is `opencode-local.log`; `opencode.log` is used for non-local (released) channel installs. Both are append-only, shared across every CLI and server process on the machine.
+- Log files live under `~/.local/share/selene/log/`. In a local/dev checkout the active file is `opencode-local.log`; `selene.log` is used for non-local (released) channel installs. Both are append-only, shared across every CLI and server process on the machine.
 - Each line is structured `key=value` text: `timestamp`, `level`, `run=<id>` (per-process run ID), `message`, and a `role=cli` or `role=server` tag. Use `run=` to isolate one process's activity and `role=` to separate client-side from server-side log lines, since a shared daemon interleaves many processes' output in one file.
 - Tail the live file while reproducing an issue instead of guessing from stale output:
 
 ```bash
-tail -f ~/.local/share/opencode/log/opencode-local.log
+tail -f ~/.local/share/selene/log/opencode-local.log
 ```
 
 - Filter to one run or role when the file is noisy:
 
 ```bash
-grep 'run=8fc3b1d5' ~/.local/share/opencode/log/opencode-local.log
-grep 'role=server' ~/.local/share/opencode/log/opencode-local.log
+grep 'run=8fc3b1d5' ~/.local/share/selene/log/opencode-local.log
+grep 'role=server' ~/.local/share/selene/log/opencode-local.log
 ```
 
-- `OPENCODE_LOG_LEVEL` controls verbosity (default `INFO`); set it before starting `bun dev` or `serve` to get `DEBUG` output for a specific repro.
-- `OPENCODE_PRINT_LOGS=1` additionally tees log output to stderr of the process that emitted it, which is useful when a process fails before you'd think to check the shared log file.
+- `SELENE_LOG_LEVEL` controls verbosity (default `INFO`); set it before starting `bun dev` or `serve` to get `DEBUG` output for a specific repro.
+- `SELENE_PRINT_LOGS=1` additionally tees log output to stderr of the process that emitted it, which is useful when a process fails before you'd think to check the shared log file.
 - `termctrl logs <session>` surfaces stdout/stderr for a Terminal Control session specifically (e.g. inspector output or startup failures before the TUI renderer starts) — use the log file above for anything emitted by a separate server/daemon process instead.
 
 ## Heap snapshots
@@ -130,9 +130,9 @@ On every platform, including Windows, capture the running background server with
 opencode debug heap-dump
 ```
 
-It discovers the already-running service (never starts or replaces one), calls `POST /api/debug/heap-dump`, waits until the file is complete, and prints its server-local path. Pass `--server <url>` (with `OPENCODE_PASSWORD`) for a server started with `serve`, and `--directory <dir>` to write somewhere other than the server's log directory (the server creates it; a server that predates the option ignores it and the CLI warns). A 404 means the running server predates the endpoint.
+It discovers the already-running service (never starts or replaces one), calls `POST /api/debug/heap-dump`, waits until the file is complete, and prints its server-local path. Pass `--server <url>` (with `SELENE_PASSWORD`) for a server started with `serve`, and `--directory <dir>` to write somewhere other than the server's log directory (the server creates it; a server that predates the option ignores it and the CLI warns). A 404 means the running server predates the endpoint.
 
-For desktop memory, run **Capture heap snapshots** from the desktop command palette (`packages/gui-plugins/src/debug/main.ts`). It writes `~/Downloads/opencode-heap-<time>/` with the desktop's own (local) server, which writes straight into the folder, every app window renderer, and the Electron main process. Heap snapshots only hold GC-managed objects, so it also records Chromium's memory-infra dump (`memory-infra.json`, open in Perfetto) and summarizes it per process and allocator in `memory.json` (MiB: `malloc`, `partition_alloc`, `cc/tile_memory`, `gpu`, `v8`, …), next to each window's DOM size and decoded images and the server's `process.memoryUsage()`. `manifest.json` (PIDs, `app.getAppMetrics()` before and after) is written last. Start with `memory.json` when a process is larger than its heap snapshot. In a dev desktop build you can drive it over CDP (`OPENCODE_DESKTOP_REMOTE_DEBUGGING_PORT`, default 9222): press `Control+Shift+P`, type `heap snapshots`, press Enter.
+For desktop memory, run **Capture heap snapshots** from the desktop command palette (`packages/gui-plugins/src/debug/main.ts`). It writes `~/Downloads/opencode-heap-<time>/` with the desktop's own (local) server, which writes straight into the folder, every app window renderer, and the Electron main process. Heap snapshots only hold GC-managed objects, so it also records Chromium's memory-infra dump (`memory-infra.json`, open in Perfetto) and summarizes it per process and allocator in `memory.json` (MiB: `malloc`, `partition_alloc`, `cc/tile_memory`, `gpu`, `v8`, …), next to each window's DOM size and decoded images and the server's `process.memoryUsage()`. `manifest.json` (PIDs, `app.getAppMetrics()` before and after) is written last. Start with `memory.json` when a process is larger than its heap snapshot. In a dev desktop build you can drive it over CDP (`SELENE_DESKTOP_REMOTE_DEBUGGING_PORT`, default 9222): press `Control+Shift+P`, type `heap snapshots`, press Enter.
 
 The Unix `SIGUSR1` listener in `packages/cli/src/heap.ts` shares the same writer (`packages/util/src/heap-snapshot.ts`) and is still useful for a process that is not an HTTP server, such as a TUI client:
 
@@ -152,8 +152,8 @@ kill -USR1 <server-pid>
 3. Wait for `heap snapshot written` in the channel's log before opening the file. Snapshots are written to the same log directory as `heap-<pid>-<timestamp>.heapsnapshot`; writing a large heap can take several seconds and the file is incomplete until the completion message appears:
 
 ```bash
-grep 'heap snapshot' ~/.local/share/opencode/log/opencode.log | tail
-find ~/.local/share/opencode/log -maxdepth 1 -name 'heap-<server-pid>-*.heapsnapshot' -printf '%T@ %s %p\n' | sort -nr | head
+grep 'heap snapshot' ~/.local/share/selene/log/selene.log | tail
+find ~/.local/share/selene/log -maxdepth 1 -name 'heap-<server-pid>-*.heapsnapshot' -printf '%T@ %s %p\n' | sort -nr | head
 ```
 
 Use `opencode-local.log` instead for a local/dev channel process. The log's `path=` field is authoritative.
@@ -199,8 +199,8 @@ kill -PROF <server-pid>
 3. Wait for `CPU profile written` in the channel's log before opening the file. Profiles are written to the same log directory as `cpu-<pid>-<timestamp>.cpuprofile`; the log's `path=` field is authoritative:
 
 ```bash
-grep 'CPU profile' ~/.local/share/opencode/log/opencode.log | tail
-find ~/.local/share/opencode/log -maxdepth 1 -name 'cpu-<server-pid>-*.cpuprofile' -printf '%T@ %s %p\n' | sort -nr | head
+grep 'CPU profile' ~/.local/share/selene/log/selene.log | tail
+find ~/.local/share/selene/log -maxdepth 1 -name 'cpu-<server-pid>-*.cpuprofile' -printf '%T@ %s %p\n' | sort -nr | head
 ```
 
 Use `opencode-local.log` for a local/dev process. Load the completed `.cpuprofile` in Chrome DevTools or another V8 CPU profile viewer and inspect the hottest functions, call stacks, and self time during the controlled workload.

@@ -80,7 +80,7 @@ brew install --cask opencode-desktop
 
 #### Directorio de instalación
 
-El script de instalación instala OpenCode en `$HOME/.opencode/bin`.
+El script de instalación instala OpenCode en `$HOME/.selene/bin`.
 
 ### Agentes
 

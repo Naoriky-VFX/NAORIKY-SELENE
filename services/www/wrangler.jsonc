@@ -18,7 +18,7 @@
       "name": "opencode-www-dev",
       "routes": [
         {
-          "pattern": "dev.opencode.ai/v2*",
+          "pattern": "dev.selene.ai/v2*",
           "zone_name": "opencode.ai",
         },
       ],

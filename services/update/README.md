@@ -8,7 +8,7 @@ curl 'https://opencode.ai/update/api/latest/cli'
 curl 'https://opencode.ai/update/api/latest/cli/npm'
 ```
 
-The same Worker also serves the original `https://update.opencode.ai` hostname without
+The same Worker also serves the original `https://update.selene.ai` hostname without
 the `/update` prefix. Admin forms, pagination, and redirects preserve the request's mount.
 
 ## Desktop update feeds
@@ -82,7 +82,7 @@ release. For the CLI package migration, retain a package-aware release published
 
 Both admin mounts must be protected by the same Cloudflare Access self-hosted application:
 
-- Public hostname/path: `update.opencode.ai/admin*`
+- Public hostname/path: `update.selene.ai/admin*`
 - Public hostname/path: `opencode.ai/update/admin*`
 - Policy: allow the OpenCode team identity group
 
@@ -126,7 +126,7 @@ the CDN URLs and SHA-512 checksums computed from the final signed files. Existin
 `github`, and `aur` distributions are published independently.
 
 GitHub Actions publishes artifacts through `POST https://opencode.ai/update/api/publish`
-using a short-lived OIDC token with audience `https://update.opencode.ai`. The original
+using a short-lived OIDC token with audience `https://update.selene.ai`. The original
 hostname and token audience remain supported. The Worker accepts only tokens signed by
 GitHub for repository ID `975734319`, owner ID `66570915`, `.github/workflows/release.yml`
 and environment `release`. Pushes to `dev` may publish only to `dev`; only a

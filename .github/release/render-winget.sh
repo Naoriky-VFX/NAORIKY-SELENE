@@ -6,11 +6,11 @@
 
 cli=$1 desktop=$2 out=$3
 sum() { sha256 "$1" | cut -c1-64 | tr a-f A-F; }
-base="https://opencode.ai/files/bin/$OPENCODE_VERSION"
+base="https://opencode.ai/files/bin/$SELENE_VERSION"
 date=$(date -u +%F)
 header() {
   printf '# yaml-language-server: $schema=https://aka.ms/winget-manifest.%s.1.12.0.schema.json\n\nPackageIdentifier: %s\nPackageVersion: %s\n' \
-    "$2" "$1" "$OPENCODE_VERSION"
+    "$2" "$1" "$SELENE_VERSION"
 }
 footer() { printf 'ManifestType: %s\nManifestVersion: 1.12.0\n' "$1"; }
 manifests() {
@@ -36,7 +36,7 @@ manifests Anomaly.OpenCode "OpenCode CLI" "The open source AI coding agent for t
   "- Architecture: x64" "  InstallerUrl: $base/opencode-windows-x64-baseline.zip" "  InstallerSha256: $(sum "$cli/opencode-windows-x64-baseline.zip")" \
   "- Architecture: arm64" "  InstallerUrl: $base/opencode-windows-arm64.zip" "  InstallerSha256: $(sum "$cli/opencode-windows-arm64.zip")"
 
-# The display name and uninstall key match what the NSIS installer registers for ai.opencode.desktop.
+# The display name and uninstall key match what the NSIS installer registers for ai.selene.desktop.
 manifests Anomaly.OpenCode.Desktop "OpenCode" "The open source AI coding agent as a desktop app." opencode-desktop \
   "InstallerType: nullsoft" "Scope: user" "UpgradeBehavior: install" "ProductCode: d074f30d-5f88-5885-b075-be1348cc7676" \
   "Protocols:" "- opencode" "Installers:" \

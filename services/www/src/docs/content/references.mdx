@@ -3,10 +3,10 @@ title: "References"
 ---
 
 References give OpenCode named access to directories outside the current
-project. Add one in `opencode.json` or `opencode.jsonc`, then attach its alias in
+project. Add one in `selene.json` or `selene.jsonc`, then attach its alias in
 your client when you need it.
 
-```jsonc title="opencode.jsonc"
+```jsonc title="selene.jsonc"
 {
   "$schema": "https://opencode.ai/config.json",
   "references": {
@@ -131,13 +131,13 @@ opencode/repos/<host>/<repository-path>
 On a typical Linux installation, `Effect-TS/effect` is stored at:
 
 ```text
-~/.local/share/opencode/repos/github.com/Effect-TS/effect
+~/.local/share/selene/repos/github.com/Effect-TS/effect
 ```
 
 An explicit branch adds an encoded `@<branch>` suffix:
 
 ```text
-~/.local/share/opencode/repos/github.com/Effect-TS/effect@main
+~/.local/share/selene/repos/github.com/Effect-TS/effect@main
 ```
 
 ## Refresh

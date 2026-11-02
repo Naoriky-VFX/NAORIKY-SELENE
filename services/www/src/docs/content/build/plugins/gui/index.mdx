@@ -67,7 +67,7 @@ A plugin package can ship server, TUI, and GUI code from one npm package. Add on
 
 Users install it like any other plugin; there is no separate GUI install step.
 
-```jsonc title="opencode.jsonc"
+```jsonc title="selene.jsonc"
 {
   "plugins": ["opencode-acme-plugin"],
 }
@@ -197,12 +197,12 @@ import { readFile } from "node:fs/promises" // The main process; an inert placeh
 ## Where GUI entries load
 
 OpenCode Desktop loads GUI entries from its own background server, which already loads the plugins from your config, so
-they never add a new source of code. Configure the plugin in the global `opencode.json(c)` to make its GUI available in
+they never add a new source of code. Configure the plugin in the global `selene.json(c)` to make its GUI available in
 every window.
 
 <Callout type="note">
-  The TUI reads its plugins from `cli.json`, but the desktop app reads only `opencode.json(c)`. A package that shipped
-  only a TUI part, and that users list in `cli.json`, must also be listed in `opencode.json(c)` once it adds
+  The TUI reads its plugins from `cli.json`, but the desktop app reads only `selene.json(c)`. A package that shipped
+  only a TUI part, and that users list in `cli.json`, must also be listed in `selene.json(c)` once it adds
   `./gui-experimental`.
 </Callout>
 
@@ -224,10 +224,10 @@ vite build --watch
   ignored.
 - Each rebuild reloads the plugin's GUI in every window and in the main process. The server entry does not restart.
 - An installed package's GUI changes only with its version.
-- Changing the plugin's `options` in `opencode.json(c)` reloads the plugin.
+- Changing the plugin's `options` in `selene.json(c)` reloads the plugin.
 - `opencode plugin update` replaces a package's GUI once the update finishes.
 - [**Settings > Extensions > Plugins**](/plugins#desktop) lists the plugin with a switch that turns its GUI off. To
-  remove it, remove it from `opencode.json(c)` or run `opencode plugin remove <package>`.
+  remove it, remove it from `selene.json(c)` or run `opencode plugin remove <package>`.
 
 <Callout type="note">
   The app's own plugins reserve their ids. If your plugin's id is one of them, nests under one with a `.`, has one
@@ -363,9 +363,9 @@ parts.
 
 ### Options
 
-`ctx.options` holds the `options` from the plugin's `opencode.json(c)` entry: the same values the server part gets.
+`ctx.options` holds the `options` from the plugin's `selene.json(c)` entry: the same values the server part gets.
 
-```jsonc title="opencode.jsonc"
+```jsonc title="selene.jsonc"
 {
   "plugins": [{ "package": "opencode-acme-plugin", "options": { "team": "core" } }],
 }

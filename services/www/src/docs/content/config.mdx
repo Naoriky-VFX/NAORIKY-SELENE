@@ -2,9 +2,9 @@
 title: "Config"
 ---
 
-Create `opencode.jsonc` in your project to configure OpenCode. Add the schema for editor validation, then set only the options you need.
+Create `selene.jsonc` in your project to configure OpenCode. Add the schema for editor validation, then set only the options you need.
 
-```jsonc title="opencode.jsonc"
+```jsonc title="selene.jsonc"
 {
   "$schema": "https://opencode.ai/config.json",
   "model": "anthropic/claude-sonnet-5-5",
@@ -17,7 +17,7 @@ You can also ask OpenCode to update this file for you.
 
 OpenCode supports JSON and JSONC. Use JSONC when you want comments or trailing commas.
 
-```jsonc title="opencode.jsonc"
+```jsonc title="selene.jsonc"
 {
   "$schema": "https://opencode.ai/config.json",
   // Use this model by default.
@@ -36,24 +36,24 @@ Put managed, machine-wide settings in the system configuration directory:
 | Windows  | `%ProgramData%\opencode`                |
 
 The system directory works like the global directory. Besides
-`opencode.json(c)`, it loads `agents/`, `commands/`, `skills/`, and `plugins/`
+`selene.json(c)`, it loads `agents/`, `commands/`, `skills/`, and `plugins/`
 for every user on the machine:
 
 ```text
 /etc/opencode/
-├── opencode.json
+├── selene.json
 ├── agents/review.md
 ├── commands/release.md
 └── skills/deploy/SKILL.md
 ```
 
 On macOS, OpenCode also reads managed preferences that MDM tools deploy for the
-`ai.opencode.managed` domain. A user-specific profile replaces the
+`ai.selene.managed` domain. A user-specific profile replaces the
 machine-wide one:
 
 ```text
-/Library/Managed Preferences/<user>/ai.opencode.managed.plist
-/Library/Managed Preferences/ai.opencode.managed.plist
+/Library/Managed Preferences/<user>/ai.selene.managed.plist
+/Library/Managed Preferences/ai.selene.managed.plist
 ```
 
 Managed settings have the highest precedence, so users and projects cannot
@@ -65,42 +65,42 @@ configuration to enforce restrictions.
 Put user settings for every project in the global configuration:
 
 ```text
-~/.config/opencode/opencode.json(c)
+~/.config/selene/selene.json(c)
 ```
 
 Put project settings in either of these files:
 
 ```text
-/home/user/projects/my-app/opencode.json(c)
-/home/user/projects/my-app/.opencode/opencode.json(c)
+/home/user/projects/my-app/selene.json(c)
+/home/user/projects/my-app/.selene/selene.json(c)
 ```
 
 OpenCode searches from the current directory to the filesystem root. It first
-merges direct `opencode.json(c)` files from the farthest directory to the
-closest, then merges files inside `.opencode` directories in the same order.
-This means every discovered `.opencode` config overrides every direct config.
+merges direct `selene.json(c)` files from the farthest directory to the
+closest, then merges files inside `.selene` directories in the same order.
+This means every discovered `.selene` config overrides every direct config.
 Use one form throughout a directory tree unless you need that behavior.
 
 For example, start OpenCode from `/home/user/projects/acme/packages/web`:
 
 ```text
-/etc/opencode/opencode.json
-~/.config/opencode/opencode.json
+/etc/opencode/selene.json
+~/.config/selene/selene.json
 
 /home/user/projects/acme/
-├── opencode.json
+├── selene.json
 └── packages/
     └── web/
-        ├── opencode.json
+        ├── selene.json
         └── src/
 ```
 
 OpenCode applies these files from lowest to highest precedence:
 
-1. `~/.config/opencode/opencode.json`
-2. `/home/user/projects/acme/opencode.json`
-3. `/home/user/projects/acme/packages/web/opencode.json`
-4. `/etc/opencode/opencode.json`
+1. `~/.config/selene/selene.json`
+2. `/home/user/projects/acme/selene.json`
+3. `/home/user/projects/acme/packages/web/selene.json`
+4. `/etc/opencode/selene.json`
 
 The package config overrides matching settings from the repository config,
 which overrides the global config. The system config overrides all of them.
@@ -116,7 +116,7 @@ The complete OpenCode configuration schema is available at
 Add the `$schema` field to your configuration file to enable validation and
 autocomplete in editors that support JSON Schema:
 
-```json title="opencode.json"
+```json title="selene.json"
 {
   "$schema": "https://opencode.ai/config.json"
 }
@@ -422,7 +422,7 @@ Add directories or URLs that OpenCode should search for agent skills.
 }
 ```
 
-See the [skills guide](/skills) for skill structure and automatic discovery under `.opencode/skills/`.
+See the [skills guide](/skills) for skill structure and automatic discovery under `.selene/skills/`.
 
 ### Commands
 
@@ -567,10 +567,10 @@ You can use variable substitution in your config files to reference environment 
 
 Use `{env:VARIABLE_NAME}` to substitute environment variables:
 
-```jsonc title="opencode.jsonc"
+```jsonc title="selene.jsonc"
 {
   "$schema": "https://opencode.ai/config.json",
-  "model": "{env:OPENCODE_MODEL}",
+  "model": "{env:SELENE_MODEL}",
   "providers": {
     "anthropic": {
       "settings": {
@@ -587,7 +587,7 @@ If the environment variable is not set, it will be replaced with an empty string
 
 Use `{file:path/to/file}` to substitute the contents of a file:
 
-```jsonc title="opencode.jsonc"
+```jsonc title="selene.jsonc"
 {
   "$schema": "https://opencode.ai/config.json",
   "providers": {
@@ -621,7 +621,7 @@ These are useful for:
 
 All experimental settings live under the `experimental` key:
 
-```jsonc title="opencode.jsonc"
+```jsonc title="selene.jsonc"
 {
   "$schema": "https://opencode.ai/config.json",
   "experimental": {

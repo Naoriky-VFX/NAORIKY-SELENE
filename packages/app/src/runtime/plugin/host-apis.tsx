@@ -306,8 +306,8 @@ export function createHostApis() {
     app: () => ({
       name: "opencode",
       version: platform.version ?? "",
-      // SAFETY: the build sets VITE_OPENCODE_CHANNEL to one of the release channels, or leaves it unset locally.
-      channel: (import.meta.env.VITE_OPENCODE_CHANNEL ?? "local") as App["channel"],
+      // SAFETY: the build sets VITE_SELENE_CHANNEL to one of the release channels, or leaves it unset locally.
+      channel: (import.meta.env.VITE_SELENE_CHANNEL ?? "local") as App["channel"],
       platform: platform.platform,
       packaged: platform.plugins?.packaged ?? false,
     }),

@@ -62,7 +62,7 @@ describe("connectClientMcp", () => {
       { name: "fail", inputSchema: { type: "object" } },
     ])
     expect(
-      await peer.client.callTool({ name: "whoami", arguments: {}, _meta: { "ai.opencode/sessionID": "ses_1" } }),
+      await peer.client.callTool({ name: "whoami", arguments: {}, _meta: { "ai.selene/sessionID": "ses_1" } }),
     ).toMatchObject({ content: [{ type: "text", text: "ses_1" }] })
     expect(await peer.client.callTool({ name: "whoami", arguments: {} })).toMatchObject({
       content: [{ type: "text", text: "none" }],

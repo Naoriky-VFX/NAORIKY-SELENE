@@ -15,7 +15,7 @@ export async function prepareDevElectron() {
     .digest("hex")
     .slice(0, 16)
 
-  const root = join(import.meta.dirname, "../node_modules/.cache/opencode-dev", hash)
+  const root = join(import.meta.dirname, "../node_modules/.cache/selene-dev", hash)
   const bundle = join(root, "OpenCode Dev.app")
   // Electron uses the executable's name to distinguish development from packaged apps.
   const executable = join(bundle, "Contents/MacOS/Electron")
@@ -31,7 +31,7 @@ export async function prepareDevElectron() {
     await $`plutil -replace ${key} -string ${"OpenCode Dev"} ${plist}`
   }
 
-  await $`plutil -replace CFBundleIdentifier -string ai.opencode.desktop.dev ${plist}`
+  await $`plutil -replace CFBundleIdentifier -string ai.selene.desktop.dev ${plist}`
   await $`plutil -insert NSAutoFillRequiresTextContentTypeForOneTimeCodeOnMac -bool true ${plist}`
   await Bun.write(join(bundle, "Contents/Resources/electron.icns"), icon)
   // Changing the bundle resources invalidates Electron's signature.

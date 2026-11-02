@@ -78,7 +78,7 @@ sqlite3 "$(opencode debug paths db)"
 ```
 
 The optional selector accepts `db`, `home`, `data`, `config`, `cache`, `state`, `tmp`, `bin`, `log`, or `repos` and prints
-only the path and a newline. The database path respects the release channel and `OPENCODE_DB`; relative database overrides
+only the path and a newline. The database path respects the release channel and `SELENE_DB`; relative database overrides
 resolve under the data directory, and `:memory:` is printed as-is. This command does not start a server or open the database.
 
 Omit the selector to show all paths with labels:

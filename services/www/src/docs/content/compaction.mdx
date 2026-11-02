@@ -26,7 +26,7 @@ summary using the conversation since that checkpoint.
 
 Automatic compaction is on by default:
 
-```jsonc title="opencode.jsonc"
+```jsonc title="selene.jsonc"
 {
   "$schema": "https://opencode.ai/config.json",
   "compaction": {
@@ -69,7 +69,7 @@ opencode api post /api/session/ses_example/compact --data '{"id":"msg_compact_on
 
 Add `compaction` to any [OpenCode configuration file](/config):
 
-```jsonc title="opencode.jsonc"
+```jsonc title="selene.jsonc"
 {
   "$schema": "https://opencode.ai/config.json",
   "compaction": {
@@ -107,7 +107,7 @@ Add `compaction` to any [OpenCode configuration file](/config):
 By default OpenCode writes the summary itself, using the session's model. Set
 `agents.compaction.model` to use another model for summaries:
 
-```jsonc title="opencode.jsonc"
+```jsonc title="selene.jsonc"
 {
   "$schema": "https://opencode.ai/config.json",
   "agents": {
@@ -127,7 +127,7 @@ If that model cannot be resolved, OpenCode falls back to the session's model.
 Automatic compaction normally pauses the session while the summary is written. With background compaction, OpenCode
 writes the summary ahead of time and swaps it in when compaction is due:
 
-```jsonc title="opencode.jsonc"
+```jsonc title="selene.jsonc"
 {
   "$schema": "https://opencode.ai/config.json",
   "experimental": {
@@ -154,7 +154,7 @@ threshold              the held summary is swapped in; everything since it is ke
 Some providers can compact the conversation on their side instead. Enable it per
 provider or model with `settings.compaction`:
 
-```jsonc title="opencode.jsonc"
+```jsonc title="selene.jsonc"
 {
   "$schema": "https://opencode.ai/config.json",
   "providers": {

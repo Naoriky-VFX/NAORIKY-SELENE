@@ -13,7 +13,7 @@ import { testEffect } from "../../core/test/lib/effect"
 
 const it = testEffect(NodeServices.layer)
 
-declare const OPENCODE_CLI_NAME: string | undefined
+declare const SELENE_CLI_NAME: string | undefined
 
 function fixture(
   respond: (command: {
@@ -326,7 +326,7 @@ it.live("Homebrew Core installs check and upgrade the Core formula", () =>
     // An explicitly selected method keeps its own release source.
     expect(yield* test.updater.latest("npm")).toBe("2.3.4")
     expect(test.requests).toEqual([
-      "https://formulae.brew.sh/api/formula/opencode.json",
+      "https://formulae.brew.sh/api/formula/selene.json",
       "https://opencode.ai/update/api/local/cli/npm?current=local",
     ])
   }),
@@ -490,7 +490,7 @@ windows("windows links the curl binary before the installer replaces it", () =>
       false,
       "@opencode/cli",
       undefined,
-      (_root, home) => Effect.succeed(path.join(home, ".opencode", "bin", "opencode.exe")),
+      (_root, home) => Effect.succeed(path.join(home, ".selene", "bin", "opencode.exe")),
     )
     layout.executable = test.executable
     layout.cache = test.global.cache
@@ -517,7 +517,7 @@ unix("curl method detection resolves symlinked home directories", () =>
         Effect.gen(function* () {
           const fs = yield* FileSystem.FileSystem
           const realHome = path.join(root, "real-home")
-          const bin = path.join(realHome, ".opencode", "bin", "opencode")
+          const bin = path.join(realHome, ".selene", "bin", "opencode")
           yield* fs.makeDirectory(path.dirname(bin), { recursive: true })
           yield* fs.symlink(realHome, home)
           return bin
@@ -561,7 +561,7 @@ test("Node distribution honors the compile-time CLI name", async () => {
       "test",
       import.meta.path,
       "--define",
-      'OPENCODE_CLI_NAME="opencode2-node"',
+      'SELENE_CLI_NAME="opencode2-node"',
       "--test-name-pattern",
       "^Node distribution resolves the published npm package$",
     ],
@@ -578,7 +578,7 @@ test("Node distribution honors the compile-time CLI name", async () => {
   expect(stderr).toContain("1 pass")
 })
 
-if (typeof OPENCODE_CLI_NAME === "string" && OPENCODE_CLI_NAME === "opencode2-node") {
+if (typeof SELENE_CLI_NAME === "string" && SELENE_CLI_NAME === "opencode2-node") {
   it.live("Node distribution resolves the published npm package", () =>
     Effect.gen(function* () {
       const test = yield* fixture(

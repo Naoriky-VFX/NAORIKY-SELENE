@@ -46,18 +46,18 @@
       }
     },
     "background": {
-      "base": "$hue.neutral.800",
+      "base": "$hue.neutral.900",
       "raised": {
-        "base": "$hue.neutral.700",
-        "high": "$hue.neutral.600",
-        "max": "$hue.neutral.500"
+        "base": "$hue.neutral.800",
+        "high": "$hue.neutral.700",
+        "max": "$hue.neutral.600"
       },
       "action": {
         "primary": {
-          "base": "transparent",
-          "$hovered": "$hue.neutral.700",
+          "base": "$hue.interactive.500",
+          "$hovered": "$hue.interactive.400",
           "$focused": "$hue.interactive.600",
-          "$selected": "transparent"
+          "$selected": "$hue.interactive.500"
         },
         "secondary": {
           "base": "transparent"
@@ -85,7 +85,7 @@
       }
     },
     "border": {
-      "base": "$hue.neutral.500"
+      "base": "$hue.neutral.600"
     },
     "scrollbar": {
       "base": "$hue.neutral.400"
@@ -258,26 +258,26 @@
   "dark": {
     "hue": {
       "gray": {
-        "100": "#F4F0FF",
-        "200": "#B9AED0",
-        "300": "#8B7DA6",
-        "400": "#5B4E73",
-        "500": "#3A2F4E",
-        "600": "#241B34",
-        "700": "#160F22",
-        "800": "#0B0710",
-        "900": "#050309"
+        "100": "#F1F2FA",
+        "200": "#C7CBDB",
+        "300": "#9AA0B5",
+        "400": "#6B7189",
+        "500": "#3A3E55",
+        "600": "#272A40",
+        "700": "#16182A",
+        "800": "#11121E",
+        "900": "#07070D"
       },
       "purple": {
-        "100": "#F5EBFF",
-        "200": "#D8B4FE",
-        "300": "#B78BE8",
-        "400": "#A855F7",
+        "100": "#EDE9FE",
+        "200": "#C4B5FD",
+        "300": "#A78BFA",
+        "400": "#8B5CF6",
         "500": "#7C3AED",
         "600": "#4C1D95",
         "700": "#2E1065",
-        "800": "#1A0B33",
-        "900": "#0F0620"
+        "800": "#1A1033",
+        "900": "#0E0620"
       },
       "cyan": {
         "100": "#E0FBFF",
@@ -290,6 +290,7 @@
         "800": "#07222A",
         "900": "#041217"
       },
+      "line": "#272A40",
       "blue": {
         "100": "#EFF4FF",
         "200": "#BFD3FF",

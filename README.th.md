@@ -80,7 +80,7 @@ brew install --cask opencode-desktop
 
 #### ไดเรกทอรีการติดตั้ง
 
-สคริปต์การติดตั้งจะติดตั้ง OpenCode ไว้ที่ `$HOME/.opencode/bin`
+สคริปต์การติดตั้งจะติดตั้ง OpenCode ไว้ที่ `$HOME/.selene/bin`
 
 ### เอเจนต์
 

@@ -55,7 +55,7 @@ LangString appRunning \${LANG_ENGLISH} "running"
 LangString appClosing \${LANG_ENGLISH} "closing"
 LangString appCannotBeClosed \${LANG_ENGLISH} "cannot close"
 !define APP_EXECUTABLE_FILENAME "OpenCode.exe"
-!define APP_ID "ai.opencode.desktop"
+!define APP_ID "ai.selene.desktop"
 !define APP_FILENAME "@opencodedesktop"
 !define UNINSTALL_FILENAME "Uninstall OpenCode.exe"
 !define UNINSTALL_REGISTRY_KEY "${uninstallKey}"
@@ -84,7 +84,7 @@ windows(
     const installer = await harness()
 
     const succeed = async (cmd: string[]) => {
-      const result = await installer.run(cmd, { OPENCODE_INSTALLER_TEST_ROOT: installer.dir })
+      const result = await installer.run(cmd, { SELENE_INSTALLER_TEST_ROOT: installer.dir })
       expect(result.code, `${result.stdout}\n${result.stderr}`).toBe(0)
 
       return result.stdout
@@ -96,7 +96,7 @@ windows(
         "-NoProfile",
         "-NonInteractive",
         "-Command",
-        `(Get-Acl -LiteralPath (Join-Path $env:OPENCODE_INSTALLER_TEST_ROOT '${file}')).Sddl`,
+        `(Get-Acl -LiteralPath (Join-Path $env:SELENE_INSTALLER_TEST_ROOT '${file}')).Sddl`,
       ])
 
     try {
@@ -216,7 +216,7 @@ const directoryCases = [
     name: "a first install uses the app ID",
     from: "@opencodedesktop",
     shared: [],
-    expected: "ai.opencode.desktop",
+    expected: "ai.selene.desktop",
     left: undefined,
     uninstallKept: true,
   },
@@ -230,7 +230,7 @@ const directoryCases = [
       "Uninstall OpenCode Beta.exe",
       "resources/app.asar",
     ],
-    expected: "ai.opencode.desktop",
+    expected: "ai.selene.desktop",
     left: ["OpenCode Beta.exe", "Uninstall OpenCode Beta.exe", "resources/app.asar"],
     uninstallKept: false,
   },
@@ -238,7 +238,7 @@ const directoryCases = [
     name: "the last channel removes the shared directory",
     from: "@opencodedesktop",
     shared: ["OpenCode.exe", "Uninstall OpenCode.exe", "resources/app.asar"],
-    expected: "ai.opencode.desktop",
+    expected: "ai.selene.desktop",
     left: undefined,
     uninstallKept: false,
   },

@@ -80,7 +80,7 @@ brew install --cask opencode-desktop
 
 #### ইনস্টলেশন ডিরেক্টরি (Installation Directory)
 
-ইনস্টল স্ক্রিপ্টটি `$HOME/.opencode/bin`-এ OpenCode ইনস্টল করে।
+ইনস্টল স্ক্রিপ্টটি `$HOME/.selene/bin`-এ OpenCode ইনস্টল করে।
 
 ### এজেন্টস (Agents)
 

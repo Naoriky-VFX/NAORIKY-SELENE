@@ -6,7 +6,7 @@ description: "Build an OpenCode plugin: one package with a server part, a TUI pa
 Plugins modify OpenCode's behavior and add new features. A plugin is one package with a server part, a TUI part, a GUI
 part, or any combination.
 
-```ts title=".opencode/plugins/example/index.ts"
+```ts title=".selene/plugins/example/index.ts"
 import { Plugin } from "@opencode/plugin"
 
 export default Plugin.define({
@@ -56,10 +56,10 @@ takes the plugin's.
 
 ## Load
 
-Plugins under `.opencode/plugins/` load automatically, like the local example above. To load published packages or
-plugin directories from other locations, add them to `plugins` in `opencode.json(c)`:
+Plugins under `.selene/plugins/` load automatically, like the local example above. To load published packages or
+plugin directories from other locations, add them to `plugins` in `selene.json(c)`:
 
-```jsonc title="opencode.jsonc"
+```jsonc title="selene.jsonc"
 {
   "$schema": "https://opencode.ai/config.json",
   "plugins": [
@@ -82,7 +82,7 @@ plugin directories from other locations, add them to `plugins` in `opencode.json
 ```
 
 - One entry loads every part. The TUI loads the TUI parts of the plugins its server loads, and OpenCode Desktop loads
-  the GUI parts of the plugins in your global `opencode.json(c)`.
+  the GUI parts of the plugins in your global `selene.json(c)`.
 - A package with only a TUI part goes in [`cli.json`](/cli/plugins) instead.
 - A local plugin directory with a `package.json` `name` and `exports` loads its parts through them, like the published
   package. Without them, it uses file names at its root: `server` (else `index`), `tui`, and `rpc` with a `.ts`,

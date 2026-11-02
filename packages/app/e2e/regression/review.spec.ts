@@ -612,7 +612,7 @@ test("file tree expands Windows paths and scrolls long names in both directions"
     .toBeGreaterThan(0)
   await expect(status).toHaveText("A")
   await expect.poll(() => statusInset(status, "right")).toBeLessThanOrEqual(24)
-  const treeScroll = panel.locator(".opencode-pierre-file-tree")
+  const treeScroll = panel.locator(".selene-pierre-file-tree")
 
   const scrollTree = (position: { left?: number; top?: number }) =>
     treeScroll.evaluate((element, position) => {

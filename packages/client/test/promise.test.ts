@@ -177,7 +177,7 @@ test("config.get returns ordered config entries for a location", async () => {
   const entries = [
     {
       type: "document" as const,
-      path: "/tmp/project/opencode.json",
+      path: "/tmp/project/selene.json",
       info: {
         permissions: [
           { action: "shell", resource: "*", effect: "ask" as const },

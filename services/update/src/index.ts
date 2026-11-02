@@ -34,7 +34,7 @@ const identifier = /^[a-zA-Z0-9._-]{1,64}$/
 const version = /^[a-zA-Z0-9.+_-]{1,128}$/
 const select =
   "SELECT channel, name, distribution, version, metadata, active, minimum, time_created, time_updated FROM artifact"
-const audience = "https://update.opencode.ai"
+const audience = "https://update.selene.ai"
 const githubKeys = createRemoteJWKSet(new URL("https://token.actions.githubusercontent.com/.well-known/jwks"))
 // Clients poll every lookup path, and querying D1 on each request overloaded it.
 // Cache the caller-independent reads per isolate; caller-specific selection still runs per request.
@@ -46,7 +46,7 @@ export default {
     const url = new URL(request.url)
     // The legacy hostname only exposes /admin, covered by its existing Access policy.
     const prefix =
-      url.hostname !== "update.opencode.ai" && (url.pathname === "/update" || url.pathname.startsWith("/update/"))
+      url.hostname !== "update.selene.ai" && (url.pathname === "/update" || url.pathname.startsWith("/update/"))
         ? "/update"
         : ""
     const pathname = url.pathname.slice(prefix.length) || "/"

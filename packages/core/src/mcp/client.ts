@@ -470,7 +470,7 @@ export const connect = Effect.fnUntraced(function* (
               {
                 name: input.name,
                 arguments: input.args ?? {},
-                ...(input.sessionID === undefined ? {} : { _meta: { "ai.opencode/sessionID": input.sessionID } }),
+                ...(input.sessionID === undefined ? {} : { _meta: { "ai.selene/sessionID": input.sessionID } }),
               },
               {
                 signal,

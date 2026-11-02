@@ -94,21 +94,21 @@ Pass a JSON request body with `--data` or `-d`, and add headers with `--header` 
 Installed builds write logs to:
 
 ```text
-~/.local/share/opencode/log/opencode.log
+~/.local/share/selene/log/selene.log
 ```
 
 Follow the log while reproducing the problem:
 
 ```bash
-tail -f ~/.local/share/opencode/log/opencode.log
+tail -f ~/.local/share/selene/log/selene.log
 ```
 
 Each line includes a process `run` ID and a `role` field. Use `role=server` for session, provider, plugin, permission, and
 tool activity.
 
 ```bash
-grep 'role=server' ~/.local/share/opencode/log/opencode.log
-grep 'run=8fc3b1d5' ~/.local/share/opencode/log/opencode.log
+grep 'role=server' ~/.local/share/selene/log/selene.log
+grep 'run=8fc3b1d5' ~/.local/share/selene/log/selene.log
 ```
 
 ## Capture a heap snapshot
@@ -122,7 +122,7 @@ opencode debug heap-dump
 The command waits until the snapshot is complete, then prints its path:
 
 ```text
-/home/me/.local/share/opencode/log/heap-48213-2026-10-23T013012345Z.heapsnapshot
+/home/me/.local/share/selene/log/heap-48213-2026-10-23T013012345Z.heapsnapshot
 ```
 
 Write it somewhere else with `--directory`. The server creates the directory when it is missing:
@@ -132,7 +132,7 @@ opencode debug heap-dump --directory ./snapshots
 ```
 
 - It only uses a server that is already running. It never starts, replaces, or restarts one.
-- Use `--server <url>` to capture a server you started with `opencode serve`. Set `OPENCODE_PASSWORD` if it has one.
+- Use `--server <url>` to capture a server you started with `opencode serve`. Set `SELENE_PASSWORD` if it has one.
   `--directory` is then a path on the server's machine.
 - Open the file in the Memory panel of Chrome DevTools.
 
@@ -190,7 +190,7 @@ Use the `pid` from the response with one of these signals:
 
   The result is written to the log directory as `heap-<pid>-<timestamp>.heapsnapshot`.
 
-Wait for `CPU profile written` or `heap snapshot written` in `opencode.log` before opening the file. The corresponding
+Wait for `CPU profile written` or `heap snapshot written` in `selene.log` before opening the file. The corresponding
 log entry includes its complete path. You can inspect both file types in Chrome DevTools.
 
 <Callout type="note">
@@ -203,22 +203,22 @@ log entry includes its complete path. You can inspect both file types in Chrome 
 The shared server registers itself at:
 
 ```text
-~/.local/state/opencode/service.json
+~/.local/state/selene/service.json
 ```
 
 Its private service configuration is stored separately at:
 
 ```text
-~/.config/opencode/service.json
+~/.config/selene/service.json
 ```
 
 The database normally lives at:
 
 ```text
-~/.local/share/opencode/opencode.db
+~/.local/share/selene/selene.db
 ```
 
-`OPENCODE_DB` can override the database location.
+`SELENE_DB` can override the database location.
 
 <Callout type="warning">
   Do not delete or edit service files or the database while troubleshooting. Use the service commands to manage the

@@ -107,7 +107,7 @@ import { OpenCodeWorkerd } from "@opencode/sdk/workerd"
 export class OpenCodeDO {
   constructor(state) {
     this.configurations = 0
-    this.opencode = state.blockConcurrencyWhile(() => OpenCodeWorkerd.create({
+    this.selene = state.blockConcurrencyWhile(() => OpenCodeWorkerd.create({
       storage: state.storage,
       app: { version: "packed-workerd" },
       models: { fetch: false },
@@ -137,7 +137,7 @@ export class OpenCodeDO {
     if (bodyDigest("packed-workerd") !== "5fc174bf63e8dd108ebb6c53d85e7bbc4525b2f4c1c43280364cdbfd9b37aaf5") {
       throw new Error("Packed workerd SHA-256 mismatch")
     }
-    const opencode = await this.opencode
+    const opencode = await this.selene
     const sessions = await Promise.all([1, 2].map(() => opencode.sessions.create({
       location: { directory: "/workspace" },
       metadata: { thread: "packed-thread" },

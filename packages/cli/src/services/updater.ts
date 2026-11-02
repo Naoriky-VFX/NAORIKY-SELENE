@@ -1,7 +1,7 @@
 import { Global } from "@opencode/util/global"
 import { AppProcess } from "@opencode/util/process"
 import { EffectFlock } from "@opencode/util/effect-flock"
-import { OPENCODE_ARTIFACT, OPENCODE_CHANNEL, OPENCODE_LOCAL, OPENCODE_VERSION } from "../version"
+import { SELENE_ARTIFACT, SELENE_CHANNEL, SELENE_LOCAL, SELENE_VERSION } from "../version"
 import { Context, Duration, Effect, FileSystem, Layer, Option, Ref, Schema } from "effect"
 import { ChildProcess } from "effect/process"
 import { parse, type ParseError } from "jsonc-parser"
@@ -141,8 +141,8 @@ const make = Effect.gen(function* () {
   const global = yield* Global.Service
   const appProcess = yield* AppProcess.Service
   const flock = yield* EffectFlock.Service
-  const installedVersion = yield* Ref.make(OPENCODE_VERSION)
-  const channel = OPENCODE_CHANNEL.replace(/[^a-zA-Z0-9._-]/g, "-")
+  const installedVersion = yield* Ref.make(SELENE_VERSION)
+  const channel = SELENE_CHANNEL.replace(/[^a-zA-Z0-9._-]/g, "-")
   const executable = yield* fs.realPath(process.execPath).pipe(Effect.orElseSucceed(() => process.execPath))
   const installedPackage = yield* Effect.gen(function* () {
     const directory = path.dirname(path.dirname(executable))
@@ -159,10 +159,10 @@ const make = Effect.gen(function* () {
     executable.includes(`${path.sep}Cellar${path.sep}${name}${path.sep}`),
   )
   // WinGet extracts portable packages into a directory named after the package identifier.
-  const installedWinget = /[\\/]winget[\\/]packages[\\/]anomaly\.opencode_/i.test(executable)
+  const installedWinget = /[\\/]winget[\\/]packages[\\/]anomaly\.selene_/i.test(executable)
 
   const readPolicy = Effect.fnUntraced(function* () {
-    const values = yield* Effect.forEach(["config.json", "opencode.json", "opencode.jsonc"], (name) =>
+    const values = yield* Effect.forEach(["config.json", "selene.json", "selene.jsonc"], (name) =>
       fs.readFileString(path.join(global.config, name)).pipe(
         Effect.map(decodePolicy),
         Effect.orElseSucceed(() => undefined),
@@ -189,7 +189,7 @@ const make = Effect.gen(function* () {
 
   const curlPath = path.resolve(
     global.home,
-    ".opencode",
+    ".selene",
     "bin",
     process.platform === "win32" ? "opencode.exe" : "opencode",
   )
@@ -198,7 +198,7 @@ const make = Effect.gen(function* () {
   // On Windows a bare `bash` may be the WSL launcher, which cannot run the installer against Windows paths.
   const installerBash = Effect.fnUntraced(function* () {
     if (process.platform !== "win32") return "bash"
-    if (process.env.OPENCODE_GIT_BASH_PATH) return process.env.OPENCODE_GIT_BASH_PATH
+    if (process.env.SELENE_GIT_BASH_PATH) return process.env.SELENE_GIT_BASH_PATH
     const git = yield* exec(["git", "--exec-path"]).pipe(Effect.orElseSucceed(() => undefined))
     const bash = git?.code === 0 ? path.resolve(git.stdout.trim(), "..", "..", "..", "bin", "bash.exe") : undefined
     if (bash && (yield* fs.exists(bash).pipe(Effect.orElseSucceed(() => false)))) return bash
@@ -206,7 +206,7 @@ const make = Effect.gen(function* () {
       new UpgradeError({
         title: "Git Bash is required to update OpenCode",
         detail: "The OpenCode installer runs with Git Bash on Windows, and it was not found.",
-        retry: "Install Git for Windows or set OPENCODE_GIT_BASH_PATH, then run opencode upgrade again.",
+        retry: "Install Git for Windows or set SELENE_GIT_BASH_PATH, then run sel upgrade again.",
       }),
     )
   })
@@ -280,8 +280,8 @@ const make = Effect.gen(function* () {
       try: (signal) =>
         fetch(
           core
-            ? "https://formulae.brew.sh/api/formula/opencode.json"
-            : `https://opencode.ai/update/api/${encodeURIComponent(channel)}/${encodeURIComponent(OPENCODE_ARTIFACT)}/${distribution}?current=${encodeURIComponent(OPENCODE_VERSION)}`,
+            ? "https://formulae.brew.sh/api/formula/selene.json"
+            : `https://opencode.ai/update/api/${encodeURIComponent(channel)}/${encodeURIComponent(SELENE_ARTIFACT)}/${distribution}?current=${encodeURIComponent(SELENE_VERSION)}`,
           {
             signal: AbortSignal.any([signal, AbortSignal.timeout(10_000)]),
           },
@@ -291,7 +291,7 @@ const make = Effect.gen(function* () {
           {
             title: "Could not check for OpenCode updates",
             detail: errorDetail(cause),
-            retry: "Check your network, then run opencode upgrade again.",
+            retry: "Check your network, then run sel upgrade again.",
           },
           { cause },
         ),
@@ -338,7 +338,7 @@ const make = Effect.gen(function* () {
           title: "Could not check for OpenCode updates",
           detail,
           command: ["winget", "search", ...wingetArgs].join(" "),
-          retry: "Fix the issue above, then run opencode upgrade again.",
+          retry: "Fix the issue above, then run sel upgrade again.",
         },
         cause === undefined ? undefined : { cause },
       )
@@ -401,7 +401,7 @@ const make = Effect.gen(function* () {
           title: input.title ?? `${installNames[input.method]} could not install OpenCode`,
           detail,
           command: (input.displayCommand ?? input.command).join(" "),
-          retry: input.retry ?? "Fix the issue above, then run opencode upgrade again.",
+          retry: input.retry ?? "Fix the issue above, then run sel upgrade again.",
         },
         cause === undefined ? undefined : { cause },
       )
@@ -442,7 +442,7 @@ const make = Effect.gen(function* () {
         "install",
         "--global",
         `--allow-scripts=${packageName}`,
-        ...((OPENCODE_ARTIFACT === "cli" && !installedPackage?.endsWith("/cli-node")) ||
+        ...((SELENE_ARTIFACT === "cli" && !installedPackage?.endsWith("/cli-node")) ||
         (installedPackage && packageName !== installedPackage)
           ? ["--force"]
           : []),
@@ -483,7 +483,7 @@ const make = Effect.gen(function* () {
             command: ["curl", "-fsSL", "-o", installer, "https://opencode.ai/v2/install"],
             displayCommand: ["curl", "-fsSL", "https://opencode.ai/v2/install"],
             title: "Could not download the OpenCode installer",
-            retry: "Check your network, then run opencode upgrade again.",
+            retry: "Check your network, then run sel upgrade again.",
           })
           return yield* retaining(
             method,
@@ -522,7 +522,7 @@ const make = Effect.gen(function* () {
               {
                 title: "Could not prepare the OpenCode upgrade",
                 detail: errorDetail(cause),
-                retry: "Fix the issue above, then run opencode upgrade again.",
+                retry: "Fix the issue above, then run sel upgrade again.",
               },
               { cause },
             ),
@@ -532,11 +532,11 @@ const make = Effect.gen(function* () {
   })
 
   const inspect = Effect.fnUntraced(function* () {
-    if (OPENCODE_LOCAL || ["1", "true"].includes(process.env.OPENCODE_DISABLE_AUTOUPDATE?.toLowerCase() ?? "")) {
+    if (SELENE_LOCAL || ["1", "true"].includes(process.env.SELENE_DISABLE_AUTOUPDATE?.toLowerCase() ?? "")) {
       yield* Effect.logInfo("update check skipped", {
-        reason: OPENCODE_LOCAL ? "local-install" : "disabled",
-        version: OPENCODE_VERSION,
-        channel: OPENCODE_CHANNEL,
+        reason: SELENE_LOCAL ? "local-install" : "disabled",
+        version: SELENE_VERSION,
+        channel: SELENE_CHANNEL,
       })
       return undefined
     }
@@ -584,7 +584,7 @@ const make = Effect.gen(function* () {
   })
 
   const check = Effect.fn("cli.updater.check")(function* () {
-    if (OPENCODE_LOCAL)
+    if (SELENE_LOCAL)
       return {
         type: "unavailable" as const,
         message: "This build runs from a source checkout. Use an installed OpenCode release to check for updates.",
@@ -601,7 +601,7 @@ const make = Effect.gen(function* () {
     const current = yield* Ref.get(installedVersion)
     if (action(current, version, "auto") === "none") {
       // An earlier check may have installed the update while this client is still running.
-      return action(OPENCODE_VERSION, current, "auto") === "none"
+      return action(SELENE_VERSION, current, "auto") === "none"
         ? undefined
         : { type: "installed" as const, version: current }
     }

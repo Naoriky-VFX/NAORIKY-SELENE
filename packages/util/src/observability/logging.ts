@@ -57,7 +57,7 @@ function format(input: unknown) {
 }
 
 export function file(local = true, channel = "local") {
-  if (!local) return path.join(Global.Path.log, "opencode.log")
+  if (!local) return path.join(Global.Path.log, "selene.log")
   return path.join(Global.Path.log, `opencode-${channel.replace(/[^a-zA-Z0-9._-]/g, "-")}.log`)
 }
 
@@ -157,12 +157,12 @@ function lineStart(handle: FileSystem.File, from: number) {
 }
 
 const stderrLogger = Logger.make((options) => {
-  if (process.env.OPENCODE_PRINT_LOGS !== "1") return
+  if (process.env.SELENE_PRINT_LOGS !== "1") return
   process.stderr.write(formatter().log(options) + "\n")
 })
 
 export function minimumLogLevel() {
-  const value = process.env.OPENCODE_LOG_LEVEL?.toUpperCase()
+  const value = process.env.SELENE_LOG_LEVEL?.toUpperCase()
   const levels = {
     DEBUG: "Debug",
     INFO: "Info",

@@ -36,7 +36,7 @@ export const DialogSelectModelUnpaid: Component<{ model?: ModelState }> = (props
   })
 
   const providerName = (provider: { id: string; name: string }) =>
-    provider.id === "opencode" ? language.t("provider.connect.opencode.name") : provider.name
+    provider.id === "opencode" ? language.t("provider.connect.selene.name") : provider.name
 
   const freeModels = createMemo(() => model.list().filter(isFreeModel))
 
@@ -168,8 +168,8 @@ export const DialogSelectModelUnpaid: Component<{ model?: ModelState }> = (props
                           <span class="truncate font-[440] text-v2-text-text-muted">
                             {language.t(
                               provider.id === "opencode"
-                                ? "dialog.provider.opencode.tagline"
-                                : "dialog.provider.opencodeGo.tagline",
+                                ? "dialog.provider.selene.tagline"
+                                : "dialog.provider.seleneGo.tagline",
                             )}
                           </span>
                         </Show>

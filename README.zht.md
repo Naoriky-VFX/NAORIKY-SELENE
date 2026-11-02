@@ -80,7 +80,7 @@ brew install --cask opencode-desktop
 
 #### 安裝目錄
 
-安裝腳本將 OpenCode 安裝到 `$HOME/.opencode/bin`。
+安裝腳本將 OpenCode 安裝到 `$HOME/.selene/bin`。
 
 ### Agents
 

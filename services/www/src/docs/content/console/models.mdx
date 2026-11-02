@@ -127,7 +127,7 @@ translates. See [Base URLs](/console/harnesses#base-urls) for the full set.
 These AI SDK packages are for applications calling the endpoints directly. To select a [model](/models) in OpenCode,
 use the format `opencode/<model-id>`:
 
-```jsonc title="opencode.jsonc"
+```jsonc title="selene.jsonc"
 {
   "$schema": "https://opencode.ai/config.json",
   "model": "opencode/gpt-6.1-sol",
@@ -150,7 +150,7 @@ Use your OpenCode Console API key with the `https://opencode.ai/inference/system
 
 ```bash
 curl https://opencode.ai/inference/systemone/v1/systemone \
-  -H "Authorization: Bearer $OPENCODE_API_KEY" \
+  -H "Authorization: Bearer $SELENE_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "model": "jev-1.13",
@@ -168,7 +168,7 @@ You can ask multiple questions in one request. Jev evaluates them in parallel an
 
 ```bash
 curl https://opencode.ai/inference/systemone/v1/systemone \
-  -H "Authorization: Bearer $OPENCODE_API_KEY" \
+  -H "Authorization: Bearer $SELENE_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "model": "jev-1.13",
@@ -325,7 +325,7 @@ models to generate session titles.
 - Flint 40B Free is free on OpenCode for a limited time. The team is using this time to collect feedback and improve the model.
 - Jev 1.13 Free is available on OpenCode for a limited time.
 
-To hide free models in OpenCode, set `OPENCODE_DISABLE_FREE_MODELS=1`. See [free models](/models#free-models).
+To hide free models in OpenCode, set `SELENE_DISABLE_FREE_MODELS=1`. See [free models](/models#free-models).
 
 [Contact us](mailto:help@anoma.ly) if you have any questions.
 

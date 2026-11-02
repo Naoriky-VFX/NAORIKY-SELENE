@@ -51,10 +51,10 @@ stdenv.mkDerivation (finalAttrs: {
   ];
 
   desktopItems = lib.optional stdenv.hostPlatform.isLinux (makeDesktopItem {
-    name = "ai.opencode.desktop";
+    name = "ai.selene.desktop";
     desktopName = "OpenCode";
     exec = "opencode-desktop %U";
-    icon = "ai.opencode.desktop";
+    icon = "ai.selene.desktop";
     # Electron derives X11 WM_CLASS from app.name.
     startupWMClass = "OpenCode";
     categories = [ "Development" ];
@@ -95,17 +95,17 @@ stdenv.mkDerivation (finalAttrs: {
 
     cd packages/desktop
 
-    export OPENCODE_CLI_DIST="$TMPDIR/desktop-cli"
+    export SELENE_CLI_DIST="$TMPDIR/desktop-cli"
     cli_package=$(bun -e 'import { getCurrentCli } from "./script/utils.ts"; console.log(getCurrentCli().package.replace("@opencode/", ""))')
     # copyBuiltCliToResources joins this dist with the npm package name getCurrentCli()
     # reports, not the Nix build's name. It reads only .version from the manifest and
     # writes it as opencode-cli.version beside the binary.
-    mkdir -p "$OPENCODE_CLI_DIST/$cli_package/bin"
-    cp ${lib.getExe opencode} "$OPENCODE_CLI_DIST/$cli_package/bin/opencode"
-    # OPENCODE_VERSION is what the bundled CLI prints for --version, so the manifest
+    mkdir -p "$SELENE_CLI_DIST/$cli_package/bin"
+    cp ${lib.getExe opencode} "$SELENE_CLI_DIST/$cli_package/bin/opencode"
+    # SELENE_VERSION is what the bundled CLI prints for --version, so the manifest
     # and the executable cannot drift.
-    bun -e 'await Bun.write(process.argv[1], JSON.stringify({ version: process.env.OPENCODE_VERSION }) + "\n")' \
-      "$OPENCODE_CLI_DIST/$cli_package/package.json"
+    bun -e 'await Bun.write(process.argv[1], JSON.stringify({ version: process.env.SELENE_VERSION }) + "\n")' \
+      "$SELENE_CLI_DIST/$cli_package/package.json"
 
     bun run build
     npx electron-builder --dir \
@@ -128,17 +128,17 @@ stdenv.mkDerivation (finalAttrs: {
     mkdir -p $out/opt/opencode-desktop
     cp -r dist/linux*-unpacked/{resources,LICENSE*} $out/opt/opencode-desktop
     install -Dm644 resources/icons/32x32.png \
-      "$out/share/icons/hicolor/32x32/apps/ai.opencode.desktop.png"
+      "$out/share/icons/hicolor/32x32/apps/ai.selene.desktop.png"
     install -Dm644 resources/icons/64x64.png \
-      "$out/share/icons/hicolor/64x64/apps/ai.opencode.desktop.png"
+      "$out/share/icons/hicolor/64x64/apps/ai.selene.desktop.png"
     install -Dm644 resources/icons/128x128.png \
-      "$out/share/icons/hicolor/128x128/apps/ai.opencode.desktop.png"
+      "$out/share/icons/hicolor/128x128/apps/ai.selene.desktop.png"
     install -Dm644 resources/icons/128x128@2x.png \
-      "$out/share/icons/hicolor/256x256/apps/ai.opencode.desktop.png"
+      "$out/share/icons/hicolor/256x256/apps/ai.selene.desktop.png"
     install -Dm644 resources/icons/icon.png \
-      "$out/share/icons/hicolor/512x512/apps/ai.opencode.desktop.png"
-    install -Dm644 resources/ai.opencode.desktop.metainfo.xml \
-      "$out/share/metainfo/ai.opencode.desktop.metainfo.xml"
+      "$out/share/icons/hicolor/512x512/apps/ai.selene.desktop.png"
+    install -Dm644 resources/ai.selene.desktop.metainfo.xml \
+      "$out/share/metainfo/ai.selene.desktop.metainfo.xml"
     makeWrapper ${lib.getExe electron} $out/bin/opencode-desktop \
      --inherit-argv0 \
      --set ELECTRON_FORCE_IS_PACKAGED 1 \

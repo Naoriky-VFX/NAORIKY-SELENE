@@ -19,7 +19,7 @@ const signedIn = Credential.OAuth.make({
   access: "console-access",
   refresh: "console-refresh",
   expires: 1,
-  metadata: { server: "https://dev.opencode.ai/console", orgID: "wrk_anomaly", orgName: "Anomaly" },
+  metadata: { server: "https://dev.selene.ai/console", orgID: "wrk_anomaly", orgName: "Anomaly" },
 })
 
 const budget = {
@@ -117,7 +117,7 @@ it.effect("reads the member's Go allowance and budgets from the Console they sig
       workspace: {
         id: "wrk_anomaly",
         name: "Anomaly",
-        usageURL: "https://dev.opencode.ai/console/wrk_anomaly/activity/overview",
+        usageURL: "https://dev.selene.ai/console/wrk_anomaly/activity/overview",
       },
       go: {
         rolling: { percent: 42, limited: false, resetsAt: Date.parse("2026-10-24T17:00:00.000Z") },
@@ -159,12 +159,12 @@ it.effect("reads the member's Go allowance and budgets from the Console they sig
         .toSorted((a, b) => a.url.localeCompare(b.url)),
     ).toEqual([
       {
-        url: "https://dev.opencode.ai/console/api/policies/current-budgets",
+        url: "https://dev.selene.ai/console/api/policies/current-budgets",
         authorization: "Bearer console-access",
         workspace: [["x-org-id", "wrk_anomaly"]],
       },
       {
-        url: "https://dev.opencode.ai/zen/go/v1/usage",
+        url: "https://dev.selene.ai/zen/go/v1/usage",
         authorization: "Bearer console-access",
         workspace: [["x-opencode-org-id", "wrk_anomaly"]],
       },
@@ -181,7 +181,7 @@ it.effect("has no Go allowance or budgets to show where Console refuses them", (
       workspace: {
         id: "wrk_anomaly",
         name: "Anomaly",
-        usageURL: "https://dev.opencode.ai/console/wrk_anomaly/activity/overview",
+        usageURL: "https://dev.selene.ai/console/wrk_anomaly/activity/overview",
       },
       budgets: [],
     })

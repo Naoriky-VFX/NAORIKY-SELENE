@@ -28,8 +28,8 @@ type ProviderSource = "env" | "api" | "account" | "config" | "custom"
 type ProviderItem = ReturnType<ReturnType<typeof useProviders>["connected"]>[number]
 
 const PROVIDER_NOTES = [
-  { match: (id: string) => id === "opencode", key: "dialog.provider.opencode.note" },
-  { match: (id: string) => id === "opencode-go", key: "dialog.provider.opencodeGo.tagline" },
+  { match: (id: string) => id === "opencode", key: "dialog.provider.selene.note" },
+  { match: (id: string) => id === "opencode-go", key: "dialog.provider.seleneGo.tagline" },
   { match: (id: string) => id === "anthropic", key: "dialog.provider.anthropic.note" },
   { match: (id: string) => id === "claude-agent", key: "dialog.provider.claudeAgent.note" },
   { match: (id: string) => id.startsWith("github-copilot"), key: "dialog.provider.copilot.note" },
@@ -478,7 +478,7 @@ export const SettingsProviders: Component<{
                               <div class="settings-provider-console-summary">
                                 <div class="settings-provider-main">
                                   <span class="settings-provider-name truncate">
-                                    {language.t("provider.connect.opencode.name")}
+                                    {language.t("provider.connect.selene.name")}
                                   </span>
                                   <Badge>{group().workspace}</Badge>
                                 </div>
@@ -514,13 +514,13 @@ export const SettingsProviders: Component<{
                                 <Button
                                   size="normal"
                                   variant="ghost-muted"
-                                  onClick={() => void disconnect(item, language.t("provider.connect.opencode.name"))}
+                                  onClick={() => void disconnect(item, language.t("provider.connect.selene.name"))}
                                 >
                                   {language.t("common.disconnect")}
                                 </Button>
                               }
                             >
-                              <AccountMenu provider={item} name={language.t("provider.connect.opencode.name")} />
+                              <AccountMenu provider={item} name={language.t("provider.connect.selene.name")} />
                             </Show>
                           </div>
                           <Show when={state.consoleExpanded}>

@@ -61,9 +61,9 @@ describe("ConfigDiscovery.discover", () => {
           const ancestor = path.join(root, "ws", "org", "repo")
           const nested = path.join(ancestor, "packages", "feature")
           yield* Effect.promise(async () => {
-            await fs.mkdir(path.join(ancestor, ".opencode"), { recursive: true })
+            await fs.mkdir(path.join(ancestor, ".selene"), { recursive: true })
             await fs.mkdir(nested, { recursive: true })
-            await fs.writeFile(path.join(nested, "opencode.json"), "{}")
+            await fs.writeFile(path.join(nested, "selene.json"), "{}")
           })
 
           const resolved: string[] = []
@@ -81,20 +81,20 @@ describe("ConfigDiscovery.discover", () => {
 
           const ws = path.join(root, "ws")
           const fixtureResolved = resolved.filter((item) => inFixture(ws, item))
-          expect(fixtureResolved).not.toContain(path.join(nested, "opencode.jsonc"))
-          expect(fixtureResolved).not.toContain(path.join(nested, ".opencode"))
-          expect(fixtureResolved).not.toContain(path.join(ancestor, "opencode.json"))
-          expect(fixtureResolved).toContain(path.join(nested, "opencode.json"))
-          expect(fixtureResolved).toContain(path.join(ancestor, ".opencode"))
+          expect(fixtureResolved).not.toContain(path.join(nested, "selene.jsonc"))
+          expect(fixtureResolved).not.toContain(path.join(nested, ".selene"))
+          expect(fixtureResolved).not.toContain(path.join(ancestor, "selene.json"))
+          expect(fixtureResolved).toContain(path.join(nested, "selene.json"))
+          expect(fixtureResolved).toContain(path.join(ancestor, ".selene"))
 
-          expect(dirChecks.filter((item) => inFixture(ws, item))).toEqual([path.join(ancestor, ".opencode")])
+          expect(dirChecks.filter((item) => inFixture(ws, item))).toEqual([path.join(ancestor, ".selene")])
 
           const wsDirect = sources.direct.filter((item) => inFixture(ws, item))
-          expect(wsDirect).toContain(AbsolutePath.make(path.join(nested, "opencode.jsonc")))
-          expect(wsDirect).toContain(AbsolutePath.make(path.join(nested, "opencode.json")))
+          expect(wsDirect).toContain(AbsolutePath.make(path.join(nested, "selene.jsonc")))
+          expect(wsDirect).toContain(AbsolutePath.make(path.join(nested, "selene.json")))
           const wsProject = sources.project.filter((entry) => inFixture(ws, entry.path))
-          expect(wsProject).toContainEqual({ path: AbsolutePath.make(path.join(ancestor, ".opencode")), present: true })
-          expect(wsProject).toContainEqual({ path: AbsolutePath.make(path.join(nested, ".opencode")), present: false })
+          expect(wsProject).toContainEqual({ path: AbsolutePath.make(path.join(ancestor, ".selene")), present: true })
+          expect(wsProject).toContainEqual({ path: AbsolutePath.make(path.join(nested, ".selene")), present: false })
         }),
       ),
     ),
@@ -108,7 +108,7 @@ describe("ConfigDiscovery.discover", () => {
           const guarded = path.join(root, "guarded")
           const project = path.join(guarded, "project")
           yield* Effect.promise(async () => {
-            await fs.mkdir(path.join(guarded, ".opencode"), { recursive: true })
+            await fs.mkdir(path.join(guarded, ".selene"), { recursive: true })
             await fs.mkdir(project, { recursive: true })
           })
 
@@ -119,7 +119,7 @@ describe("ConfigDiscovery.discover", () => {
                 : base.readDirectory(target, options),
           }))
           expect(sources.project).toContainEqual({
-            path: AbsolutePath.make(path.join(guarded, ".opencode")),
+            path: AbsolutePath.make(path.join(guarded, ".selene")),
             present: true,
           })
         }),
@@ -133,14 +133,14 @@ describe("ConfigDiscovery.discover", () => {
         Effect.gen(function* () {
           const root = yield* Effect.promise(() => fs.realpath(tmp.path))
           const project = path.join(root, "cased")
-          yield* Effect.promise(() => fs.mkdir(path.join(project, ".opencode"), { recursive: true }))
+          yield* Effect.promise(() => fs.mkdir(path.join(project, ".selene"), { recursive: true }))
 
           const sources = yield* discoverWith(root, project, project, (base) => ({
             readDirectory: (target, options) =>
               target === project ? Effect.succeed([".OPENCODE"]) : base.readDirectory(target, options),
           }))
           expect(sources.project).toContainEqual({
-            path: AbsolutePath.make(path.join(project, ".opencode")),
+            path: AbsolutePath.make(path.join(project, ".selene")),
             present: true,
           })
         }),

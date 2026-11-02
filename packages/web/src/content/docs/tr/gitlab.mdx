@@ -35,7 +35,7 @@ Burada opencode için topluluk tarafından oluşturulan bir CI/CD bileşeni kull
      - component: $CI_SERVER_FQDN/nagyv/gitlab-opencode/opencode@2
        inputs:
          config_dir: ${CI_PROJECT_DIR}/opencode-config
-         auth_json: $OPENCODE_AUTH_JSON # The variable name for your OpenCode authentication JSON
+         auth_json: $SELENE_AUTH_JSON # The variable name for your OpenCode authentication JSON
          command: optional-custom-command
          message: "Your prompt here"
    ```
@@ -92,9 +92,9 @@ Güncel talimatlar için [**GitLab docs**](https://docs.gitlab.com/user/duo_agen
       - echo "Configuring glab"
       - echo $GITLAB_HOST
       - echo "Creating OpenCode auth configuration"
-      - mkdir --parents ~/.local/share/opencode
+      - mkdir --parents ~/.local/share/selene
       - |
-        cat > ~/.local/share/opencode/auth.json << EOF
+        cat > ~/.local/share/selene/auth.json << EOF
         {
           "anthropic": {
             "type": "api",

@@ -1,11 +1,33 @@
-packages/core/migration/**/snapshot.json linguist-generated
-packages/core/src/database/migration.gen.ts linguist-generated
-packages/core/src/models-dev/snapshot.txt linguist-generated
-packages/core/src/database/schema.gen.ts linguist-generated
-packages/desktop/src/main/storage/migration.gen.ts linguist-generated
-packages/protocol/openapi.json linguist-generated
-packages/client/src/promise/generated/** linguist-generated
-packages/client/src/effect/generated/** linguist-generated
-packages/client/src/effect/api/** linguist-generated
-packages/core/src/**/*.txt text eol=lf
-packages/httpapi-codegen/test/generated/*.ts text eol=lf
+# Normaliza fim de linha no repositório (evita "LF will be replaced by CRLF" em tudo).
+* text=auto eol=lf
+
+# Scripts do Windows precisam de CRLF.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Binários: nunca converter.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.webp binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.otf binary
+*.exe binary
+*.dll binary
+*.node binary
+*.zip binary
+*.gz binary
+*.tar binary
+*.vsix binary
+*.mp4 binary
+*.mp3 binary
+*.pdf binary
+*.db binary
+*.sqlite binary
+
+# Lockfiles: gerados, manter como estão.
+bun.lock text eol=lf

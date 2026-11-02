@@ -71,7 +71,7 @@ Environment options:
 
 ## Deployment
 
-The `deploy` GitHub Actions workflow uses SST to deploy the web app to `beta.opencode.ai` on every push to the
+The `deploy` GitHub Actions workflow uses SST to deploy the web app to `beta.selene.ai` on every push to the
 `beta` branch in `anomalyco/opencode`. The `dev` and `production` stages do not deploy the web app.
 
 `beta` is the team's dogfooding branch: `dev` merged in by hand, plus commits pushed directly to it. Do not rebase or
@@ -82,14 +82,14 @@ The beta SST stage deploys only the web app, using the `WebApp` StaticSiteV2 def
 the build channel and Sentry environment to `beta` without deploying the API, console, database, or billing
 infrastructure.
 
-`VITE_OPENCODE_SERVER_MODE` controls which server the web build provides at startup:
+`VITE_SELENE_SERVER_MODE` controls which server the web build provides at startup:
 
 | Mode               | Initial server                                                                       |
 | ------------------ | ------------------------------------------------------------------------------------ |
 | `none`             | No initial server. The beta deployment uses this mode.                               |
 | `origin` (default) | The current page's origin. CLI builds explicitly use this mode for `opencode serve`. |
 
-In Vite development mode, `origin` uses `VITE_OPENCODE_SERVER_HOST` / `VITE_OPENCODE_SERVER_PORT`
+In Vite development mode, `origin` uses `VITE_SELENE_SERVER_HOST` / `VITE_SELENE_SERVER_PORT`
 (default: `http://localhost:4096`) instead of the frontend origin. Both modes restore user-added servers
 from storage. Desktop provides the local server it discovers or starts through native initialization.
 
@@ -123,4 +123,4 @@ owns `opencode.ai`. The beta GitHub environment must allow deployments from the 
 need AWS credentials.
 
 SST manages the beta site's custom domain. The first deployment creates its DNS record and TLS certificate.
-Do not create a CNAME for `beta.opencode.ai` first, because it would conflict with the Workers custom domain.
+Do not create a CNAME for `beta.selene.ai` first, because it would conflict with the Workers custom domain.

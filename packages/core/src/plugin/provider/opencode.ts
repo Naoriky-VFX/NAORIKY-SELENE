@@ -165,9 +165,9 @@ function oauth(http: HttpClient.HttpClient) {
 export const OpencodePlugin = define<
   HttpClient.HttpClient | Bus.Service | Config.Service | InstructionDiscovery.Service | Skill.Service | Scope.Scope
 >({
-  id: "opencode.provider.opencode",
+  id: "opencode.provider.selene",
   effect: Effect.fn(function* (ctx) {
-    const disableFree = ["1", "true"].includes(process.env.OPENCODE_DISABLE_FREE_MODELS?.toLowerCase() ?? "")
+    const disableFree = ["1", "true"].includes(process.env.SELENE_DISABLE_FREE_MODELS?.toLowerCase() ?? "")
     const bus = yield* Bus.Service
     const client = yield* HttpClient.HttpClient
     // Every request here goes to the Console, which reads the User-Agent to tell which OpenCode a member runs
@@ -375,9 +375,9 @@ export const OpencodePlugin = define<
       if (integrated) ConfigProviderPlugin.integrate(providers, integrated)
     })
     yield* ctx.provider.transform((providers) => {
-      const item = providers.get(Provider.ID.opencode)
+      const item = providers.get(Provider.ID.selene)
       if (!item) return
-      const hasKey = Boolean(process.env.OPENCODE_API_KEY || snapshot.connection || item.provider.settings?.apiKey)
+      const hasKey = Boolean(process.env.SELENE_API_KEY || snapshot.connection || item.provider.settings?.apiKey)
       providers.update(item.provider.id, (provider) => {
         if (!hasKey && !disableFree) {
           provider.activation = "enabled"
@@ -386,10 +386,10 @@ export const OpencodePlugin = define<
       })
     })
     yield* ctx.model.transform((models) => {
-      const item = models.provider.get(Provider.ID.opencode)
+      const item = models.provider.get(Provider.ID.selene)
       if (!item) return
       const hasKey = Boolean(
-        process.env.OPENCODE_API_KEY ||
+        process.env.SELENE_API_KEY ||
           snapshot.connection ||
           (item.provider.settings?.apiKey && item.provider.settings.apiKey !== "public"),
       )
@@ -461,7 +461,7 @@ export const OpencodePlugin = define<
     const guard = Effect.fn("OpencodePlugin.guard")(function* (next: typeof snapshot) {
       yield* Effect.forEach(explainers, (registration) => registration.dispose, { discard: true })
       explainers = yield* Effect.forEach(
-        next.connection ? new Set([Provider.ID.opencode, ...Object.keys(next.remote?.providers ?? {})]) : [],
+        next.connection ? new Set([Provider.ID.selene, ...Object.keys(next.remote?.providers ?? {})]) : [],
         (providerID) => ctx.session.hook("http.response", explain, { providerID }).pipe(Scope.provide(scope)),
       )
     })

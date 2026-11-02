@@ -29,7 +29,7 @@ Remote servers use OAuth by default. If the list shows `needs authentication`, o
 
 To configure a server by hand, give it a unique name under `mcp.servers`. V2 does not place server names directly under `mcp`.
 
-```jsonc title="opencode.jsonc"
+```jsonc title="selene.jsonc"
 {
   "$schema": "https://opencode.ai/config.json",
   "mcp": {
@@ -61,7 +61,7 @@ Servers connect automatically. Use `disabled`, not an `enabled` field, to keep o
 
 A higher-precedence project config replaces the entire server object with the same name. Use different names for separate connections or accounts; otherwise repeat every required field in the override:
 
-```jsonc title="opencode.jsonc"
+```jsonc title="selene.jsonc"
 {
   "mcp": {
     "servers": {
@@ -90,7 +90,7 @@ opencode mcp add everything --env LOG_LEVEL=info -- npx -y @modelcontextprotocol
 
 Use configuration for other process options such as a working directory:
 
-```jsonc title="opencode.jsonc"
+```jsonc title="selene.jsonc"
 {
   "$schema": "https://opencode.ai/config.json",
   "mcp": {
@@ -146,7 +146,7 @@ opencode mcp add context7 --url https://mcp.context7.com/mcp --header 'CONTEXT7_
 
 Use configuration for other options. Store secrets in environment variables rather than in the file:
 
-```jsonc title="opencode.jsonc"
+```jsonc title="selene.jsonc"
 {
   "$schema": "https://opencode.ai/config.json",
   "mcp": {
@@ -192,7 +192,7 @@ OAuth is enabled for remote servers unless `oauth` is `false`. OpenCode discover
 
 Most servers need only the URL:
 
-```jsonc title="opencode.jsonc"
+```jsonc title="selene.jsonc"
 {
   "$schema": "https://opencode.ai/config.json",
   "mcp": {
@@ -252,7 +252,7 @@ If the authorization server supports neither CIMD nor DCR, configure a pre-regis
 
 When a provider gives you client credentials, use V2's snake_case OAuth fields:
 
-```jsonc title="opencode.jsonc"
+```jsonc title="selene.jsonc"
 {
   "$schema": "https://opencode.ai/config.json",
   "mcp": {
@@ -292,7 +292,7 @@ opencode mcp logout sentry
 
 Timeouts are positive integer milliseconds. Set defaults under `mcp.timeout`; a server's `timeout` object overrides matching defaults.
 
-```jsonc title="opencode.jsonc"
+```jsonc title="selene.jsonc"
 {
   "$schema": "https://opencode.ai/config.json",
   "mcp": {
@@ -324,7 +324,7 @@ Timeouts are positive integer milliseconds. Set defaults under `mcp.timeout`; a 
 
 OpenCode opens every server with the classic MCP `initialize` handshake by default. Set a server's `protocol` to talk to one built on the 2026-07-28 revision:
 
-```jsonc title="opencode.jsonc"
+```jsonc title="selene.jsonc"
 {
   "$schema": "https://opencode.ai/config.json",
   "mcp": {
@@ -458,7 +458,7 @@ Dismissing the form cancels the request.
 
 ## Context
 
-For calls made on behalf of a session, OpenCode sends the session ID in `CallToolRequest.params._meta["ai.opencode/sessionID"]`. This applies to direct tools and Code Mode over stdio and Streamable HTTP:
+For calls made on behalf of a session, OpenCode sends the session ID in `CallToolRequest.params._meta["ai.selene/sessionID"]`. This applies to direct tools and Code Mode over stdio and Streamable HTTP:
 
 ```json
 {
@@ -466,7 +466,7 @@ For calls made on behalf of a session, OpenCode sends the session ID in `CallToo
   "params": {
     "name": "lookup",
     "arguments": { "query": "example" },
-    "_meta": { "ai.opencode/sessionID": "ses_..." }
+    "_meta": { "ai.selene/sessionID": "ses_..." }
   }
 }
 ```

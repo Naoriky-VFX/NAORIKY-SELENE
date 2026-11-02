@@ -28,7 +28,7 @@ export async function buildLocalWslCli(input: { version: string; script: string;
       [packageManager, input.script, "--skip-install", "--skip-web-ui", `--outdir=${directory}`],
       {
         cwd: root,
-        env: { ...process.env, OPENCODE_VERSION: input.version, OPENCODE_TARGET: target },
+        env: { ...process.env, SELENE_VERSION: input.version, SELENE_TARGET: target },
         windowsHide: true,
       },
     )

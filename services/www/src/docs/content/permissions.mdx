@@ -7,7 +7,7 @@ Permissions control whether an agent may perform an action on a resource.
 ## Configure
 
 A common setup is to ask before running shell commands, allow routine Git
-inspection, and always block pushes. Add these ordered rules to `opencode.jsonc`:
+inspection, and always block pushes. Add these ordered rules to `selene.jsonc`:
 
 ```jsonc
 {
@@ -227,7 +227,7 @@ Shipped agents append these policies:
 | Agent        | Additional policy                                                              |
 | ------------ | ------------------------------------------------------------------------------ |
 | `build`      | Allows questions                                                               |
-| `plan`       | Allows questions; denies edits except files under `~/.opencode/plan`           |
+| `plan`       | Allows questions; denies edits except files under `~/.selene/plan`           |
 | `general`    | Denies questions and launching subagents                                       |
 | `explore`    | Denies everything except shell, reads, globs, grep, web fetches, web searches, and external directories; asks for `.env` reads |
 | `title`      | Denies all actions                                                              |

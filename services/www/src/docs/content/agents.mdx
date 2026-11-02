@@ -4,7 +4,7 @@ title: "Agents"
 
 Create a Markdown file to add a reusable agent. This example adds a read-only reviewer that the main agent can launch for code reviews:
 
-```md title=".opencode/agents/reviewer.md"
+```md title=".selene/agents/reviewer.md"
 ---
 description: Reviews changes for correctness and regressions
 mode: subagent
@@ -34,14 +34,14 @@ An agent combines a system prompt, model preference, permissions, and display de
 Save Markdown agents globally for all projects or inside a project:
 
 ```text
-~/.config/opencode/agents/<name>.md
-.opencode/agents/<name>.md
+~/.config/selene/agents/<name>.md
+.selene/agents/<name>.md
 ```
 
-OpenCode discovers project `.opencode` directories from the current directory up to the project root. A nested path becomes part of the agent ID:
+OpenCode discovers project `.selene` directories from the current directory up to the project root. A nested path becomes part of the agent ID:
 
 ```text
-.opencode/agents/team/reviewer.md  →  team/reviewer
+.selene/agents/team/reviewer.md  →  team/reviewer
 ```
 
 ## Formats
@@ -50,7 +50,7 @@ OpenCode discovers project `.opencode` directories from the current directory up
 
 Frontmatter accepts the same fields as an `agents` configuration entry. The Markdown body becomes the agent's `system` prompt:
 
-```md title=".opencode/agents/explainer.md"
+```md title=".selene/agents/explainer.md"
 ---
 description: Explains code without changing it
 mode: subagent
@@ -65,7 +65,7 @@ V1 frontmatter fields are deprecated. See [Agent files](/migrate-v1#agent-files)
 
 Define agents under `agents` in any [OpenCode configuration file](/config):
 
-```jsonc title="opencode.jsonc"
+```jsonc title="selene.jsonc"
 {
   "$schema": "https://opencode.ai/config.json",
   "agents": {
@@ -85,7 +85,7 @@ Define agents under `agents` in any [OpenCode configuration file](/config):
 
 Set the primary agent used when a session has not selected one:
 
-```jsonc title="opencode.jsonc"
+```jsonc title="selene.jsonc"
 {
   "$schema": "https://opencode.ai/config.json",
   "default_agent": "writer",

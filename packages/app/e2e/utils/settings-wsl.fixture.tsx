@@ -141,8 +141,8 @@ export function mount(input: {
         publish("wsl")
         setStore("state", (state) => ({
           opencodeChecks: {
-            ...state.opencodeChecks,
-            [name]: { ...state.opencodeChecks[name]!, version: "current", matchesDesktop: true },
+            ...state.seleneChecks,
+            [name]: { ...state.seleneChecks[name]!, version: "current", matchesDesktop: true },
           },
         }))
         endpoint.url = input.restart ?? endpoint.url

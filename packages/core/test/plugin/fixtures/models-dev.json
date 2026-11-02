@@ -72,7 +72,7 @@
         },
         "api": {
           "responses": {
-            "base_url": "https://console.opencode.ai/inference/openai/v1",
+            "base_url": "https://console.selene.ai/inference/openai/v1",
             "sdk": {
               "aisdk": "@ai-sdk/openai"
             }

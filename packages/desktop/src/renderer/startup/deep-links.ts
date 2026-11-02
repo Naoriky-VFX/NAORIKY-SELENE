@@ -9,7 +9,7 @@ export function startDeepLinks(api: ElectronAPI) {
 
 function emitDeepLinks(urls: string[]) {
   if (urls.length === 0) return
-  window.__OPENCODE__ ??= {}
-  window.__OPENCODE__.deepLinks = [...(window.__OPENCODE__.deepLinks ?? []), ...urls]
+  window.__SELENE__ ??= {}
+  window.__SELENE__.deepLinks = [...(window.__SELENE__.deepLinks ?? []), ...urls]
   window.dispatchEvent(new CustomEvent(deepLinkEvent, { detail: { urls } }))
 }

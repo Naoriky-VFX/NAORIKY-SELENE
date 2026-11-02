@@ -107,7 +107,7 @@ Run from `packages/app`:
 - [ ] Run in built mode, as CI does: `bun run test:e2e:built -- e2e/regression/<file>.spec.ts`. Dev mode serves unbundled modules, with the API on another origin (`playwright.config.ts:19-21`).
 - [ ] Use a free port when another worktree or agent may hold 3000: `PLAYWRIGHT_PORT=4310 bun run test:e2e:built -- ...`. Built runs never reuse a server, and `serve.ts` fails on a busy port. Stay below 49152 on Windows: it reserves ports from there up and hands them out for outgoing connections (`services/www/src/docs/content/cli/web.mdx:43`, `packages/client/test/fixture/service-fixture.ts:108-109`).
 - [ ] To repeat without rebuilding:
-  - build once with `VITE_OPENCODE_TEST_FIXTURES=1 bun run build`;
+  - build once with `VITE_SELENE_TEST_FIXTURES=1 bun run build`;
   - keep `bun e2e/utils/serve.ts --host 127.0.0.1 --port 4310` running;
   - run `PLAYWRIGHT_BUILD=1 PLAYWRIGHT_BASE_URL=http://127.0.0.1:4310 bun run test:e2e -- ...`.
 - [ ] Repeat new or changed tests at CI concurrency without retries: `--repeat-each=10 --workers=5 --retries=0 -g "<title>"`. Run the file once with `PLAYWRIGHT_FULLY_PARALLEL=1` to prove that order does not matter.

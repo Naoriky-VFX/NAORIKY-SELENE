@@ -3,7 +3,7 @@
 O arquivo que manda em mim é:
 
 ```
-.opencode/agents/selene.md
+.selene/agents/selene.md
 ```
 
 Abra, edite, salve. **Não precisa compilar nem reinstalar.** Na próxima mensagem
@@ -107,7 +107,7 @@ Além do texto e das permissões, existe um **filtro em código** que age **ante
 de o pedido chegar no modelo:
 
 ```
-.opencode/plugins/selene-guard/
+.selene/plugins/selene-guard/
 ├── index.ts         ← liga o gancho (não precisa mexer)
 ├── padroes.ts       ← AQUI você edita o que é bloqueado
 └── padroes.test.ts  ← 19 testes provando que bloqueia o certo e libera o resto
@@ -120,7 +120,7 @@ recusa e o modelo **nunca vê** o pedido original.
 |---|---|
 liberar um assunto | apague a linha em `padroes.ts` |
 bloquear mais | acrescente uma linha `/[seu padrão]/i,` |
-conferir | `cd .opencode/plugins/selene-guard` e `bun test` |
+conferir | `cd .selene/plugins/selene-guard` e `bun test` |
 
 Já bloqueia: jailbreak de console, PKG store, jogo/curso pirata, e **contornar
 DRM** (Widevine/FairPlay/PlayReady/SAMPLE-AES).

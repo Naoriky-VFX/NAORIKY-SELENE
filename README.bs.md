@@ -80,7 +80,7 @@ brew install --cask opencode-desktop
 
 #### Instalacijski direktorij
 
-Instalacijska skripta instalira OpenCode u `$HOME/.opencode/bin`.
+Instalacijska skripta instalira OpenCode u `$HOME/.selene/bin`.
 
 ### Agenti
 

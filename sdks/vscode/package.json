@@ -1,17 +1,17 @@
 {
-  "name": "opencode",
-  "displayName": "opencode",
-  "description": "opencode for VS Code",
-  "version": "2.2.5",
-  "publisher": "sst-dev",
+  "name": "selene",
+  "displayName": "SELENE",
+  "description": "SELENE para VS Code — abre o SELENE no terminal, na aba ao lado.",
+  "version": "0.1.0",
+  "publisher": "naoriky",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sst/opencode"
+    "url": "https://github.com/Naoriky-VFX/NAORIKY-SELENE"
   },
   "license": "MIT",
   "icon": "images/icon.png",
   "galleryBanner": {
-    "color": "#000000",
+    "color": "#07070d",
     "theme": "dark"
   },
   "engines": {
@@ -20,63 +20,88 @@
   "categories": [
     "Other"
   ],
+  "keywords": [
+    "ai",
+    "agent",
+    "agente",
+    "terminal",
+    "selene",
+    "assistente",
+    "codigo"
+  ],
+  "bugs": {
+    "url": "https://github.com/Naoriky-VFX/NAORIKY-SELENE/issues"
+  },
+  "homepage": "https://github.com/Naoriky-VFX/NAORIKY-SELENE#readme",
   "activationEvents": [],
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "opencode.openTerminal",
-        "title": "Open opencode",
+        "command": "selene.openTerminal",
+        "title": "Abrir a SELENE",
+        "category": "SELENE",
         "icon": {
-          "light": "images/button-dark.svg",
-          "dark": "images/button-light.svg"
+          "light": "images/selene-orb-256.png",
+          "dark": "images/selene-orb-glow.png"
         }
       },
       {
-        "command": "opencode.openNewTerminal",
-        "title": "Open opencode in new tab",
+        "command": "selene.openNewTerminal",
+        "title": "Abrir a SELENE em nova aba",
+        "category": "SELENE",
         "icon": {
-          "light": "images/button-dark.svg",
-          "dark": "images/button-light.svg"
+          "light": "images/selene-orb-256.png",
+          "dark": "images/selene-orb-glow.png"
         }
       },
       {
-        "command": "opencode.addFilepathToTerminal",
-        "title": "Add Filepath to Terminal"
+        "command": "selene.install",
+        "title": "Instalar ou atualizar o agente",
+        "category": "SELENE",
+        "icon": {
+          "light": "images/selene-orb-256.png",
+          "dark": "images/selene-orb-glow.png"
+        }
+      },
+      {
+        "command": "selene.addFilepathToTerminal",
+        "title": "Inserir caminho do arquivo na SELENE",
+        "category": "SELENE"
       }
     ],
     "menus": {
       "editor/title": [
         {
-          "command": "opencode.openNewTerminal",
+          "command": "selene.openNewTerminal",
           "group": "navigation"
         }
       ]
     },
     "keybindings": [
       {
-        "command": "opencode.openTerminal",
-        "title": "Run opencode",
-        "key": "cmd+escape",
-        "mac": "cmd+escape",
-        "win": "ctrl+escape",
-        "linux": "ctrl+escape"
+        "command": "selene.openTerminal",
+        "title": "Abrir a SELENE",
+        "key": "cmd+alt+escape",
+        "mac": "cmd+alt+escape",
+        "win": "ctrl+alt+escape",
+        "linux": "ctrl+alt+escape"
       },
       {
-        "command": "opencode.openNewTerminal",
-        "title": "Run opencode",
-        "key": "cmd+shift+escape",
-        "mac": "cmd+shift+escape",
-        "win": "ctrl+shift+escape",
-        "linux": "ctrl+shift+escape"
+        "command": "selene.openNewTerminal",
+        "title": "Abrir a SELENE em nova aba",
+        "key": "cmd+alt+shift+escape",
+        "mac": "cmd+alt+shift+escape",
+        "win": "ctrl+alt+shift+escape",
+        "linux": "ctrl+alt+shift+escape"
       },
       {
-        "command": "opencode.addFilepathToTerminal",
-        "title": "opencode: Insert At-Mentioned",
-        "key": "cmd+alt+k",
-        "mac": "cmd+alt+k",
-        "win": "ctrl+alt+K",
-        "linux": "ctrl+alt+K"
+        "command": "selene.addFilepathToTerminal",
+        "title": "SELENE: inserir arquivo mencionado",
+        "key": "cmd+alt+s",
+        "mac": "cmd+alt+s",
+        "win": "ctrl+alt+s",
+        "linux": "ctrl+alt+s"
       }
     ]
   },

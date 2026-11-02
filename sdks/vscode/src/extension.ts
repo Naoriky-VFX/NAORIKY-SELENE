@@ -1,98 +1,227 @@
-// This method is called when your extension is deactivated
+// SELENE para VS Code
+//
+// Abre o agente SELENE num terminal ao lado e, se o binário `sel` ainda não
+// existir na máquina, oferece baixá-lo e instalar em %LOCALAPPDATA%\SELENE.
+import * as vscode from "vscode"
+import * as https from "https"
+import * as fs from "fs"
+import * as path from "path"
+import * as os from "os"
+
+const TERMINAL_NAME = "SELENE"
+const RELEASES = "https://github.com/Naoriky-VFX/NAORIKY-SELENE/releases/latest/download"
+
+const IS_WIN = process.platform === "win32"
+const BIN = IS_WIN ? "sel.exe" : "sel"
+const INSTALL_DIR = IS_WIN
+  ? path.join(process.env.LOCALAPPDATA ?? path.join(os.homedir(), "AppData", "Local"), "SELENE")
+  : path.join(os.homedir(), ".local", "bin")
+const INSTALL_PATH = path.join(INSTALL_DIR, BIN)
+const DOWNLOAD_URL = `${RELEASES}/${IS_WIN ? "sel.exe" : "sel"}`
+const DOWNLOAD_PAGE = "https://github.com/Naoriky-VFX/NAORIKY-SELENE/releases/latest"
+
 export function deactivate() {}
 
-import * as vscode from "vscode"
-
-const TERMINAL_NAME = "opencode"
-
 export function activate(context: vscode.ExtensionContext) {
-  const openNewTerminalDisposable = vscode.commands.registerCommand("opencode.openNewTerminal", async () => {
-    await openTerminal()
-  })
-
-  const openTerminalDisposable = vscode.commands.registerCommand("opencode.openTerminal", async () => {
-    // An opencode terminal already exists => focus it
-    const existingTerminal = vscode.window.terminals.find((t) => t.name === TERMINAL_NAME)
-    if (existingTerminal) {
-      existingTerminal.show()
-      return
-    }
-
-    await openTerminal()
-  })
-
-  let addFilepathDisposable = vscode.commands.registerCommand("opencode.addFilepathToTerminal", async () => {
-    const fileRef = getActiveFile()
-    if (!fileRef) {
-      return
-    }
-
-    const terminal = vscode.window.activeTerminal
-    if (!terminal) {
-      return
-    }
-
-    if (terminal.name === TERMINAL_NAME) {
+  context.subscriptions.push(
+    vscode.commands.registerCommand("selene.openNewTerminal", () => openTerminal(context, true)),
+    vscode.commands.registerCommand("selene.openTerminal", async () => {
+      const existing = vscode.window.terminals.find((t) => t.name === TERMINAL_NAME)
+      if (existing) {
+        existing.show()
+        return
+      }
+      await openTerminal(context, true)
+    }),
+    vscode.commands.registerCommand("selene.addFilepathToTerminal", () => {
+      const fileRef = getActiveFile()
+      if (!fileRef) return
+      const terminal = vscode.window.activeTerminal
+      if (!terminal || terminal.name !== TERMINAL_NAME) return
       terminal.sendText(fileRef, false)
       terminal.show()
-    }
+    }),
+    vscode.commands.registerCommand("selene.install", () => ensureBinary(context, true)),
+  )
+}
+
+// ───────────────────────────── terminal ─────────────────────────────
+async function openTerminal(context: vscode.ExtensionContext, forceNew: boolean) {
+  const bin = await ensureBinary(context, false)
+  if (!bin) return
+
+  const terminal = vscode.window.createTerminal({
+    name: TERMINAL_NAME,
+    iconPath: {
+      light: vscode.Uri.file(context.asAbsolutePath("images/selene-orb-256.png")),
+      dark: vscode.Uri.file(context.asAbsolutePath("images/selene-orb-glow.png")),
+    },
+    location: forceNew
+      ? { viewColumn: vscode.ViewColumn.Beside, preserveFocus: false }
+      : { viewColumn: vscode.ViewColumn.Beside, preserveFocus: false },
+    env: { SELENE_CALLER: "vscode" },
   })
 
-  context.subscriptions.push(openNewTerminalDisposable, openTerminalDisposable, addFilepathDisposable)
+  terminal.show()
+  terminal.sendText(bin === "sel" ? "sel" : `& "${bin}"`)
+}
 
-  async function openTerminal() {
-    // Create a new terminal in split screen
-    const terminal = vscode.window.createTerminal({
-      name: TERMINAL_NAME,
-      iconPath: {
-        light: vscode.Uri.file(context.asAbsolutePath("images/button-dark.svg")),
-        dark: vscode.Uri.file(context.asAbsolutePath("images/button-light.svg")),
-      },
-      location: {
-        viewColumn: vscode.ViewColumn.Beside,
-        preserveFocus: false,
-      },
-      env: {
-        OPENCODE_CALLER: "vscode",
-      },
-    })
+// ───────────────────────────── binário ─────────────────────────────
+// Devolve o comando a usar ("sel" quando está no PATH) ou undefined se o
+// utilizador recusou a instalação.
+async function ensureBinary(context: vscode.ExtensionContext, manual: boolean): Promise<string | undefined> {
+  if (which("sel")) return "sel"
 
-    terminal.show()
-    terminal.sendText("opencode")
+  if (fs.existsSync(INSTALL_PATH)) {
+    rememberInPath(INSTALL_DIR)
+    return INSTALL_PATH
   }
 
-  function getActiveFile() {
-    const activeEditor = vscode.window.activeTextEditor
-    if (!activeEditor) {
-      return
+  if (!manual) {
+    const escolha = await vscode.window.showWarningMessage(
+      "A SELENE ainda não está instalada nesta máquina. Baixar agora?",
+      "Baixar (~260 MB)",
+      "Agora não",
+      "Ver instruções",
+    )
+    if (escolha === "Ver instruções") {
+      void vscode.env.openExternal(vscode.Uri.parse(DOWNLOAD_PAGE))
+      return undefined
     }
+    if (escolha !== "Baixar (~260 MB)") return undefined
+  }
 
-    const document = activeEditor.document
-    const workspaceFolder = vscode.workspace.getWorkspaceFolder(document.uri)
-    if (!workspaceFolder) {
-      return
-    }
+  return vscode.window.withProgress(
+    { location: vscode.ProgressLocation.Notification, title: "Instalando a SELENE", cancellable: true },
+    async (progress, token) => {
+      try {
+        fs.mkdirSync(INSTALL_DIR, { recursive: true })
+        const temp = `${INSTALL_PATH}.download`
+        await download(DOWNLOAD_URL, temp, progress, token)
+        if (token.isCancellationRequested) {
+          safeUnlink(temp)
+          return undefined
+        }
+        fs.renameSync(temp, INSTALL_PATH)
+        if (!IS_WIN) fs.chmodSync(INSTALL_PATH, 0o755)
+        rememberInPath(INSTALL_DIR)
+        progress.report({ message: "pronto" })
+        void vscode.window.showInformationMessage("SELENE instalada.")
+        return INSTALL_PATH
+      } catch (error) {
+        safeUnlink(`${INSTALL_PATH}.download`)
+        const msg = error instanceof Error ? error.message : String(error)
+        const acao = await vscode.window.showErrorMessage(
+          `Não consegui instalar a SELENE: ${msg}`,
+          "Abrir a página de download",
+        )
+        if (acao) void vscode.env.openExternal(vscode.Uri.parse(DOWNLOAD_PAGE))
+        return undefined
+      }
+    },
+  )
+}
 
-    // Get the relative path from workspace root
-    const relativePath = vscode.workspace.asRelativePath(document.uri)
-    let filepathWithAt = `@${relativePath}`
-
-    // Check if there's a selection and add line numbers
-    const selection = activeEditor.selection
-    if (!selection.isEmpty) {
-      // Convert to 1-based line numbers
-      const startLine = selection.start.line + 1
-      const endLine = selection.end.line + 1
-
-      if (startLine === endLine) {
-        // Single line selection
-        filepathWithAt += `#${startLine}`
-      } else {
-        // Multi-line selection
-        filepathWithAt += `#${startLine}-${endLine}`
+function which(cmd: string): string | undefined {
+  const dirs = (process.env.PATH ?? "").split(path.delimiter).filter(Boolean)
+  const exts = IS_WIN ? (process.env.PATHEXT ?? ".EXE;.CMD;.BAT").split(";") : [""]
+  for (const dir of dirs) {
+    for (const ext of exts) {
+      const candidato = path.join(dir, cmd + ext.toLowerCase())
+      try {
+        if (fs.existsSync(candidato)) return candidato
+      } catch {
+        // pasta inacessível: segue
       }
     }
-
-    return filepathWithAt
   }
+  return undefined
+}
+
+function safeUnlink(file: string) {
+  try {
+    fs.unlinkSync(file)
+  } catch {
+    // nada a fazer
+  }
+}
+
+// Acrescenta a pasta ao PATH do processo e, no Windows, ao PATH do usuário.
+function rememberInPath(dir: string) {
+  if (!(process.env.PATH ?? "").split(path.delimiter).includes(dir)) {
+    process.env.PATH = `${dir}${path.delimiter}${process.env.PATH ?? ""}`
+  }
+  if (!IS_WIN) return
+  const atual = process.env.PATH ?? ""
+  if (atual.includes(dir)) return
+  // melhor esforço: grava no PATH do usuário para os próximos terminais
+  const { execFile } = require("child_process") as typeof import("child_process")
+  execFile(
+    "powershell",
+    ["-NoProfile", "-Command", `[Environment]::SetEnvironmentVariable('PATH',[Environment]::GetEnvironmentVariable('PATH','User') + ';${dir}','User')`],
+    () => undefined,
+  )
+}
+
+function download(url: string, destino: string, progress: vscode.Progress<{ message?: string }>, token: vscode.CancellationToken, saltos = 0): Promise<void> {
+  return new Promise((resolve, reject) => {
+    if (saltos > 5) return reject(new Error("redirecionamentos demais"))
+    const req = https.get(url, { headers: { "User-Agent": "selene-vscode" } }, (res) => {
+      const status = res.statusCode ?? 0
+      if (status >= 300 && status < 400 && res.headers.location) {
+        res.resume()
+        return resolve(download(res.headers.location, destino, progress, token, saltos + 1))
+      }
+      if (status !== 200) {
+        res.resume()
+        return reject(new Error(`HTTP ${status}`))
+      }
+
+      const total = Number(res.headers["content-length"] ?? 0)
+      let baixado = 0
+      const arquivo = fs.createWriteStream(destino)
+
+      token.onCancellationRequested(() => {
+        req.destroy()
+        arquivo.close()
+        reject(new Error("cancelado"))
+      })
+
+      res.on("data", (chunk: Buffer) => {
+        baixado += chunk.length
+        if (total > 0) {
+          const pct = Math.round((baixado / total) * 100)
+          progress.report({ message: `${pct}% (${Math.round(baixado / 1048576)} de ${Math.round(total / 1048576)} MB)` })
+        }
+      })
+
+      res.pipe(arquivo)
+      arquivo.on("finish", () => arquivo.close(() => resolve()))
+      arquivo.on("error", reject)
+      res.on("error", reject)
+    })
+    req.on("error", reject)
+  })
+}
+
+// ───────────────────────────── contexto do editor ─────────────────────────────
+function getActiveFile() {
+  const activeEditor = vscode.window.activeTextEditor
+  if (!activeEditor) return
+
+  const document = activeEditor.document
+  const workspaceFolder = vscode.workspace.getWorkspaceFolder(document.uri)
+  if (!workspaceFolder) return
+
+  const relativePath = vscode.workspace.asRelativePath(document.uri)
+  let filepathWithAt = `@${relativePath}`
+
+  const selection = activeEditor.selection
+  if (!selection.isEmpty) {
+    const startLine = selection.start.line + 1
+    const endLine = selection.end.line + 1
+    filepathWithAt += startLine === endLine ? `#${startLine}` : `#${startLine}-${endLine}`
+  }
+
+  return filepathWithAt
 }

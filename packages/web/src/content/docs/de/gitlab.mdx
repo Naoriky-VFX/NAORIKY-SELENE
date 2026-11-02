@@ -35,7 +35,7 @@ Hier verwenden wir eine von der Community erstellte CI/CD-Komponente für OpenCo
      - component: $CI_SERVER_FQDN/nagyv/gitlab-opencode/opencode@2
        inputs:
          config_dir: ${CI_PROJECT_DIR}/opencode-config
-         auth_json: $OPENCODE_AUTH_JSON # Die variable name für ihre OpenCode authentifizierung JSON
+         auth_json: $SELENE_AUTH_JSON # Die variable name für ihre OpenCode authentifizierung JSON
          command: optional-custom-command
          message: "Your prompt here"
    ```
@@ -92,9 +92,9 @@ Aktuelle Anweisungen finden Sie im [**GitLab docs**](https://docs.gitlab.com/use
       - echo "Configuring glab"
       - echo $GITLAB_HOST
       - echo "Creating OpenCode auth configuration"
-      - mkdir --parents ~/.local/share/opencode
+      - mkdir --parents ~/.local/share/selene
       - |
-        cat > ~/.local/share/opencode/auth.json << EOF
+        cat > ~/.local/share/selene/auth.json << EOF
         {
           "anthropic": {
             "type": "api",

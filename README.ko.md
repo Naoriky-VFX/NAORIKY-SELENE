@@ -80,7 +80,7 @@ brew install --cask opencode-desktop
 
 #### 설치 디렉터리
 
-설치 스크립트는 OpenCode를 `$HOME/.opencode/bin`에 설치합니다.
+설치 스크립트는 OpenCode를 `$HOME/.selene/bin`에 설치합니다.
 
 ### Agents
 

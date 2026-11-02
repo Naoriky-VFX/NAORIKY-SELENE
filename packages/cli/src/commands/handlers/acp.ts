@@ -21,7 +21,7 @@ export default Runtime.handler(
         answer: [],
       })
     }
-    process.env.OPENCODE_CLIENT = "acp"
+    process.env.SELENE_CLIENT = "acp"
     const endpoint = yield* Standalone.start()
     const client = yield* OpenCode.make({ baseUrl: endpoint.url }).pipe(
       Effect.provideServiceEffect(
@@ -52,7 +52,7 @@ export default Runtime.handler(
     )
     // Exit directly: closing the scope would wait on the server's graceful shutdown, and its lease pipe ends it anyway.
     yield* Effect.sync(() => {
-      if (failure) process.stderr.write(`opencode acp: ${failure}\n`)
+      if (failure) process.stderr.write(`sel acp: ${failure}\n`)
       process.exit(failure ? 1 : 0)
     })
   }),

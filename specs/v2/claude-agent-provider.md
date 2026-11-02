@@ -14,7 +14,7 @@ The provider is called "Claude Agent", with the ID `claude-agent`. The SDK's [br
 
 ### Login
 
-- opencode runs the user's own `claude`, found on `PATH` or set with `OPENCODE_CLAUDE_PATH`. It only uses the public SDK. It never sits between Claude Code and Anthropic or changes Claude Code's requests.
+- opencode runs the user's own `claude`, found on `PATH` or set with `SELENE_CLAUDE_PATH`. It only uses the public SDK. It never sits between Claude Code and Anthropic or changes Claude Code's requests.
 - opencode never reads Claude Code's saved login. Users sign in with `claude` in their terminal. `/connect` only records that they chose this login method.
 - Any existing login works: a subscription, an API key or a cloud account.
 
@@ -59,7 +59,7 @@ We also clear three variables a user might have set in their shell. `CLAUDE_CODE
 
 ### Set by opencode
 
-- The path to `claude` (`OPENCODE_CLAUDE_PATH`, or `claude` on `PATH`), and the session's folder
+- The path to `claude` (`SELENE_CLAUDE_PATH`, or `claude` on `PATH`), and the session's folder
 - The model and effort chosen in opencode.
 - The system prompt described above
 - opencode's tools, as the only tools Claude may use. Anything else is refused without asking.
@@ -136,7 +136,7 @@ Users can configure the `claude-agent` provider and its models in opencode confi
 - Installing the SDK also downloads its own copy of `claude` (about 270 MB unpacked). We never run it. It is cached locally and on Linux and macOS CI, but Windows CI downloads it on every run. The opencode binary only includes the SDK's code.
 - The provider is skipped where opencode cannot start local programs, such as hosted opencode and remote workspaces. A stub lets hosted builds work without the SDK.
 - It is registered before opencode's fallback for unknown providers (issue #42788).
-- There are no plugin options. `OPENCODE_CLAUDE_PATH` picks which `claude` to run.
+- There are no plugin options. `SELENE_CLAUDE_PATH` picks which `claude` to run.
 
 ## Testing
 

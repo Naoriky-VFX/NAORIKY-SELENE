@@ -16,7 +16,7 @@ use std::time::{Duration, Instant};
 use opencode_pty::service::CreateTerminal;
 use serde::{Deserialize, Serialize};
 
-const ADDRESS: &str = "OPENCODE_PTY_FIXTURE_ADDRESS";
+const ADDRESS: &str = "SELENE_PTY_FIXTURE_ADDRESS";
 const TIMEOUT: Duration = Duration::from_secs(15);
 
 #[derive(Serialize, Deserialize)]

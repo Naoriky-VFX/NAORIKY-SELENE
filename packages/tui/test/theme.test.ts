@@ -6,7 +6,7 @@ import { allThemes, hasTheme, getOpenCodeTheme, parseTheme, resolveTheme } from 
 import { discoverThemes } from "../src/theme/discovery"
 import { configDirectories } from "../src/util/config-directories"
 import { terminalMode } from "../src/theme/system"
-import opencodeSource from "../src/theme/assets/opencode.json" with { type: "json" }
+import opencodeSource from "../src/theme/assets/selene.json" with { type: "json" }
 import type { ThemeV1Json } from "@opencode/theme/tui/v1"
 import { tmpdir } from "./fixture/fixture"
 
@@ -18,12 +18,12 @@ test("rejects unrecognized theme structures", () => {
 })
 
 test("registers opencode as a native V2 theme", () => {
-  expect(allThemes().opencode).toBe(getOpenCodeTheme())
+  expect(allThemes().selene).toBe(getOpenCodeTheme())
   expect(parseTheme(getOpenCodeTheme()).base).toBeDefined()
 })
 
 test("keeps the experimental opencode2 theme out of the global theme list", () => {
-  expect(allThemes().opencode2).toBeUndefined()
+  expect(allThemes().selene2).toBeUndefined()
   expect(hasTheme("opencode2")).toBe(false)
 })
 
@@ -139,9 +139,9 @@ test("theme directories include global config before project directories", async
   const global = path.join(tmp.path, "global")
   const project = path.join(tmp.path, "repo", "package")
   await mkdir(path.join(global, "themes"), { recursive: true })
-  await mkdir(path.join(project, ".opencode", "themes"), { recursive: true })
+  await mkdir(path.join(project, ".selene", "themes"), { recursive: true })
   await writeFile(path.join(global, "themes", "global.json"), JSON.stringify({ source: "global" }))
-  await writeFile(path.join(project, ".opencode", "themes", "project.json"), JSON.stringify({ source: "project" }))
+  await writeFile(path.join(project, ".selene", "themes", "project.json"), JSON.stringify({ source: "project" }))
 
   await expect(discoverThemes(configDirectories(global, project))).resolves.toEqual({
     global: { source: "global" },

@@ -8,7 +8,7 @@
   "env": {
     "dev": {
       "name": "opencode-dev-files",
-      "routes": [{ "pattern": "dev.opencode.ai/files/*", "zone_name": "opencode.ai" }],
+      "routes": [{ "pattern": "dev.selene.ai/files/*", "zone_name": "opencode.ai" }],
       "r2_buckets": [{ "binding": "FILES", "bucket_name": "opencode-dev-files" }],
     },
     "production": {

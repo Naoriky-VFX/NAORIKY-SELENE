@@ -22,8 +22,8 @@ const env = {
   ...process.env,
   HOME: root,
   USERPROFILE: root,
-  OPENCODE_DB: path.join(root, "opencode.db"),
-  OPENCODE_TEST_HOME: root,
+  SELENE_DB: path.join(root, "selene.db"),
+  SELENE_TEST_HOME: root,
   XDG_CACHE_HOME: path.join(root, "cache"),
   XDG_CONFIG_HOME: path.join(root, "config"),
   XDG_DATA_HOME: path.join(root, "data"),
@@ -33,7 +33,7 @@ const processes: Array<ReturnType<typeof Bun.spawn>> = []
 const errors: Array<Promise<string>> = []
 let failure: unknown
 try {
-  await fs.mkdir(path.join(root, ".opencode", "plugins"), { recursive: true })
+  await fs.mkdir(path.join(root, ".selene", "plugins"), { recursive: true })
   spawnService()
   spawnService()
   const registration = await waitForRegistration()
@@ -54,7 +54,7 @@ try {
   if (tokenOpenApi.status !== 200) throw new Error("Compiled application rejected query authentication")
   await verifyWebUi(info.url)
   if ((await pluginIDs(info.url, headers)).includes("smoke")) throw new Error("Smoke plugin existed before creation")
-  const plugin = path.join(root, ".opencode", "plugins", "smoke.ts")
+  const plugin = path.join(root, ".selene", "plugins", "smoke.ts")
   await fs.writeFile(plugin, pluginSource())
   await waitForPlugin(info.url, headers, plugin)
 
@@ -90,7 +90,7 @@ try {
   processes.forEach((process) => process.kill())
   await Promise.all(processes.map((process) => process.exited))
   if (failure)
-    errors.push(fs.readFile(path.join(root, "data", "selene", "log", "opencode.log"), "utf8").catch(() => ""))
+    errors.push(fs.readFile(path.join(root, "data", "selene", "log", "selene.log"), "utf8").catch(() => ""))
 }
 
 const output = await Promise.all(errors)

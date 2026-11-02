@@ -14,10 +14,10 @@ Add Console as a model provider in `~/.codex/config.toml` and make it the defaul
 model = "gpt-6.1-sol"
 model_provider = "opencode"
 
-[model_providers.opencode]
+[model_providers.selene]
 name = "OpenCode Console"
 base_url = "https://opencode.ai/inference/openai/v1"
-env_key = "OPENCODE_API_KEY"
+env_key = "SELENE_API_KEY"
 wire_api = "responses"
 ```
 
@@ -25,7 +25,7 @@ Codex appends `/responses` to the base URL and reads the key from `env_key`. Cre
 [personal API key](/console/harnesses#get-an-api-key), then export it.
 
 ```bash
-export OPENCODE_API_KEY="oc_sk_..."
+export SELENE_API_KEY="oc_sk_..."
 codex
 ```
 
@@ -41,10 +41,10 @@ Use the Go base URL and a key from a workspace with a [Go](/console/go) subscrip
 model = "kimi-k3"
 model_provider = "opencode-go"
 
-[model_providers.opencode-go]
+[model_providers.selene-go]
 name = "OpenCode Go"
 base_url = "https://opencode.ai/inference/go/openai/v1"
-env_key = "OPENCODE_API_KEY"
+env_key = "SELENE_API_KEY"
 wire_api = "responses"
 ```
 

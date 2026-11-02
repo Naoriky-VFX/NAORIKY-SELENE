@@ -46,9 +46,9 @@ stdenvNoCC.mkDerivation (finalAttrs: {
   '';
 
   env.MODELS_DEV_API_JSON = "${models-dev}/dist/_api.json";
-  env.OPENCODE_DISABLE_MODELS_FETCH = true;
-  env.OPENCODE_VERSION = finalAttrs.version;
-  env.OPENCODE_CHANNEL = "prod";
+  env.SELENE_DISABLE_MODELS_FETCH = true;
+  env.SELENE_VERSION = finalAttrs.version;
+  env.SELENE_CHANNEL = "prod";
   env.NODE_OPTIONS = "--max-old-space-size=4096";
 
   buildPhase = ''
@@ -97,7 +97,7 @@ stdenvNoCC.mkDerivation (finalAttrs: {
       --fish opencode.fish \
       --zsh _opencode
 
-    # OPENCODE_CLI_NAME is a build-time define, so the opencode2 copies are
+    # SELENE_CLI_NAME is a build-time define, so the opencode2 copies are
     # renamed rather than regenerated. --replace-fail is a global literal
     # substitution, so any lowercase opencode that later appears in a
     # description or help text ships as opencode2 in the opencode2 copy.
@@ -116,7 +116,7 @@ stdenvNoCC.mkDerivation (finalAttrs: {
     writableTmpDirAsHomeHook
   ];
   doInstallCheck = true;
-  versionCheckKeepEnvironment = [ "HOME" "OPENCODE_DISABLE_MODELS_FETCH" ];
+  versionCheckKeepEnvironment = [ "HOME" "SELENE_DISABLE_MODELS_FETCH" ];
   versionCheckProgramArg = "--version";
 
   passthru = {

@@ -22,7 +22,7 @@ const keys: Record<string, string> = {
   stored: "sk-stored",
   XAI_API_KEY: "xai-env-key",
   GEMINI_API_KEY: "gemini-env-key",
-  OPENCODE_API_KEY: "opencode-env-key",
+  SELENE_API_KEY: "opencode-env-key",
 }
 
 // A ChatGPT sign-in can't start voice sessions, so resolving one fails the test; an OpenCode Console sign-in can.
@@ -159,9 +159,9 @@ it.effect(
       const requests: HttpClientRequest.HttpClientRequest[] = []
       const opencode = { opencode: [credential("console", "oauth")] }
 
-      yield* start("gpt-live-1", { openai: [credential("chatgpt", "oauth")], ...opencode }, requests)
-      yield* start("gpt-live-1", { opencode: [{ type: "env", name: "OPENCODE_API_KEY" }] }, requests)
-      yield* start("gpt-live-1", { openai: [credential("active", "key")], ...opencode }, requests)
+      yield* start("gpt-live-1", { openai: [credential("chatgpt", "oauth")], ...selene }, requests)
+      yield* start("gpt-live-1", { opencode: [{ type: "env", name: "SELENE_API_KEY" }] }, requests)
+      yield* start("gpt-live-1", { openai: [credential("active", "key")], ...selene }, requests)
       expect(
         requests.map((req): (string | undefined)[] => [
           req.url,

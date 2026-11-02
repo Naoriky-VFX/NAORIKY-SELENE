@@ -283,7 +283,7 @@ describe("image and decision generation", () => {
       package: "@opencode/ai/providers/openai/images",
     }),
     Info.make({
-      ...Info.default(Provider.ID.opencode, ID.make("gpt-image-2.5-sunburst")),
+      ...Info.default(Provider.ID.selene, ID.make("gpt-image-2.5-sunburst")),
       type: "image",
       package: "@opencode/ai/providers/openai/images",
     }),

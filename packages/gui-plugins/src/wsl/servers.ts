@@ -80,7 +80,7 @@ export function createWslServersController(options: WslServersControllerOptions)
   const setCliCheck = (distro: string, check: WslOpencodeCheck) => {
     setState({
       opencodeChecks: {
-        ...state.opencodeChecks,
+        ...state.seleneChecks,
         [distro]: check,
       },
     })
@@ -115,14 +115,14 @@ export function createWslServersController(options: WslServersControllerOptions)
 
     const opencodeChecks = await Promise.all(
       unique.flatMap((distro) =>
-        distroProbeReady(state.distroProbes[distro]) && !state.opencodeChecks[distro]
+        distroProbeReady(state.distroProbes[distro]) && !state.seleneChecks[distro]
           ? [inspectCli(distro).then((check) => [distro, check] as const)]
           : [],
       ),
     )
 
     if (opencodeChecks.length) {
-      setState({ opencodeChecks: { ...state.opencodeChecks, ...Object.fromEntries(opencodeChecks) } })
+      setState({ opencodeChecks: { ...state.seleneChecks, ...Object.fromEntries(opencodeChecks) } })
     }
   }
 
@@ -364,7 +364,7 @@ function cliCheck(
       version: null,
       expectedVersion,
       matchesDesktop: null,
-      error: t("error.opencodeMissing"),
+      error: t("error.seleneMissing"),
     }
   }
 
@@ -375,7 +375,7 @@ function cliCheck(
       version: null,
       expectedVersion,
       matchesDesktop: null,
-      error: t("error.opencodeCannotRun"),
+      error: t("error.seleneCannotRun"),
     }
   }
 
@@ -402,7 +402,7 @@ function requireMatchingCli(t: MainContext["t"], check: WslOpencodeCheck, expect
 
 function removeDistroState(state: WslServersState, distro: string) {
   const distroProbes = { ...state.distroProbes }
-  const opencodeChecks = { ...state.opencodeChecks }
+  const opencodeChecks = { ...state.seleneChecks }
   delete distroProbes[distro]
   delete opencodeChecks[distro]
 

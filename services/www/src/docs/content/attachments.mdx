@@ -79,9 +79,9 @@ filename or `data:` URL media type does not make an unsupported binary visible.
 
 ## Images
 
-Configure image normalization in `opencode.json` or `opencode.jsonc`:
+Configure image normalization in `selene.json` or `selene.jsonc`:
 
-```jsonc title="opencode.jsonc"
+```jsonc title="selene.jsonc"
 {
   "$schema": "https://opencode.ai/config.json",
   "media": {
@@ -106,7 +106,7 @@ All fields are optional:
 
 For example, this rejects rather than resizes an image wider than 1200 pixels:
 
-```jsonc title="opencode.jsonc"
+```jsonc title="selene.jsonc"
 {
   "media": {
     "image": {

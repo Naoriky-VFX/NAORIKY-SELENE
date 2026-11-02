@@ -197,7 +197,7 @@ test("picker scrollbars overlay full-width rows and support dragging", async ({ 
 for (const row of [
   {
     name: "POSIX",
-    directory: "/Users/alice/.local/share/opencode/worktree/123456/my-project",
+    directory: "/Users/alice/.local/share/selene/worktree/123456/my-project",
     pattern: /^\/Users\/.*…\/123456\/my-project$/,
   },
   {

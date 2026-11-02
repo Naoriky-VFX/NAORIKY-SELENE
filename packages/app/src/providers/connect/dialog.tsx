@@ -768,7 +768,7 @@ function ProviderConnection(props: {
     if (showAccounts() && !claudeAgentSetup()) return props.onTitle(provider().name)
 
     if (isConsole && controller.auth.state() === "error")
-      return props.onTitle(language.t("provider.connect.opencode.errorTitle"))
+      return props.onTitle(language.t("provider.connect.selene.errorTitle"))
 
     if (consoleSignIn())
       return props.onTitle(
@@ -782,7 +782,7 @@ function ProviderConnection(props: {
 
     props.onTitle(
       language.t("provider.connect.title", {
-        provider: props.provider === "opencode" ? language.t("provider.connect.opencode.name") : provider().name,
+        provider: props.provider === "opencode" ? language.t("provider.connect.selene.name") : provider().name,
       }),
     )
   })

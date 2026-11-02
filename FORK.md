@@ -57,7 +57,7 @@ contribuir no projeto original). Ele foi renomeado para **`AGENTS.upstream.md`**
 para não ser carregado como regra deste projeto.
 
 As regras que valem aqui são as do **`REGRAS.md`** e do agente
-`.opencode/agents/selene.md`.
+`.selene/agents/selene.md`.
 
 ## Como compilar (Windows x64)
 
@@ -68,11 +68,11 @@ bun install
 
 # 2. build da CLI
 cd packages\cli
-$env:OPENCODE_TARGET   = "windows-x64"
-$env:OPENCODE_BIN      = "sel"
-$env:OPENCODE_CLI_NAME = "sel"
-$env:OPENCODE_VERSION  = "0.1.0"
-$env:OPENCODE_CHANNEL  = "latest"
+$env:SELENE_TARGET   = "windows-x64"
+$env:SELENE_BIN      = "sel"
+$env:SELENE_CLI_NAME = "sel"
+$env:SELENE_VERSION  = "0.1.0"
+$env:SELENE_CHANNEL  = "latest"
 bun run build
 ```
 
@@ -85,8 +85,8 @@ Instalado nesta máquina em `%LOCALAPPDATA%\SELENE\sel.exe` (no PATH do usuário
 - [x] Código do OpenCode 2.2.5 importado
 - [x] Tema Selene criado
 - [x] Escopo de plataformas definido (macOS fora)
-- [x] Agente `selene` com regras editáveis (`.opencode/agents/selene.md`)
-- [x] Guarda de conteúdo com 19 testes (`.opencode/plugins/selene-guard/`)
+- [x] Agente `selene` com regras editáveis (`.selene/agents/selene.md`)
+- [x] Guarda de conteúdo com 19 testes (`.selene/plugins/selene-guard/`)
 - [x] **Build Windows x64** — `sel v0.1.0` funcionando
 - [x] Comando renomeado para `sel`
 - [ ] Logo / ícone / identidade visual

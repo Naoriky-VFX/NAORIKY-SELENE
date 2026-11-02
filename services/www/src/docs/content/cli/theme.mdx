@@ -10,7 +10,7 @@ Press `Ctrl+P`, select **Open settings**, then open **Theme**. The default theme
 
 You can also set the theme and mode in your global [CLI settings](/cli/config):
 
-```json title="~/.config/opencode/cli.json"
+```json title="~/.config/selene/cli.json"
 {
   "$schema": "https://opencode.ai/v2/cli.json",
   "theme": {
@@ -45,10 +45,10 @@ This maps to the `mode` field inside `theme` in your CLI config. If a custom the
 To add a theme you downloaded or received from someone else, copy its JSON file into the global themes directory:
 
 ```bash
-cp theme.json ~/.config/opencode/themes/
+cp theme.json ~/.config/selene/themes/
 ```
 
-You can also put the theme in a project's `.opencode/themes` directory to make it available only in that project.
+You can also put the theme in a project's `.selene/themes` directory to make it available only in that project.
 
 The filename becomes the theme name. For example, `my-theme.json` appears as `my-theme`. Restart OpenCode after adding the file, then run `/themes` to select it.
 

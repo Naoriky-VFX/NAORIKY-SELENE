@@ -80,7 +80,7 @@ brew install --cask opencode-desktop
 
 #### Каталог встановлення
 
-Скрипт встановлення встановлює OpenCode в `$HOME/.opencode/bin`.
+Скрипт встановлення встановлює OpenCode в `$HOME/.selene/bin`.
 
 ### Агенти
 

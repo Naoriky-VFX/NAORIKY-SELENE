@@ -91,7 +91,7 @@ const connectClient = (url: URL, headers?: Record<string, string>) =>
             tools: [{ name: "open_terminal", description: "Open a terminal", inputSchema: { type: "object" } }],
           })
         if (message.method === "tools/call") {
-          sessions.push(message.params._meta?.["ai.opencode/sessionID"])
+          sessions.push(message.params._meta?.["ai.selene/sessionID"])
           return reply(message.id, { content: [{ type: "text", text: "opened" }] })
         }
         if (message.id !== undefined && message.method) reply(message.id, {})

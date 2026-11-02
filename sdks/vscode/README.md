@@ -1,34 +1,74 @@
-# opencode VS Code Extension
+# SELENE
 
-A Visual Studio Code extension that integrates [opencode](https://opencode.ai) directly into your development workflow.
+Agente de programação no terminal, dentro do VS Code.
 
-## Prerequisites
+A extensão abre a **SELENE** numa aba ao lado do seu código e já cuida da instalação: se o agente
+ainda não existir na máquina, ela baixa e configura sozinha.
 
-This extension requires the [opencode CLI](https://opencode.ai) to be installed on your system. Visit [opencode.ai](https://opencode.ai) for installation instructions.
+## Instalação
 
-## Features
+1. Instale a extensão pela loja do VS Code.
+2. `Ctrl+Alt+Esc` — se a SELENE não estiver instalada, aparece o convite para baixar (~260 MB).
+3. Aceite. Ela baixa, salva em `%LOCALAPPDATA%\SELENE`, põe no `PATH` e abre o terminal.
 
-- **Quick Launch**: Use `Cmd+Esc` (Mac) or `Ctrl+Esc` (Windows/Linux) to open opencode in a split terminal view, or focus an existing terminal session if one is already running.
-- **New Session**: Use `Cmd+Shift+Esc` (Mac) or `Ctrl+Shift+Esc` (Windows/Linux) to start a new opencode terminal session, even if one is already open. You can also click the opencode button in the UI.
-- **Context Awareness**: Automatically share your current selection or tab with opencode.
-- **File Reference Shortcuts**: Use `Cmd+Option+K` (Mac) or `Alt+Ctrl+K` (Linux/Windows) to insert file references. For example, `@File#37-42`.
+Pronto: o terminal abre com o agente rodando na pasta do seu projeto.
 
-## Support
+## Atalhos
 
-This is an early release. If you encounter issues or have feedback, please create an issue at https://github.com/anomalyco/opencode/issues.
+| Atalho (Windows/Linux) | Atalho (macOS) | O que faz |
+|---|---|---|
+| `Ctrl+Alt+Esc` | `Cmd+Alt+Esc` | Abre a SELENE (foca a aba se já existir) |
+| `Ctrl+Alt+Shift+Esc` | `Cmd+Alt+Shift+Esc` | Abre uma aba nova da SELENE |
+| `Ctrl+Alt+S` | `Cmd+Alt+S` | Insere a referência do arquivo/trecho atual |
 
-## Development
+Os três também aparecem na paleta de comandos (`Ctrl+Shift+P` → "SELENE").
 
-1. `code sdks/vscode` - Open the `sdks/vscode` directory in VS Code. **Do not open from repo root.**
-2. `bun install` - Run inside the `sdks/vscode` directory.
-3. Press `F5` to start debugging - This launches a new VS Code window with the extension loaded.
+## O que a extensão faz
 
-#### Making Changes
+- **Abre o agente ao lado do código** — não troca sua aba atual.
+- **Instala sozinha** — procura `sel` no `PATH`; se não achar, baixa a versão mais recente do
+  GitHub Releases, salva em `%LOCALAPPDATA%\SELENE\sel.exe` e acrescenta a pasta ao `PATH`.
+- **Mostra o progresso** do download na barra de notificações.
+- **Reaproveita a sessão** — se já existe uma aba chamada SELENE, ela só recebe o foco.
+- **Contexto do editor** — com um trecho selecionado, o atalho insere `@arquivo#12-30`.
 
-`tsc` and `esbuild` watchers run automatically during debugging (visible in the Terminal tab). Changes to the extension are automatically rebuilt in the background.
+## Comandos
 
-To test your changes:
+| Comando | Descrição |
+|---|---|
+| `SELENE: Abrir` | Abre o terminal da SELENE |
+| `SELENE: Nova aba` | Abre uma sessão nova |
+| `SELENE: Instalar` | Baixa/reinstala o agente |
+| `SELENE: Inserir arquivo mencionado` | Manda `@arquivo#linhas` para o terminal |
 
-1. In the debug VS Code window, press `Cmd+Shift+P`
-2. Search for `Developer: Reload Window`
-3. Reload to see your changes without restarting the debug session
+## Requisitos
+
+- VS Code 1.94 ou superior
+- Windows, macOS ou Linux
+- Conexão com a internet na primeira execução (para baixar o agente)
+
+Depois de instalado, o agente funciona offline para as tarefas locais; só os modelos precisam de rede.
+
+## Configuração
+
+A SELENE guarda tudo em:
+
+| Sistema | Pasta |
+|---|---|
+| Windows | `%LOCALAPPDATA%\selene` e `%USERPROFILE%\.config\selene` |
+| macOS/Linux | `~/.config/selene` e `~/.local/share/selene` |
+
+Nada é compartilhado com outras instalações de agentes.
+
+## Problemas comuns
+
+| Sintoma | Solução |
+|---|---|
+| "A SELENE ainda não está instalada" | Aceite o download, ou rode `SELENE: Instalar` |
+| Download falha | Baixe manualmente em [releases](https://github.com/Naoriky-VFX/NAORIKY-SELENE/releases/latest) e salve como `%LOCALAPPDATA%\SELENE\sel.exe` |
+| Atalho não responde | Verifique conflito em *Preferências → Atalhos de teclado*, buscando "SELENE" |
+| Terminal abre e fecha | Abra um terminal comum e rode `sel` para ver o erro |
+
+## Licença
+
+MIT.

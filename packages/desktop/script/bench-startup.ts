@@ -6,7 +6,7 @@
 //                            [--trace] [--out <dir>] [--home <dir>] [--window-at x,y]
 //
 // The app runs in an isolated home directory (its own %APPDATA%, XDG dirs, OpenCode DB, config and
-// service registration) with the developer's OPENCODE_* / OTEL_* environment stripped, so it never
+// service registration) with the developer's SELENE_* / OTEL_* environment stripped, so it never
 // attaches to, restarts or reads the developer's live service or state and does not inherit their
 // telemetry configuration. `warm` starts one service from the bundled CLI before the runs and lets
 // every launch reuse it; `cold` stops it before each run so the desktop has to spawn it. `--fresh`
@@ -101,7 +101,7 @@ const paths = {
   appData: join(home, "AppData", "Roaming"),
   localAppData: join(home, "AppData", "Local"),
   temp: join(home, "AppData", "Local", "Temp"),
-  db: join(home, ".local", "share", "selene", "opencode.db"),
+  db: join(home, ".local", "share", "selene", "selene.db"),
   config: join(home, ".config", "opencode"),
   registration: join(home, ".local", "state", "selene", "service.json"),
   logs: join(userData, "logs"),
@@ -110,10 +110,10 @@ const paths = {
 prepareHome()
 
 // The desktop deletes XDG_STATE_HOME on Windows, so isolation goes through the home directory.
-// OPENCODE_* and OTEL_* from the developer's shell would otherwise leak into the measured app and
+// SELENE_* and OTEL_* from the developer's shell would otherwise leak into the measured app and
 // its service (an OTLP endpoint alone adds a network round trip to every CLI exit).
 const env = {
-  ...Object.fromEntries(Object.entries(process.env).filter(([key]) => !/^(OPENCODE_|OTEL_|SENTRY_)/.test(key))),
+  ...Object.fromEntries(Object.entries(process.env).filter(([key]) => !/^(SELENE_|OTEL_|SENTRY_)/.test(key))),
   USERPROFILE: home,
   HOME: home,
   APPDATA: paths.appData,
@@ -123,10 +123,10 @@ const env = {
   XDG_DATA_HOME: join(home, ".local", "share"),
   XDG_CONFIG_HOME: join(home, ".config"),
   XDG_CACHE_HOME: join(home, ".cache"),
-  OPENCODE_DB: paths.db,
-  OPENCODE_CONFIG_DIR: paths.config,
+  SELENE_DB: paths.db,
+  SELENE_CONFIG_DIR: paths.config,
   // Beta and prod builds check for updates on start; a closed proxy port fails that fast and offline.
-  ...(args.values.offline || appId !== "ai.opencode.desktop.dev" ? { HTTPS_PROXY: "http://127.0.0.1:9" } : {}),
+  ...(args.values.offline || appId !== "ai.selene.desktop.dev" ? { HTTPS_PROXY: "http://127.0.0.1:9" } : {}),
 }
 
 const cdpPort = await freePort()
@@ -572,11 +572,11 @@ function defaultExe() {
 function appIdFor(executable: string) {
   const name = basename(executable, ".exe")
 
-  if (/beta/i.test(name)) return "ai.opencode.desktop.beta"
+  if (/beta/i.test(name)) return "ai.selene.desktop.beta"
 
-  if (/dev/i.test(name)) return "ai.opencode.desktop.dev"
+  if (/dev/i.test(name)) return "ai.selene.desktop.dev"
 
-  return "ai.opencode.desktop"
+  return "ai.selene.desktop"
 }
 
 function prepareHome() {

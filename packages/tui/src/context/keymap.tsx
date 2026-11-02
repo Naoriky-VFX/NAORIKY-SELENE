@@ -364,7 +364,7 @@ function useCommands(): Accessor<readonly KeymapCommand[]> {
         visibility: "reachable",
       })
       .map((entry) => {
-        const command = entry.command.opencode ?? {
+        const command = entry.command.selene ?? {
           id: entry.command.name,
           title: typeof entry.command.title === "string" ? entry.command.title : undefined,
           description: typeof entry.command.desc === "string" ? entry.command.desc : undefined,

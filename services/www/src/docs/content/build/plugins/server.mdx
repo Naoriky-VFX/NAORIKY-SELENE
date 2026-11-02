@@ -7,7 +7,7 @@ The server part of a plugin runs in the OpenCode server. It modifies OpenCode's 
 hooks, integrations, commands, and agents. See the [Overview](/build/plugins) for how a plugin package is laid out,
 loaded, and published.
 
-```ts title=".opencode/plugins/example/index.ts"
+```ts title=".selene/plugins/example/index.ts"
 import { Plugin } from "@opencode/plugin"
 
 export default Plugin.define({
@@ -62,9 +62,9 @@ setup(ctx) {
 
 ### Options
 
-Pass plugin options with the object form in `opencode.json(c)`.
+Pass plugin options with the object form in `selene.json(c)`.
 
-```jsonc title="opencode.jsonc"
+```jsonc title="selene.jsonc"
 {
   "plugins": [
     {
@@ -887,7 +887,7 @@ await ctx.skill.transform((editor) => {
     id: Skill.ID.make("review"),
     name: Skill.Name.make("Review"),
     description: "Review the current changes",
-    path: Skill.Info.fields.path.make("/workspace/.opencode/skills/review/SKILL.md"),
+    path: Skill.Info.fields.path.make("/workspace/.selene/skills/review/SKILL.md"),
     content: "Review the current changes for correctness and missing tests.",
   })
   const review = editor.get("review")
@@ -1160,7 +1160,7 @@ export default Plugin.define({
 
 Load the plugin through `plugins` and configure the common destination separately:
 
-```jsonc title="opencode.jsonc"
+```jsonc title="selene.jsonc"
 {
   "worktree": { "directory": "../worktrees" },
   "plugins": [{ "package": "./plugins/worktrees", "options": {} }],

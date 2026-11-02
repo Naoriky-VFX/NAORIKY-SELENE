@@ -4,7 +4,7 @@ description: "Configure every OpenCode CLI and TUI setting."
 ---
 
 CLI settings control the terminal clients only. They are separate from the server and project settings in
-`opencode.json(c)`.
+`selene.json(c)`.
 
 Press `Ctrl+P`, then select **Open settings** to change common settings from the TUI.
 
@@ -15,7 +15,7 @@ Press `Ctrl+P`, then select **Open settings** to change common settings from the
 OpenCode stores CLI settings in one global file:
 
 ```text
-~/.config/opencode/cli.json
+~/.config/selene/cli.json
 ```
 
 When `$XDG_CONFIG_HOME` is set, OpenCode uses:
@@ -38,10 +38,10 @@ Unknown settings are ignored. Keep `$schema` so your editor flags invalid values
 
 ## Inline config
 
-Set `OPENCODE_CLI_CONFIG_CONTENT` to apply CLI settings from inline JSON:
+Set `SELENE_CLI_CONFIG_CONTENT` to apply CLI settings from inline JSON:
 
 ```sh
-OPENCODE_CLI_CONFIG_CONTENT='{"tabs":{"mode":"off"}}' opencode
+SELENE_CLI_CONFIG_CONTENT='{"tabs":{"mode":"off"}}' opencode
 ```
 
 OpenCode merges the inline settings over the global `cli.json`. Nested objects are merged, while arrays and scalar

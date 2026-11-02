@@ -50,7 +50,7 @@ defaults in Codex, so your plan usage is consumed at a similar rate as it would 
 To opt out, disable the cap plugin in your config. The `-` prefix turns off a built-in plugin; all other plugins stay
 enabled.
 
-```jsonc title="opencode.jsonc"
+```jsonc title="selene.jsonc"
 {
   "plugins": ["-opencode.provider.openai-context-caps"],
 }
@@ -61,7 +61,7 @@ enabled.
 Add a provider when its API is not already in the catalog. This OpenAI-compatible example defines the credential,
 runtime package, endpoint, and first model together.
 
-```jsonc title="opencode.jsonc"
+```jsonc title="selene.jsonc"
 {
   "$schema": "https://opencode.ai/config.json",
   "providers": {
@@ -101,7 +101,7 @@ The `providers` object is keyed by the provider ID used in model references, suc
 Override `settings.baseURL` to send a catalog provider through a proxy or compatible endpoint. Its existing package,
 models, and connection still apply.
 
-```jsonc title="opencode.jsonc"
+```jsonc title="selene.jsonc"
 {
   "$schema": "https://opencode.ai/config.json",
   "providers": {
@@ -120,7 +120,7 @@ models, and connection still apply.
 
 Use `headers` for additional HTTP headers and `body` for JSON fields that should be merged into every request body.
 
-```jsonc title="opencode.jsonc"
+```jsonc title="selene.jsonc"
 {
   "$schema": "https://opencode.ai/config.json",
   "providers": {
@@ -140,7 +140,7 @@ Use `headers` for additional HTTP headers and `body` for JSON fields that should
 
 Both fields can also be set on a model or variant when only part of a provider's traffic needs the override.
 
-```jsonc title="opencode.jsonc"
+```jsonc title="selene.jsonc"
 {
   "$schema": "https://opencode.ai/config.json",
   "providers": {
@@ -169,7 +169,7 @@ or to `false` to disable it. `settings.timeout` additionally bounds the whole re
 completes; it has no default. These configuration settings apply provider-wide, not per model or variant. On a
 WebSocket transport, `chunkTimeout` bounds the gap between frames instead and defaults to thirty minutes.
 
-```jsonc title="opencode.jsonc"
+```jsonc title="selene.jsonc"
 {
   "$schema": "https://opencode.ai/config.json",
   "providers": {
@@ -193,7 +193,7 @@ on a provider, model, or variant; the most specific value wins. Only enable an e
 providers and gateways reject compressed bodies. OpenAI defaults to `"zstd"` when signed in with ChatGPT and no custom
 `baseURL` is configured; API keys send plain JSON. WebSocket messages are unaffected.
 
-```jsonc title="opencode.jsonc"
+```jsonc title="selene.jsonc"
 {
   "$schema": "https://opencode.ai/config.json",
   "providers": {
@@ -209,7 +209,7 @@ providers and gateways reject compressed bodies. OpenAI defaults to `"zstd"` whe
 The `package` field selects the runtime that communicates with a provider. Use the compatible runtime for APIs that
 implement the OpenAI request format.
 
-```jsonc title="opencode.jsonc"
+```jsonc title="selene.jsonc"
 {
   "$schema": "https://opencode.ai/config.json",
   "providers": {
@@ -254,7 +254,7 @@ Native package options include:
 
 You can also use an npm package such as `@acme/opencode-provider` or an absolute `file://` URL for a local package.
 
-```jsonc title="opencode.jsonc"
+```jsonc title="selene.jsonc"
 {
   "$schema": "https://opencode.ai/config.json",
   "providers": {
@@ -271,7 +271,7 @@ You can also use an npm package such as `@acme/opencode-provider` or an absolute
 Add or override models in a provider's `models` map. The map key is the model ID used by OpenCode; `modelID` changes the
 ID sent to the provider.
 
-```jsonc title="opencode.jsonc"
+```jsonc title="selene.jsonc"
 {
   "$schema": "https://opencode.ai/config.json",
   "model": "openai/coding",
@@ -314,7 +314,7 @@ Azure's standard catalog endpoint needs a resource name in addition to its crede
 once, then connect an API key or use the Microsoft Entra ID session from the Azure CLI as described in
 [Provider accounts](/cli/providers).
 
-```jsonc title="opencode.jsonc"
+```jsonc title="selene.jsonc"
 {
   "$schema": "https://opencode.ai/config.json",
   "providers": {
@@ -385,7 +385,7 @@ Configure a deployment explicitly when its model is not in the catalog, such as 
 to a deployment yourself. OpenCode logs a warning naming such deployments. Explicitly configured models are always
 kept.
 
-```jsonc title="opencode.jsonc"
+```jsonc title="selene.jsonc"
 {
   "$schema": "https://opencode.ai/config.json",
   "providers": {
@@ -424,7 +424,7 @@ aws sso login --profile work
 Select the profile and region in provider settings. A configured `profile`, `AWS_PROFILE`, `AWS_ACCESS_KEY_ID`, web
 identity token file, or container credential URI activates the provider; a region alone does not.
 
-```jsonc title="opencode.jsonc"
+```jsonc title="selene.jsonc"
 {
   "$schema": "https://opencode.ai/config.json",
   "providers": {
@@ -441,7 +441,7 @@ identity token file, or container credential URI activates the provider; a regio
 Without an explicit region, OpenCode uses `AWS_REGION`, then `AWS_DEFAULT_REGION`, then `us-east-1`. For a private or
 VPC endpoint, set `baseURL` while keeping the same profile and region.
 
-```jsonc title="opencode.jsonc"
+```jsonc title="selene.jsonc"
 {
   "$schema": "https://opencode.ai/config.json",
   "providers": {
@@ -468,7 +468,7 @@ Create local ADC, then set the project and location in provider settings.
 gcloud auth application-default login
 ```
 
-```jsonc title="opencode.jsonc"
+```jsonc title="selene.jsonc"
 {
   "$schema": "https://opencode.ai/config.json",
   "providers": {
@@ -538,7 +538,7 @@ Point OpenCode at a remote or proxied Ollama server with `settings.baseURL`. Inc
 `/api/tags` and `/api/show` discovery paths from it. `apiKey` is optional and is sent as a bearer token to discovery and
 model requests.
 
-```jsonc title="opencode.jsonc"
+```jsonc title="selene.jsonc"
 {
   "$schema": "https://opencode.ai/config.json",
   "providers": {
@@ -560,7 +560,7 @@ models do not appear because OpenCode only adds models whose Ollama metadata inc
 LM Studio and vLLM also have built-in local discovery. Their default endpoints are
 `http://127.0.0.1:1234/v1` and `http://127.0.0.1:8000/v1`.
 
-```jsonc title="opencode.jsonc"
+```jsonc title="selene.jsonc"
 {
   "$schema": "https://opencode.ai/config.json",
   "providers": {
@@ -583,7 +583,7 @@ runtime, use the [custom provider](#custom) recipe and list its models explicitl
 OpenRouter uses its native runtime and catalog. Provide `OPENROUTER_API_KEY` to the OpenCode server or connect an
 OpenRouter account, then refer to models with the full OpenRouter model ID after the provider prefix.
 
-```jsonc title="opencode.jsonc"
+```jsonc title="selene.jsonc"
 {
   "$schema": "https://opencode.ai/config.json",
   "model": "openrouter/anthropic/claude-sonnet-5.5",
@@ -593,7 +593,7 @@ OpenRouter account, then refer to models with the full OpenRouter model ID after
 Keep the native OpenRouter package when overriding its endpoint or routing through an OpenRouter-compatible gateway.
 This preserves OpenRouter request and reasoning behavior.
 
-```jsonc title="opencode.jsonc"
+```jsonc title="selene.jsonc"
 {
   "$schema": "https://opencode.ai/config.json",
   "providers": {
@@ -612,7 +612,7 @@ This preserves OpenRouter request and reasoning behavior.
 For a gateway that exposes an OpenAI-compatible API but has its own model inventory, define a custom provider instead.
 The configuration key becomes the provider prefix and each `models` key becomes a selectable model ID.
 
-```jsonc title="opencode.jsonc"
+```jsonc title="selene.jsonc"
 {
   "$schema": "https://opencode.ai/config.json",
   "model": "company/coder",
@@ -656,7 +656,7 @@ OpenAI, xAI, and supported Azure Responses models can keep one WebSocket connect
 reuse the unchanged request prefix and only send content added since the previous response, reducing uploads in long
 sessions.
 
-```jsonc title="opencode.jsonc"
+```jsonc title="selene.jsonc"
 {
   "$schema": "https://opencode.ai/config.json",
   "providers": {

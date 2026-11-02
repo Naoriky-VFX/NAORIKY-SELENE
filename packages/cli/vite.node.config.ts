@@ -42,7 +42,7 @@ import { getRawAsset, isSea } from "node:sea"
 export default () =>
   isSea()
     ? new Uint8Array(getRawAsset(${JSON.stringify(appArchiveAsset)}))
-    : readFileSync(path.join(process.env.OPENCODE_NODE_ASSETS_DIR, ${JSON.stringify(appArchiveAsset)}))`
+    : readFileSync(path.join(process.env.SELENE_NODE_ASSETS_DIR, ${JSON.stringify(appArchiveAsset)}))`
     },
   }
 }
@@ -79,7 +79,7 @@ function fffNodePlugin(): Plugin {
         const start = code.indexOf("if (!nativeBinding) {")
         if (start === -1) this.error("Failed to rewrite ffi-rs native binding loader")
         return `const unavailable = () => { throw new Error("ffi-rs native binding unavailable") }
-const nativeBinding = globalThis.__OPENCODE_FFF_FFI ?? {
+const nativeBinding = globalThis.__SELENE_FFF_FFI ?? {
   DataType: new Proxy({}, { get: (target, key) => target[key] ?? key }),
   PointerType: {},
   FFITypeTag: {},
@@ -131,7 +131,7 @@ function nodePrelude(input: NodeBuildInput) {
     input.target.platform === "darwin"
       ? `${input.target.nodePtyPackage}/prebuilds/darwin-${input.target.arch}/spawn-helper`
       : undefined
-  const opencodePtyAsset = input.target.opencodePtyAsset
+  const opencodePtyAsset = input.target.selenePtyAsset
   const promiseModule = `const sdk = globalThis[Symbol.for("opencode.plugin.v2.promise")]
 if (!sdk) throw new Error("OpenCode Promise plugin SDK is unavailable")
 export const Agent = sdk.Agent
@@ -232,18 +232,18 @@ if (__ocIsSea()) {
     }
   }
 }
-process.env.OPENCODE_NODE_ASSETS_DIR = __ocAssetRoot
+process.env.SELENE_NODE_ASSETS_DIR = __ocAssetRoot
 process.env.OTUI_ASSET_ROOT = __ocAssetRoot
-process.env.OPENCODE_NODE_PTY_PATH = __ocPath.join(__ocAssetRoot, ${JSON.stringify(input.target.nodePtyEntryAsset)})
-process.env.OPENCODE_PARCEL_WATCHER_PATH = __ocPath.join(__ocAssetRoot, ${JSON.stringify(input.target.parcelWatcherAsset)})
-process.env.OPENCODE_PHOTON_WASM_PATH = __ocPath.join(__ocAssetRoot, ${JSON.stringify(photonWasmAsset)})
+process.env.SELENE_NODE_PTY_PATH = __ocPath.join(__ocAssetRoot, ${JSON.stringify(input.target.nodePtyEntryAsset)})
+process.env.SELENE_PARCEL_WATCHER_PATH = __ocPath.join(__ocAssetRoot, ${JSON.stringify(input.target.parcelWatcherAsset)})
+process.env.SELENE_PHOTON_WASM_PATH = __ocPath.join(__ocAssetRoot, ${JSON.stringify(photonWasmAsset)})
 process.env.FFF_BINARY_PATH = __ocPath.join(__ocAssetRoot, ${JSON.stringify(input.target.fffAsset)})
-process.env.OPENCODE_FFF_FFI_PATH = __ocPath.join(__ocAssetRoot, ${JSON.stringify(input.target.fffFfiAsset)})
-if (__ocPersistentPty && !process.env.OPENCODE_PTY_BIN) process.env.OPENCODE_PTY_BIN = __ocPath.join(__ocAssetRoot, __ocPersistentPty)
+process.env.SELENE_FFF_FFI_PATH = __ocPath.join(__ocAssetRoot, ${JSON.stringify(input.target.fffFfiAsset)})
+if (__ocPersistentPty && !process.env.SELENE_PTY_BIN) process.env.SELENE_PTY_BIN = __ocPath.join(__ocAssetRoot, __ocPersistentPty)
 try {
-  globalThis.__OPENCODE_FFF_FFI = require(process.env.OPENCODE_FFF_FFI_PATH)
+  globalThis.__SELENE_FFF_FFI = require(process.env.SELENE_FFF_FFI_PATH)
 } catch {}
-globalThis.__OPENCODE_PHOTON_WASM_PATH = process.env.OPENCODE_PHOTON_WASM_PATH
+globalThis.__SELENE_PHOTON_WASM_PATH = process.env.SELENE_PHOTON_WASM_PATH
 if (process.platform === "linux") process.env.OPENTUI_LIBC = "glibc"`
 }
 
@@ -275,12 +275,12 @@ export function mainConfig(input: NodeBuildInput): UserConfig {
     resolve,
     esbuild: { jsx: "automatic" },
     define: {
-      OPENCODE_VERSION: JSON.stringify(input.version),
-      OPENCODE_CLI_NAME: JSON.stringify("opencode2-node"),
-      OPENCODE_CHANNEL: JSON.stringify(input.channel),
-      OPENCODE_ARTIFACT: JSON.stringify("cli-node"),
-      ...(input.highlights ? { OPENCODE_RELEASE_HIGHLIGHTS: JSON.stringify(input.highlights) } : {}),
-      OPENCODE_LIBC: input.target.platform === "linux" ? JSON.stringify("glibc") : "undefined",
+      SELENE_VERSION: JSON.stringify(input.version),
+      SELENE_CLI_NAME: JSON.stringify("opencode2-node"),
+      SELENE_CHANNEL: JSON.stringify(input.channel),
+      SELENE_ARTIFACT: JSON.stringify("cli-node"),
+      ...(input.highlights ? { SELENE_RELEASE_HIGHLIGHTS: JSON.stringify(input.highlights) } : {}),
+      SELENE_LIBC: input.target.platform === "linux" ? JSON.stringify("glibc") : "undefined",
       FFF_LIBC: input.target.platform === "linux" ? JSON.stringify("gnu") : "undefined",
       "process.env.WS_NO_BUFFER_UTIL": JSON.stringify("1"),
     },
@@ -299,8 +299,8 @@ export function mainConfig(input: NodeBuildInput): UserConfig {
 }
 
 export default mainConfig({
-  version: process.env.OPENCODE_VERSION ?? "local",
-  channel: process.env.OPENCODE_CHANNEL ?? "local",
+  version: process.env.SELENE_VERSION ?? "local",
+  channel: process.env.SELENE_CHANNEL ?? "local",
   assetHash: "local",
   target: nodeTarget(process.platform, process.arch),
 })

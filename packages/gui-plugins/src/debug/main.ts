@@ -176,7 +176,7 @@ const setup: Plugin.MainSetup = (ctx) => {
   if (!debugBuild(ctx.app)) return
 
   // The environment turns diagnostics on for this launch; otherwise the debug bar's stored toggle does.
-  const envInterval = memoryLogInterval(process.env.OPENCODE_DESKTOP_MEMORY_LOG)
+  const envInterval = memoryLogInterval(process.env.SELENE_DESKTOP_MEMORY_LOG)
   // Whether the debug bar turned memory diagnostics on.
   const stored = ctx.storage.store("memory", { schema: Schema.Boolean, initial: false })
   const running: Running = {}

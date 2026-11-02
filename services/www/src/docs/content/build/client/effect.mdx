@@ -48,7 +48,7 @@ const client = yield* OpenCode.make({ baseUrl: "https://opencode.example.com" })
   Effect.provideService(
     HttpClient.HttpClient,
     HttpClient.mapRequest(httpClient, (request) =>
-      HttpClientRequest.setHeaders(request, { authorization: `Bearer ${process.env.OPENCODE_TOKEN}` }),
+      HttpClientRequest.setHeaders(request, { authorization: `Bearer ${process.env.SELENE_TOKEN}` }),
     ),
   ),
 )

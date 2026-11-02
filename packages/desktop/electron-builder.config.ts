@@ -11,7 +11,7 @@ const packageDir = path.dirname(fileURLToPath(import.meta.url))
 
 // The Electron 42 packaging update briefly installed Linux launchers/icons under
 // "opencode-desktop". Keep that hidden desktop entry around so existing GNOME/KDE
-// pins still resolve after the canonical app id changes back to ai.opencode.desktop.
+// pins still resolve after the canonical app id changes back to ai.selene.desktop.
 const legacyDesktopEntry = path.join(packageDir, "resources", "linux", "opencode-desktop.desktop")
 
 const legacyDesktopEntryFpm = `${legacyDesktopEntry}=/usr/share/applications/opencode-desktop.desktop`
@@ -31,7 +31,7 @@ const metainfoFpm = (appId: string) =>
 const previewCompressionFpm = (target: "deb" | "rpm") => [`--${target}-compression-level`, "1"]
 
 function resolveChannel() {
-  const raw = process.env.OPENCODE_CHANNEL
+  const raw = process.env.SELENE_CHANNEL
 
   if (raw === "dev" || raw === "beta" || raw === "prod") return raw
 
@@ -41,14 +41,14 @@ function resolveChannel() {
 }
 
 const APP_IDS = {
-  dev: "ai.opencode.desktop.dev",
-  beta: "ai.opencode.desktop.beta",
-  prod: "ai.opencode.desktop",
+  dev: "ai.selene.desktop.dev",
+  beta: "ai.selene.desktop.beta",
+  prod: "ai.selene.desktop",
 } as const
 
 // libappimage (used by AppImageLauncher) resolves the .desktop entry inside an
 // AppImage by globbing `*.desktop` at the squashfs root. If the main
-// executable itself ends in `.desktop` (prod appId `ai.opencode.desktop`), the
+// executable itself ends in `.desktop` (prod appId `ai.selene.desktop`), the
 // ELF binary matches the glob and is parsed as a desktop entry, so
 // integration fails with `Malformed desktop entry: Unexpected char '\x7f' at 0`
 // (0x7F is the first byte of the ELF magic).
@@ -70,13 +70,13 @@ const getBase = (appId: string): Configuration => {
       buildResources: "resources",
     },
     // Linux launchers are .desktop files, so this is the desktop file name,
-    // not just the app id. For prod, app id "ai.opencode.desktop" becomes
-    // "ai.opencode.desktop.desktop".
+    // not just the app id. For prod, app id "ai.selene.desktop" becomes
+    // "ai.selene.desktop.desktop".
     // https://developer.gnome.org/documentation/guidelines/maintainer/integrating.html
     // https://www.electron.build/docs/linux/
-    // Release builds take their version from OPENCODE_VERSION instead of rewriting package.json.
-    extraMetadata: process.env.OPENCODE_VERSION
-      ? { desktopName, version: process.env.OPENCODE_VERSION }
+    // Release builds take their version from SELENE_VERSION instead of rewriting package.json.
+    extraMetadata: process.env.SELENE_VERSION
+      ? { desktopName, version: process.env.SELENE_VERSION }
       : { desktopName },
     files: [
       "out/**/*",
@@ -111,7 +111,7 @@ const getBase = (appId: string): Configuration => {
     afterPack: async (context) => {
       const arch = Arch[context.arch]
 
-      // The --arm64 flag picks Electron while OPENCODE_TARGET picks the CLI and node-pty, so they can disagree.
+      // The --arm64 flag picks Electron while SELENE_TARGET picks the CLI and node-pty, so they can disagree.
       if (arch !== "x64" && arch !== "arm64") throw new Error(`Unsupported desktop architecture: ${arch}`)
 
       if (arch !== target.cpu) throw new Error(`Packaging ${arch} Electron with the ${target.target} CLI`)
@@ -193,7 +193,7 @@ const getBase = (appId: string): Configuration => {
       category: "Development",
       executableName: linuxExecutableName(appId),
       // Derive the installed `.desktop` filename from `desktopName`
-      // (`ai.opencode.desktop.desktop` for prod) instead of `executableName`,
+      // (`ai.selene.desktop.desktop` for prod) instead of `executableName`,
       // so window association is unaffected by the executable rename above.
       syncDesktopName: true,
       desktop: {
