@@ -532,9 +532,12 @@ const make = Effect.gen(function* () {
   })
 
   const inspect = Effect.fnUntraced(function* () {
-    if (SELENE_LOCAL || ["1", "true"].includes(process.env.SELENE_DISABLE_AUTOUPDATE?.toLowerCase() ?? "")) {
+    // SELENE: o verificador original consulta opencode.ai e instalaria o OpenCode por cima
+    // da SELENE. Fica desligado até termos um servidor de atualização próprio (GitHub Releases).
+    const autoupdate = false
+    if (!autoupdate || SELENE_LOCAL || ["1", "true"].includes(process.env.SELENE_DISABLE_AUTOUPDATE?.toLowerCase() ?? "")) {
       yield* Effect.logInfo("update check skipped", {
-        reason: SELENE_LOCAL ? "local-install" : "disabled",
+        reason: !autoupdate ? "selene-disabled" : SELENE_LOCAL ? "local-install" : "disabled",
         version: SELENE_VERSION,
         channel: SELENE_CHANNEL,
       })

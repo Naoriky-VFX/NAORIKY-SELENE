@@ -1,6 +1,6 @@
 import { statModel } from "./model-normalization"
 
-const CATALOG_URL = "https://models.selene.ai/catalog.json"
+const CATALOG_URL = "https://models.opencode.ai/catalog.json"
 const STATS_PROVIDERS = ["opencode", "opencode-go"] as const
 const cache: { value?: CatalogIdentity; expiresAt?: number } = {}
 

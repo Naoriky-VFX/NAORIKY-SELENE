@@ -491,7 +491,7 @@ const CacheMeta = Schema.Struct({
   digest: Schema.optional(Schema.String),
   etag: Schema.optional(Schema.String),
 })
-const defaultSource = "https://models.selene.ai"
+const defaultSource = "https://models.opencode.ai"
 
 // The experimental v2 API, limited to the model types opencode keeps.
 export const catalogPath = `/experimental/v2.0/api.json?type=${TYPES.join(",")}`

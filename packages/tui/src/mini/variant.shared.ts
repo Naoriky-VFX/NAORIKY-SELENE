@@ -13,7 +13,7 @@ import { cycleModelVariant, normalizeModelVariant } from "../model-preference"
 export function modelInfo(providers: RunProvider[] | undefined, model: NonNullable<RunInput["model"]>) {
   const provider = providers?.find((item) => item.id === model.providerID)
   return {
-    provider: provider?.name ?? model.providerID,
+    provider: model.providerID === "opencode" ? "SELENE FREE" : (provider?.name ?? model.providerID),
     model: provider?.models[model.modelID]?.name ?? model.modelID,
   }
 }
