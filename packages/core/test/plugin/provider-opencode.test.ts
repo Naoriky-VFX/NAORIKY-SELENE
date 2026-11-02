@@ -367,7 +367,8 @@ describe("OpencodePlugin", () => {
               ).toEqual(stored.value)
               expect(requests).toEqual(["/auth/device/token", "/api/v2/config"])
               // The refresh and the config fetch both say which OpenCode is asking.
-              expect(agents).toEqual(["opencode/beta/1.2.3/test", "opencode/beta/1.2.3/test"])
+              // A SELENE envia a versao compativel com o tier gratuito, nao a versao exibida.
+              expect(agents).toEqual(["opencode/beta/2.2.5/test", "opencode/beta/2.2.5/test"])
             }).pipe(Effect.provideService(App.Metadata, App.make({ name: "test", version: "1.2.3", channel: "beta" }))),
           ({ server }) => Effect.promise(() => server.stop(true)),
         ),
