@@ -20,9 +20,6 @@ jobs:
       - name: Instalar dependencias
         working-directory: sdks/vscode
         run: bun install
-      - name: Publicar no Marketplace (OIDC)
+      - name: Publicar no Marketplace
         working-directory: sdks/vscode
         run: npx --yes @vscode/vsce publish --oidc
-      - name: Mostrar versao publicada
-        working-directory: sdks/vscode
-        run: node -p "'publicado: ' + require('./package.json').version"
