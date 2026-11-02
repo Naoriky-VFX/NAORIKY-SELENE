@@ -77,7 +77,7 @@ test("replacement sources receive independent parse caches", () => {
 
 test("hasTheme checks theme presence", () => {
   expect(hasTheme("missing-theme")).toBe(false)
-  expect(hasTheme("opencode")).toBe(true)
+  expect(hasTheme("selene")).toBe(true)
 })
 
 test("resolveTheme rejects circular color refs", () => {
