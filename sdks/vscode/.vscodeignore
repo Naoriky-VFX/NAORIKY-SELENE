@@ -1,16 +1,39 @@
-.vscode/**
-.vscode-test/**
-out/**
-node_modules/**
+# Só entra no pacote o que a extensão usa em tempo de execução.
+
+# código-fonte e build
 src/**
-script/**
-.gitignore
-.yarnrc
-bun.lock
-esbuild.js
-vsc-extension-quickstart.md
-**/tsconfig.json
-**/eslint.config.mjs
-**/*.map
 **/*.ts
-**/.vscode-test.*
+**/*.tsx
+**/*.map
+tsconfig.json
+eslint.config.mjs
+esbuild.js
+.vscode-test.mjs
+sst-env.d.ts
+bun.lock
+
+# testes, CI e scripts de desenvolvimento
+test/**
+script/**
+**/*.test.*
+
+# rascunhos e utilitários de imagem
+images/_*
+images/*.py
+
+# ícones que a extensão não usa
+images/icon.png
+images/icon-256.png
+images/icon-market.png
+images/button-dark.svg
+images/button-light.svg
+images/selene-orb.png
+images/selene-orb-128.png
+images/selene-orb-256.png
+images/selene-orb-glow.png
+
+# nunca versionar
+.gitignore
+.vscodeignore
+dist/*.vsix
+**/.DS_Store

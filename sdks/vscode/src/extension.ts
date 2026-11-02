@@ -53,8 +53,8 @@ async function openTerminal(context: vscode.ExtensionContext, forceNew: boolean)
   const terminal = vscode.window.createTerminal({
     name: TERMINAL_NAME,
     iconPath: {
-      light: vscode.Uri.file(context.asAbsolutePath("images/selene-orb-256.png")),
-      dark: vscode.Uri.file(context.asAbsolutePath("images/selene-orb-glow.png")),
+      light: vscode.Uri.file(context.asAbsolutePath("images/terminal-icon.png")),
+      dark: vscode.Uri.file(context.asAbsolutePath("images/terminal-icon-glow.png")),
     },
     location: forceNew
       ? { viewColumn: vscode.ViewColumn.Beside, preserveFocus: false }
