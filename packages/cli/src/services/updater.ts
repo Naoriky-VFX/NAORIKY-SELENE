@@ -13,6 +13,11 @@ import { errorMessage } from "../util/error"
 
 export const methods = ["curl", "npm", "pnpm", "bun", "yarn", "vp", "brew", "winget"] as const
 
+// SELENE: as atualizações vêm do NOSSO repositório no GitHub, não do opencode.ai.
+const GITHUB_REPO = "Naoriky-VFX/NAORIKY-SELENE"
+const GITHUB_LATEST = `https://api.github.com/repos/${GITHUB_REPO}/releases/latest`
+const GITHUB_ASSET = `https://github.com/${GITHUB_REPO}/releases/latest/download/sel.exe`
+
 export type Method = (typeof methods)[number]
 export type RunResult = { readonly type: "available" | "installed"; readonly version: string }
 export type CheckResult = RunResult | { readonly type: "unavailable"; readonly message: string }
@@ -142,7 +147,6 @@ const make = Effect.gen(function* () {
   const appProcess = yield* AppProcess.Service
   const flock = yield* EffectFlock.Service
   const installedVersion = yield* Ref.make(SELENE_VERSION)
-  const channel = SELENE_CHANNEL.replace(/[^a-zA-Z0-9._-]/g, "-")
   const executable = yield* fs.realPath(process.execPath).pipe(Effect.orElseSucceed(() => process.execPath))
   const installedPackage = yield* Effect.gen(function* () {
     const directory = path.dirname(path.dirname(executable))
@@ -273,7 +277,6 @@ const make = Effect.gen(function* () {
   }
 
   const release = Effect.fnUntraced(function* (method?: Method) {
-    const distribution = method === "brew" ? "homebrew" : "npm"
     // Homebrew Core builds its formula on its own schedule, so the tap release does not describe it.
     const core = method === "brew" && installedFormula === "opencode"
     const response = yield* Effect.tryPromise({
@@ -281,9 +284,10 @@ const make = Effect.gen(function* () {
         fetch(
           core
             ? "https://formulae.brew.sh/api/formula/selene.json"
-            : `https://opencode.ai/update/api/${encodeURIComponent(channel)}/${encodeURIComponent(SELENE_ARTIFACT)}/${distribution}?current=${encodeURIComponent(SELENE_VERSION)}`,
+            : GITHUB_LATEST,
           {
             signal: AbortSignal.any([signal, AbortSignal.timeout(10_000)]),
+            headers: { "User-Agent": "selene", Accept: "application/vnd.github+json" },
           },
         ),
       catch: (cause) =>
@@ -304,7 +308,7 @@ const make = Effect.gen(function* () {
           retry: "Try again in a few minutes.",
         }),
       )
-    const data: { version?: string; metadata?: { package?: string }; versions?: { stable?: string } } =
+    const data: { version?: string; tag_name?: string; metadata?: { package?: string }; versions?: { stable?: string } } =
       yield* Effect.tryPromise({
         try: () => response.json(),
         catch: (cause) =>
@@ -317,8 +321,8 @@ const make = Effect.gen(function* () {
             { cause },
           ),
       })
-    const version = core ? data.versions?.stable : data.version
-    const packageName = core ? "opencode" : data.metadata?.package
+    const version = core ? data.versions?.stable : (data.tag_name ?? "").trim().replace(/^v/, "")
+    const packageName = core ? "opencode" : "github"
     if (!version || !packageName)
       return yield* Effect.fail(
         new UpgradeError({
@@ -532,9 +536,8 @@ const make = Effect.gen(function* () {
   })
 
   const inspect = Effect.fnUntraced(function* () {
-    // SELENE: o verificador original consulta opencode.ai e instalaria o OpenCode por cima
-    // da SELENE. Fica desligado até termos um servidor de atualização próprio (GitHub Releases).
-    const autoupdate = false
+    // SELENE: agora a checagem consulta o NOSSO repositório no GitHub.
+    const autoupdate = true
     if (!autoupdate || SELENE_LOCAL || ["1", "true"].includes(process.env.SELENE_DISABLE_AUTOUPDATE?.toLowerCase() ?? "")) {
       yield* Effect.logInfo("update check skipped", {
         reason: !autoupdate ? "selene-disabled" : SELENE_LOCAL ? "local-install" : "disabled",
@@ -564,11 +567,59 @@ const make = Effect.gen(function* () {
     return { policy, version }
   })
 
+  // SELENE: instalação manual (sel.exe baixado do GitHub) — baixa, troca e reabre.
+  const githubInstall = Effect.fnUntraced(function* () {
+    const fsp = yield* Effect.promise(() => import("node:fs/promises"))
+    const { spawn } = yield* Effect.promise(() => import("node:child_process"))
+    const exe = process.execPath
+    const novo = `${exe}.new`
+
+    yield* Effect.tryPromise({
+      try: async (signal) => {
+        const res = await fetch(GITHUB_ASSET, {
+          signal: AbortSignal.any([signal, AbortSignal.timeout(15 * 60_000)]),
+          headers: { "User-Agent": "selene" },
+        })
+        if (!res.ok) throw new Error(`HTTP ${res.status}`)
+        await fsp.writeFile(novo, Buffer.from(await res.arrayBuffer()))
+      },
+      catch: (cause) =>
+        new UpgradeError(
+          {
+            title: "Não consegui baixar a atualização",
+            detail: errorDetail(cause),
+            retry: "Verifique a conexão e tente de novo.",
+          },
+          { cause },
+        ),
+    })
+
+    // script que espera este processo sair, troca o binário e reabre
+    const bat = path.join(process.env.TEMP ?? global.tmp, "selene-update.bat")
+    yield* Effect.promise(() =>
+      fsp.writeFile(
+        bat,
+        [
+          "@echo off",
+          "timeout /t 3 /nobreak >nul",
+          `move /y "${novo}" "${exe}"`,
+          `start "" "${exe}"`,
+          `del "%~f0"`,
+        ].join("\r\n"),
+      ),
+    )
+    const child = spawn("cmd.exe", ["/c", "start", "/min", "", bat], { detached: true, stdio: "ignore" })
+    child.unref()
+    setTimeout(() => process.exit(0), 900)
+  })
+
   const install = Effect.fnUntraced(function* (version: string) {
     const detected = yield* method()
     if (!detected) {
-      yield* Effect.logWarning("update skipped: installation method not found")
-      return false
+      const current = yield* Ref.get(installedVersion)
+      yield* Effect.logInfo("update via github", { from: current, to: version })
+      yield* githubInstall()
+      return true
     }
     const current = yield* Ref.get(installedVersion)
     yield* upgrade(detected, version)
