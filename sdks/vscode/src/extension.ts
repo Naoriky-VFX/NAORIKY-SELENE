@@ -79,16 +79,16 @@ async function ensureBinary(context: vscode.ExtensionContext, manual: boolean): 
 
   if (!manual) {
     const escolha = await vscode.window.showWarningMessage(
-      "A SELENE ainda não está instalada nesta máquina. Baixar agora?",
-      "Baixar (~260 MB)",
-      "Agora não",
-      "Ver instruções",
+      "SELENE is not installed on this machine yet. Download it now?",
+      "Download (~260 MB)",
+      "Not now",
+      "See instructions",
     )
-    if (escolha === "Ver instruções") {
+    if (escolha === "See instructions") {
       void vscode.env.openExternal(vscode.Uri.parse(DOWNLOAD_PAGE))
       return undefined
     }
-    if (escolha !== "Baixar (~260 MB)") return undefined
+    if (escolha !== "Download (~260 MB)") return undefined
   }
 
   return vscode.window.withProgress(
@@ -106,14 +106,14 @@ async function ensureBinary(context: vscode.ExtensionContext, manual: boolean): 
         if (!IS_WIN) fs.chmodSync(INSTALL_PATH, 0o755)
         rememberInPath(INSTALL_DIR)
         progress.report({ message: "pronto" })
-        void vscode.window.showInformationMessage("SELENE instalada.")
+        void vscode.window.showInformationMessage("SELENE installed.")
         return INSTALL_PATH
       } catch (error) {
         safeUnlink(`${INSTALL_PATH}.download`)
         const msg = error instanceof Error ? error.message : String(error)
         const acao = await vscode.window.showErrorMessage(
-          `Não consegui instalar a SELENE: ${msg}`,
-          "Abrir a página de download",
+          `Could not install SELENE: ${msg}`,
+          "Open the download page",
         )
         if (acao) void vscode.env.openExternal(vscode.Uri.parse(DOWNLOAD_PAGE))
         return undefined

@@ -1,8 +1,8 @@
 {
   "name": "selene",
   "displayName": "SELENE CODE",
-  "description": "Agente de programação no terminal, ao lado do seu código.",
-  "version": "0.1.1",
+  "description": "AI agent in the terminal: understands your project, writes code and runs commands.",
+  "version": "0.1.2",
   "publisher": "naoriky",
   "repository": {
     "type": "git",
@@ -39,7 +39,7 @@
     "commands": [
       {
         "command": "selene.openTerminal",
-        "title": "Abrir a SELENE",
+        "title": "Open SELENE",
         "category": "SELENE",
         "icon": {
           "light": "images/selene-orb-256.png",
@@ -48,7 +48,7 @@
       },
       {
         "command": "selene.openNewTerminal",
-        "title": "Abrir a SELENE em nova aba",
+        "title": "Open SELENE in a new tab",
         "category": "SELENE",
         "icon": {
           "light": "images/selene-orb-256.png",
@@ -57,7 +57,7 @@
       },
       {
         "command": "selene.install",
-        "title": "Instalar ou atualizar o agente",
+        "title": "Install or update the agent",
         "category": "SELENE",
         "icon": {
           "light": "images/selene-orb-256.png",
@@ -66,7 +66,7 @@
       },
       {
         "command": "selene.addFilepathToTerminal",
-        "title": "Inserir caminho do arquivo na SELENE",
+        "title": "Insert file path into SELENE",
         "category": "SELENE"
       }
     ],
@@ -81,7 +81,7 @@
     "keybindings": [
       {
         "command": "selene.openTerminal",
-        "title": "Abrir a SELENE",
+        "title": "Open SELENE",
         "key": "cmd+alt+escape",
         "mac": "cmd+alt+escape",
         "win": "ctrl+alt+escape",
@@ -89,7 +89,7 @@
       },
       {
         "command": "selene.openNewTerminal",
-        "title": "Abrir a SELENE em nova aba",
+        "title": "Open SELENE in a new tab",
         "key": "cmd+alt+shift+escape",
         "mac": "cmd+alt+shift+escape",
         "win": "ctrl+alt+shift+escape",
@@ -97,7 +97,7 @@
       },
       {
         "command": "selene.addFilepathToTerminal",
-        "title": "SELENE: inserir arquivo mencionado",
+        "title": "SELENE: insert file reference",
         "key": "cmd+alt+s",
         "mac": "cmd+alt+s",
         "win": "ctrl+alt+s",
