@@ -1,7 +1,7 @@
 # Continuidade — NAORIKY-SELENE
 
-> **Atualizado em:** 02/11/2026
-> **Versão:** SELENE CODE **0.1.1** (extensão) · **2.2.5** (binário)
+> **Atualizado em:** 03/11/2026
+> **Versão:** SELENE CODE **0.1.3** (extensão) · **2.2.5** (binário)
 > **Branch:** `main` · padrão do repositório
 > **Repositório:** https://github.com/Naoriky-VFX/NAORIKY-SELENE (público)
 
@@ -11,15 +11,34 @@ Fonte da verdade para retomar. O `AGENTS.md` tem as regras de trabalho (release 
 
 ## Onde parou
 
-**Nada pela metade.** Tudo commitado e publicado.
+**Extensão 0.1.3 pronta e testada localmente; falta publicar no Marketplace.**
 
 | Item | Estado |
 |---|---|
-| Extensão `SELENE CODE` 0.1.1 | ✅ **no Marketplace** (`naoriky.selene`) |
+| Extensão `SELENE CODE` **0.1.3** | 🟡 `.vsix` gerado e instalado no VS Code do dono — **não publicada** |
+| Extensão `SELENE CODE` 0.1.2 | ✅ no Marketplace (`naoriky.selene`) |
+| Ícone na barra lateral | ✅ funcionando (verificado no VS Code do dono) |
 | Release `v2.2.5` com `sel.exe` | ✅ no GitHub |
-| Publicação automatizada | ✅ Trusted Publishing funcionando |
+| Publicação automatizada | ✅ Trusted Publishing (`workflow_dispatch` em `publish-extension.yml`) |
 | Update pelo GitHub | ✅ checagem + download + troca + reabrir |
 | Tier gratuito | ✅ funcionando (4 modelos Free) |
+
+### O que a 0.1.3 mudou
+
+- **Barra lateral:** `viewsContainers.activitybar` + view `selene.home` com 4 ações
+  (Open / New tab / Insert file reference / Install), mais botões no topo do painel.
+- **Ícones:** `activity-icon.svg` (24×24, silhueta, o VS Code recolore no tema),
+  `orb.png` e `orb-plus.png` (orb sem o texto "SELENE", legível em 16 px).
+- **Bug corrigido:** os ícones dos comandos apontavam para `images/selene-orb-256.png` e
+  `selene-orb-glow.png`, que o `.vscodeignore` **excluía do pacote** — chegavam quebrados.
+- **Aba do terminal:** passou a usar `orb.png` (antes `terminal-icon.png`, com texto ilegível).
+- **Dois botões** em `editor/title`: orb (abrir) e orb `+` (aba nova).
+- **Tudo em inglês** para o cliente: README, CHANGELOG e as mensagens do código
+  ("Installing SELENE", "cancelled", etc.).
+- `LICENSE` dentro de `sdks/vscode` (acaba com o aviso do `vsce`) e campo `author`.
+
+> **Limite conhecido:** os botões da barra de abas do terminal (o `+`, o split, a estrela) são
+> internos do VS Code — extensão nenhuma injeta ícone ali.
 
 ---
 

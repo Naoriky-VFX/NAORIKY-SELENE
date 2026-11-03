@@ -24,6 +24,7 @@ export function deactivate() {}
 
 export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(
+    vscode.window.registerTreeDataProvider("selene.home", new ActionsProvider()),
     vscode.commands.registerCommand("selene.openNewTerminal", () => openTerminal(context, true)),
     vscode.commands.registerCommand("selene.openTerminal", async () => {
       const existing = vscode.window.terminals.find((t) => t.name === TERMINAL_NAME)
@@ -45,6 +46,31 @@ export function activate(context: vscode.ExtensionContext) {
   )
 }
 
+// ───────────────────────────── painel lateral ─────────────────────────────
+// Ações rápidas que aparecem na barra lateral do VS Code (icone da SELENE).
+class ActionsProvider implements vscode.TreeDataProvider<vscode.TreeItem> {
+  getTreeItem(item: vscode.TreeItem) {
+    return item
+  }
+
+  getChildren(): vscode.TreeItem[] {
+    const acao = (titulo: string, comando: string, icone: string, dica: string) => {
+      const item = new vscode.TreeItem(titulo, vscode.TreeItemCollapsibleState.None)
+      item.command = { command: comando, title: titulo }
+      item.iconPath = new vscode.ThemeIcon(icone)
+      item.tooltip = dica
+      return item
+    }
+
+    return [
+      acao("Open SELENE", "selene.openTerminal", "play", "Open the agent in a terminal tab"),
+      acao("New tab", "selene.openNewTerminal", "add", "Open a second SELENE session"),
+      acao("Insert file reference", "selene.addFilepathToTerminal", "symbol-reference", "Send @file#lines to the terminal"),
+      acao("Install or update the agent", "selene.install", "cloud-download", "Download the latest SELENE binary"),
+    ]
+  }
+}
+
 // ───────────────────────────── terminal ─────────────────────────────
 async function openTerminal(context: vscode.ExtensionContext, forceNew: boolean) {
   const bin = await ensureBinary(context, false)
@@ -52,10 +78,7 @@ async function openTerminal(context: vscode.ExtensionContext, forceNew: boolean)
 
   const terminal = vscode.window.createTerminal({
     name: TERMINAL_NAME,
-    iconPath: {
-      light: vscode.Uri.file(context.asAbsolutePath("images/terminal-icon.png")),
-      dark: vscode.Uri.file(context.asAbsolutePath("images/terminal-icon-glow.png")),
-    },
+    iconPath: vscode.Uri.file(context.asAbsolutePath("images/orb.png")),
     location: forceNew
       ? { viewColumn: vscode.ViewColumn.Beside, preserveFocus: false }
       : { viewColumn: vscode.ViewColumn.Beside, preserveFocus: false },
@@ -92,7 +115,7 @@ async function ensureBinary(context: vscode.ExtensionContext, manual: boolean): 
   }
 
   return vscode.window.withProgress(
-    { location: vscode.ProgressLocation.Notification, title: "Instalando a SELENE", cancellable: true },
+    { location: vscode.ProgressLocation.Notification, title: "Installing SELENE", cancellable: true },
     async (progress, token) => {
       try {
         fs.mkdirSync(INSTALL_DIR, { recursive: true })
@@ -105,7 +128,7 @@ async function ensureBinary(context: vscode.ExtensionContext, manual: boolean): 
         fs.renameSync(temp, INSTALL_PATH)
         if (!IS_WIN) fs.chmodSync(INSTALL_PATH, 0o755)
         rememberInPath(INSTALL_DIR)
-        progress.report({ message: "pronto" })
+        progress.report({ message: "done" })
         void vscode.window.showInformationMessage("SELENE installed.")
         return INSTALL_PATH
       } catch (error) {
@@ -184,7 +207,7 @@ function download(url: string, destino: string, progress: vscode.Progress<{ mess
       token.onCancellationRequested(() => {
         req.destroy()
         arquivo.close()
-        reject(new Error("cancelado"))
+        reject(new Error("cancelled"))
       })
 
       res.on("data", (chunk: Buffer) => {

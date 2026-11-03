@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <!-- crescente: disco grande com o disco menor vazado -->
+    <mask id="selene-crescent">
+      <rect width="24" height="24" fill="#000"/>
+      <circle cx="10.8" cy="13" r="5.9" fill="#fff"/>
+      <circle cx="13.8" cy="10.9" r="5.5" fill="#000"/>
+    </mask>
+  </defs>
+
+  <!-- contorno da orb -->
+  <circle cx="12" cy="12" r="9.5" fill="none" stroke="currentColor" stroke-width="1.7"/>
+
+  <!-- lua -->
+  <circle cx="12" cy="12" r="12" fill="currentColor" mask="url(#selene-crescent)"/>
+
+  <!-- estrela -->
+  <path fill="currentColor" d="M17.3 5.4l.62 1.68 1.68.62-1.68.62-.62 1.68-.62-1.68-1.68-.62 1.68-.62z"/>
+</svg>

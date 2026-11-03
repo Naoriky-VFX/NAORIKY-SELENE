@@ -2,8 +2,11 @@
   "name": "selene",
   "displayName": "SELENE CODE",
   "description": "AI agent in the terminal: understands your project, writes code and runs commands.",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "publisher": "naoriky",
+  "author": {
+    "name": "Naoriky"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/Naoriky-VFX/NAORIKY-SELENE"
@@ -36,33 +39,49 @@
   "activationEvents": [],
   "main": "./dist/extension.js",
   "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "selene",
+          "title": "SELENE",
+          "icon": "images/activity-icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "selene": [
+        {
+          "id": "selene.home",
+          "name": "SELENE",
+          "icon": "images/activity-icon.svg",
+          "contextualTitle": "SELENE"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "selene.home",
+        "contents": "SELENE CODE — AI coding agent in the terminal.\n[Open SELENE](command:selene.openTerminal)\n[Open in a new tab](command:selene.openNewTerminal)"
+      }
+    ],
     "commands": [
       {
         "command": "selene.openTerminal",
         "title": "Open SELENE",
         "category": "SELENE",
-        "icon": {
-          "light": "images/selene-orb-256.png",
-          "dark": "images/selene-orb-glow.png"
-        }
+        "icon": "images/orb.png"
       },
       {
         "command": "selene.openNewTerminal",
         "title": "Open SELENE in a new tab",
         "category": "SELENE",
-        "icon": {
-          "light": "images/selene-orb-256.png",
-          "dark": "images/selene-orb-glow.png"
-        }
+        "icon": "images/orb-plus.png"
       },
       {
         "command": "selene.install",
         "title": "Install or update the agent",
         "category": "SELENE",
-        "icon": {
-          "light": "images/selene-orb-256.png",
-          "dark": "images/selene-orb-glow.png"
-        }
+        "icon": "images/orb.png"
       },
       {
         "command": "selene.addFilepathToTerminal",
@@ -73,7 +92,23 @@
     "menus": {
       "editor/title": [
         {
+          "command": "selene.openTerminal",
+          "group": "navigation"
+        },
+        {
           "command": "selene.openNewTerminal",
+          "group": "navigation"
+        }
+      ],
+      "view/title": [
+        {
+          "command": "selene.openNewTerminal",
+          "when": "view == selene.home",
+          "group": "navigation"
+        },
+        {
+          "command": "selene.install",
+          "when": "view == selene.home",
           "group": "navigation"
         }
       ]
