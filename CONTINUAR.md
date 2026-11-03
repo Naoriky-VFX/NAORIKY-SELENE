@@ -11,12 +11,12 @@ Fonte da verdade para retomar. O `AGENTS.md` tem as regras de trabalho (release 
 
 ## Onde parou
 
-**Extensão 0.1.3 pronta e testada localmente; falta publicar no Marketplace.**
+**Nada pela metade.** Extensão 0.1.3 publicada no Marketplace.
 
 | Item | Estado |
 |---|---|
-| Extensão `SELENE CODE` **0.1.3** | 🟡 `.vsix` gerado e instalado no VS Code do dono — **não publicada** |
-| Extensão `SELENE CODE` 0.1.2 | ✅ no Marketplace (`naoriky.selene`) |
+| Extensão `SELENE CODE` **0.1.3** | ✅ **no Marketplace** (`naoriky.selene`) — publicada em 03/11 16:03 UTC |
+| Extensão `SELENE CODE` 0.1.2 | ⚪ versão anterior |
 | Ícone na barra lateral | ✅ funcionando (verificado no VS Code do dono) |
 | Release `v2.2.5` com `sel.exe` | ✅ no GitHub |
 | Publicação automatizada | ✅ Trusted Publishing (`workflow_dispatch` em `publish-extension.yml`) |
@@ -62,16 +62,16 @@ Fonte da verdade para retomar. O `AGENTS.md` tem as regras de trabalho (release 
 
 1. Editar `sdks/vscode/package.json` → subir `version`
 2. Commit + push
-3. Disparar o workflow:
+3. Disparar o workflow (só `workflow_dispatch` — push **não** publica):
 
 ```powershell
-# endpoint usado (token do GitHub já salvo no PC tem escopo workflow)
 POST /repos/Naoriky-VFX/NAORIKY-SELENE/actions/workflows/publish-extension.yml/dispatches
 {"ref":"main"}
 ```
 
 O workflow instala dependências, roda `vsce publish --oidc` e publica sozinho.
 **Não precisa token do Azure** (Trusted Publishing via OIDC).
+O índice da loja leva ~4 min para mostrar a versão nova.
 
 ---
 
