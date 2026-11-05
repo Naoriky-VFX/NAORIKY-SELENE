@@ -147,3 +147,4 @@ O índice da loja leva ~4 min para mostrar a versão nova.
 | `packages/core/src/plugin/provider/opencode.ts` | tier grátis (versão compatível no UA) |
 | `packages/tui/src/logo.ts` | wordmark SELENE CODE |
 | `.github/workflows/publish-extension.yml` | publicação no Marketplace |
+| `bats/ENTENDA-O-PROJETO.md` | mapa do projeto: arquitetura, comandos, regras e armadilhas |

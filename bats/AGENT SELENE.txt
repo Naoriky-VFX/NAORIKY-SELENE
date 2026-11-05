@@ -5,8 +5,21 @@ SESSAO   : ses_e55f23212ffeAs7UsadEVghf7x
 RETOMAR  : cd "D:\PROJETOS DE PROGRAMAÇÃO\NAORIKY-SELENE" && selene --session ses_e55f23212ffeAs7UsadEVghf7x
 ATUALIZADO: 05/11/2026 04:46
 
+LEIA TAMBEM
+-----------
+bats\ENTENDA-O-PROJETO.md - o que e o projeto, como funciona por dentro e como
+trabalhar (escrito da leitura do codigo, substitui precisar do historico).
+
 ULTIMO TRABALHO
 ---------------
+05/11/2026 - Mapa do projeto escrito para retomar sem historico
+- Criado bats/ENTENDA-O-PROJETO.md: arquitetura (TUI -> servico -> core -> SQLite),
+  pastas, comandos (bun run check, build com SELENE_BIN/SELENE_TARGET), regras de ouro
+  e 8 armadilhas ja pagas. Fontes listadas no fim do arquivo; nada foi compilado.
+- Sessao antiga (ses_e55f2321...) movida para esta pasta; agora ela e a sessao do projeto.
+- Achado: sync-upstream.yml NAO esta neste repo - vive no fork OPENCODE.
+  Os workflows do upstream aqui estao em .github/workflows-upstream/ (so referencia).
+
 05/11/2026 - Painel naoriky espelhado no SELENE
 - selene.json: 4 -> 126 modelos. As 4 chaves antigas ficaram intactas (sessoes
   apontam para elas); as 122 novas usam chave com "-" + campo "id" com o nome
