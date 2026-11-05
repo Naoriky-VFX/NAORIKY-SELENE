@@ -3,7 +3,7 @@ AGENT SELENE - PROJETO NAORIKY-SELENE
 
 SESSAO   : ses_e55f23212ffeAs7UsadEVghf7x
 RETOMAR  : cd "D:\PROJETOS DE PROGRAMAÇÃO\NAORIKY-SELENE" && selene --session ses_e55f23212ffeAs7UsadEVghf7x
-ATUALIZADO: 05/11/2026 04:40
+ATUALIZADO: 05/11/2026 04:46
 
 ULTIMO TRABALHO
 ---------------
@@ -18,8 +18,14 @@ ULTIMO TRABALHO
   Correcao: usar a chave pessoal do membro que tem o assento Go.
 - Ponte Naoriky-VFX/opencode <- anomalyco/opencode: workflow
   sync-upstream.yml (merge, nunca force) todos os dias as 06:00 UTC.
+- Backup do banco: bats/backup-sessao.py grava em bats/backups/ a cada
+  encerramento. Local, fora do git (repo publico, banco tem `credential`).
+  Rotacao de 10, antigos vao para a Lixeira.
+  Testado: 38,2 MB, integridade ok, 21 sessoes, 1.961 mensagens.
+  NAO testado: restaurar o backup por cima do banco real.
 - PENDENTE: espelhar os 126 no opencode.json (+ apagar bloco "providers"
   morto) e trocar a chave do painel que apareceu no terminal (05/11).
+- PROXIMO: o dono vai abrir sessao nova para outro projeto.
 
 REGRA
 -----
