@@ -3,11 +3,23 @@ AGENT SELENE - PROJETO NAORIKY-SELENE
 
 SESSAO   : ses_e55f23212ffeAs7UsadEVghf7x
 RETOMAR  : cd "D:\PROJETOS DE PROGRAMAÇÃO\NAORIKY-SELENE" && selene --session ses_e55f23212ffeAs7UsadEVghf7x
-ATUALIZADO: 05/11/2026 03:25
+ATUALIZADO: 05/11/2026 04:37
 
 ULTIMO TRABALHO
 ---------------
-- (preencher ao encerrar a conversa)
+05/11/2026 - Painel naoriky espelhado no SELENE
+- selene.json: 4 -> 126 modelos. As 4 chaves antigas ficaram intactas (sessoes
+  apontam para elas); as 122 novas usam chave com "-" + campo "id" com o nome
+  real, porque o nome do modelo tem "/".
+  Backup: %TEMP%\selene\selene.json.bak-20261105-043025
+- "oc/*" = modelos do plano opencode Go. Falham com 403 "Go Teams covers
+  workspace members, not service accounts": o painel (Naoriky API,
+  custom-server.js :20127) chama com chave de service account.
+  Correcao: usar a chave pessoal do membro que tem o assento Go.
+- Ponte Naoriky-VFX/opencode <- anomalyco/opencode: workflow
+  sync-upstream.yml (merge, nunca force) todos os dias as 06:00 UTC.
+- PENDENTE: espelhar os 126 no opencode.json (+ apagar bloco "providers"
+  morto) e trocar a chave do painel que apareceu no terminal (05/11).
 
 REGRA
 -----
@@ -20,4 +32,7 @@ ou, direto:
     python bats\atualizar-agente.py
 
 Isso grava o ID da sessao atual em bats\.sessao e atualiza as linhas SESSAO,
-RETOMAR e ATUALIZADO deste arquivo. O resumo do ULTIMO TRABALHO e escrito a mao.
+RETOMAR e ATUALIZADO deste arquivo.
+
+O bloco ULTIMO TRABALHO e da SELENE: ela escreve e atualiza sozinha, sem pedir
+autorizacao. O script nao mexe nele de proposito.

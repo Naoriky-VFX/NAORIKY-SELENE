@@ -60,3 +60,13 @@ cookies ou dados de cliente. O `.gitignore` cobre a maior parte — confira ante
 - `~/.config/selene/` e `%LOCALAPPDATA%\selene` — config e histórico dele.
 - Terminais e sessões abertas (rodar em janela separada e isolada).
 - `C:\LicencasServidor` — é outro projeto (PROJETO TEST), não este.
+
+## 7. A etiqueta do agente é da SELENE
+
+`bats/AGENT SELENE.txt` é responsabilidade **da SELENE**, não do dono:
+
+- ao encerrar cada bloco de trabalho, rodar `bats\ABRIR-SELENE.ps1 -SoAtualizar`
+  (ou `python bats\atualizar-agente.py`) para gravar a sessão e a data;
+- o bloco `ULTIMO TRABALHO` é escrito **por ela, sem pedir autorização** — é a
+  memória de retomada dela mesma;
+- `bats/.sessao` fica fora do git (`.gitignore`).

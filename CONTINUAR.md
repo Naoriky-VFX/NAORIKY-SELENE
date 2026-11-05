@@ -1,6 +1,6 @@
 # Continuidade — NAORIKY-SELENE
 
-> **Atualizado em:** 03/11/2026
+> **Atualizado em:** 05/11/2026
 > **Versão:** SELENE CODE **0.1.3** (extensão) · **2.2.5** (binário)
 > **Branch:** `main` · padrão do repositório
 > **Repositório:** https://github.com/Naoriky-VFX/NAORIKY-SELENE (público)
@@ -39,6 +39,43 @@ Fonte da verdade para retomar. O `AGENTS.md` tem as regras de trabalho (release 
 
 > **Limite conhecido:** os botões da barra de abas do terminal (o `+`, o split, a estrela) são
 > internos do VS Code — extensão nenhuma injeta ícone ali.
+
+---
+
+## Sessão de 05/11 — painel naoriky e ponte com o opencode
+
+**Nada quebrado.** A config do SELENE passou a espelhar o painel inteiro.
+
+| Item | Estado |
+|---|---|
+| `~/.config/selene/selene.json` | 4 → **126 modelos** do painel `naoriky` |
+| Backup | `%TEMP%\selene\selene.json.bak-20261105-043025` |
+| `bats/` (âncora do agente) | `atualizar-agente.py`, `ABRIR-SELENE.bat/.ps1`, `AGENT SELENE.txt`, `PROMPT-SELENE.txt` |
+| Fork `Naoriky-VFX/opencode` | recriado do `anomalyco/opencode` (branch `dev`) + remote `upstream` |
+| Sync automático | `.github/workflows/sync-upstream.yml` — merge diário 06:00 UTC, **nunca** force |
+| Clone local | `D:\PROJETOS DE PROGRAMAÇÃO\OPENCODE` — `bun install` + `bun run check` **35/35** |
+
+### Descobertas
+
+- **43 symlinks** do repo do opencode chegam como arquivo de texto no Windows
+  (`core.symlinks=false`) → `@opencode/app` quebra com TS1128. Correção:
+  `git config core.symlinks true` + `git checkout` dos 43 caminhos.
+- Os `claude-*` do painel **não são Claude**: são etiquetas para as 3 gavetas do
+  Claude Code (`ANTHROPIC_DEFAULT_SONNET/OPUS/HAIKU_MODEL` em `~/.claude/settings.json`).
+  Atrás de cada um há DeepSeek, Gemini, Venice, Kiro, Grok.
+- Os `oc/*` são do plano **opencode Go**. Dão 403 ("Go Teams covers workspace members,
+  not service accounts") porque o painel chama com **service account**; Go exige
+  chave **pessoal** do membro que tem o assento.
+- `opencode.json` tem a chave `providers` (plural) com `modelID` — é schema V1 e o
+  app **ignora**. A chave correta é `provider` e o campo é `id`.
+
+### Pendências desta sessão
+
+| # | O que |
+|---|---|
+| 1 | Espelhar os 126 no `opencode.json` e apagar o bloco `providers` morto |
+| 2 | Trocar a chave do painel (apareceu no terminal em 05/11) |
+| 3 | Testar os 126 modelos e marcar quais respondem |
 
 ---
 

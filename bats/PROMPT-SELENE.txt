@@ -19,8 +19,9 @@ AGENTE SELENE - PROJETO NAORIKY-SELENE
    - publicar extensao (workflow_dispatch) ou release so com autorizacao explicita;
    - nunca trocar nome/ID interno `opencode` em massa (quebra provider, tema e updater);
    - commit + push ao terminar cada tarefa.
-5) Ao encerrar a conversa: rodar `bats\ABRIR-SELENE.ps1 -SoAtualizar` e atualizar
-   CONTINUAR.md (onde parou + pendencias).
+5) Ao encerrar a conversa: rodar `bats\ABRIR-SELENE.ps1 -SoAtualizar`, atualizar
+   o bloco ULTIMO TRABALHO da etiqueta e o CONTINUAR.md (onde parou + pendencias).
+   A etiqueta e da SELENE: ela escreve sozinha, sem pedir autorizacao.
 ------------------------------------------------------------------
 
 COMO RETOMAR A MESMA CONVERSA (com historico):
