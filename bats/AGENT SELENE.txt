@@ -1,0 +1,23 @@
+AGENT SELENE - PROJETO NAORIKY-SELENE
+======================================
+
+SESSAO   : ses_e55f23212ffeAs7UsadEVghf7x
+RETOMAR  : cd "D:\PROJETOS DE PROGRAMAÇÃO\NAORIKY-SELENE" && selene --session ses_e55f23212ffeAs7UsadEVghf7x
+ATUALIZADO: 05/11/2026 03:25
+
+ULTIMO TRABALHO
+---------------
+- (preencher ao encerrar a conversa)
+
+REGRA
+-----
+Sempre que a conversa terminar (ou trocar de sessao), rodar:
+
+    bats\ABRIR-SELENE.ps1 -SoAtualizar
+
+ou, direto:
+
+    python bats\atualizar-agente.py
+
+Isso grava o ID da sessao atual em bats\.sessao e atualiza as linhas SESSAO,
+RETOMAR e ATUALIZADO deste arquivo. O resumo do ULTIMO TRABALHO e escrito a mao.

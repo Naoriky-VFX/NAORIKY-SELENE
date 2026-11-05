@@ -1,0 +1,36 @@
+PROMPT - RETOMAR O AGENTE SELENE (PROJETO NAORIKY-SELENE)
+==========================================================
+
+Cole isto quando abrir uma sessao nova nesta pasta:
+
+------------------------------------------------------------------
+AGENTE SELENE - PROJETO NAORIKY-SELENE
+
+1) Leia, nesta ordem: bats\AGENT SELENE.txt e CONTINUAR.md.
+2) E o fork SELENE (base opencode, MIT) em D:\PROJETOS DE PROGRAMAÇÃO\NAORIKY-SELENE,
+   binario `selene` 2.2.5 e extensao VS Code "SELENE CODE" 0.1.3.
+3) Antes de mexer em qualquer coisa, me responda em ate 6 linhas:
+   - onde paramos (ultimo trabalho registrado);
+   - o que esta pendente;
+   - o que voce pretende fazer agora;
+   - se precisa de build/publicacao.
+4) Regras:
+   - e sempre o MESMO agente neste projeto: nao abrir outro em paralelo na mesma pasta;
+   - publicar extensao (workflow_dispatch) ou release so com autorizacao explicita;
+   - nunca trocar nome/ID interno `opencode` em massa (quebra provider, tema e updater);
+   - commit + push ao terminar cada tarefa.
+5) Ao encerrar a conversa: rodar `bats\ABRIR-SELENE.ps1 -SoAtualizar` e atualizar
+   CONTINUAR.md (onde parou + pendencias).
+------------------------------------------------------------------
+
+COMO RETOMAR A MESMA CONVERSA (com historico):
+  cd "D:\PROJETOS DE PROGRAMAÇÃO\NAORIKY-SELENE"
+  selene --session <id em bats\.sessao>
+
+COMO ABRIR SESSAO NOVA (mesmo contexto, sem historico):
+  cd "D:\PROJETOS DE PROGRAMAÇÃO\NAORIKY-SELENE"
+  selene
+
+ATALHO:
+  bats\ABRIR-SELENE.bat            -> atualiza a etiqueta e retoma a sessao
+  bats\ABRIR-SELENE.bat -SoAtualizar (via .ps1) -> so atualiza a etiqueta

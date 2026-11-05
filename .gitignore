@@ -38,6 +38,7 @@ tsconfig.tsbuildinfo
 /artifacts/
 # --- SELENE ---
 packages/cli/.bun-cache/
+bats/.sessao
 CONVERSAS.md
 CHECKPOINT.md
 *.vsix
