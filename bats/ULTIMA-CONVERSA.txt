@@ -1,0 +1,30 @@
+# ULTIMA CONVERSA — 05/11/2026 05:0x
+
+> Arquivo pequeno de retomada. Leia isto ANTES de abrir o banco.
+> Escrito pela SELENE ao encerrar o bloco, sem pedir autorizacao (regra do dono, 05/11).
+
+## Ultima frase do dono
+
+> "blz vou te chamar novamente vc já foi pra 44%"
+
+## O que foi feito neste bloco
+
+- Sessao estava na pasta errada (PROJETO TEST); movida para NAORIKY-SELENE.
+- Ultima conversa anterior localizada: 05/11 01:53–04:47, sessao
+  `ses_e55f23212ffeAs7UsadEVghf7x` (combo `claude-desbloqueado` = 503 com tools,
+  painel 126 modelos, ponte do fork opencode, `bats/backups`).
+- Criado `bats/ENTENDA-O-PROJETO.md` (arquitetura, comandos, armadilhas). Commit `acec9f8`.
+- Verificado que nao ha outro agente nesta pasta: 6 sessoes, todas `selene`;
+  banco do opencode original sem projeto apontando aqui; sem MCP; um servico so.
+
+## Pendente (nao esquecer)
+
+1. Espelhar os 126 modelos no `opencode.json` e apagar o bloco `providers` morto.
+2. Trocar a chave do painel que apareceu no terminal (05/11).
+3. Testar os 126 modelos e marcar quais respondem.
+4. Rotacao do backup em 10 -> dono ainda nao decidiu (sugerido 3, libera ~270 MB).
+
+## Regra nova combinada
+
+Ao encerrar cada bloco: gravar aqui a ultima frase do dono + 5 linhas resumidas.
+Nao gastar contexto lendo `selene.db` para lembrar conversa.

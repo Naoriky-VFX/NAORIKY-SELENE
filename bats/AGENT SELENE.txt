@@ -1,12 +1,13 @@
 AGENT SELENE - PROJETO NAORIKY-SELENE
 ======================================
 
-SESSAO   : ses_e55f23212ffeAs7UsadEVghf7x
-RETOMAR  : cd "D:\PROJETOS DE PROGRAMAÇÃO\NAORIKY-SELENE" && selene --session ses_e55f23212ffeAs7UsadEVghf7x
-ATUALIZADO: 05/11/2026 04:46
+SESSAO   : ses_e555034d4ffesRZ670DL06m37A
+RETOMAR  : cd "D:\PROJETOS DE PROGRAMAÇÃO\NAORIKY-SELENE" && selene --session ses_e555034d4ffesRZ670DL06m37A
+ATUALIZADO: 05/11/2026 05:26
 
 LEIA TAMBEM
 -----------
+bats\ULTIMA-CONVERSA.txt  - ultima frase do dono + 5 linhas do ultimo bloco (LEIA 1o)
 bats\ENTENDA-O-PROJETO.md - o que e o projeto, como funciona por dentro e como
 trabalhar (escrito da leitura do codigo, substitui precisar do historico).
 
