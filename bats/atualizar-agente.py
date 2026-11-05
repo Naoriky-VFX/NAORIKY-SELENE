@@ -12,6 +12,7 @@ Uso:
 import datetime
 import os
 import sqlite3
+import subprocess
 import sys
 
 PROJETO = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
@@ -97,6 +98,22 @@ def atualizar_etiqueta(sid):
     return True
 
 
+def backup_sessao():
+    """Foto do banco em bats/backups/ (fora do git). Falha aqui nao derruba a etiqueta."""
+    script = os.path.join(PROJETO, "bats", "backup-sessao.py")
+    if not os.path.exists(script):
+        log("[backup] script nao encontrado, pulando")
+        return
+    try:
+        r = subprocess.run([sys.executable, script], capture_output=True, text=True, timeout=180)
+        for linha in (r.stdout or "").strip().splitlines():
+            print(linha)
+        if r.returncode != 0:
+            print("[backup] aviso: terminou com codigo %d" % r.returncode)
+    except Exception as erro:
+        print("[backup] aviso: %s" % erro)
+
+
 def main():
     sid, titulo = sessao_mais_recente()
     if LIMPAR:
@@ -107,6 +124,8 @@ def main():
             arquivo.write(sid + "\n")
         log("[sessao] %s (%s)" % (sid, titulo or "sem titulo"))
     atualizar_etiqueta(sid)
+    if "--sem-backup" not in sys.argv:
+        backup_sessao()
     return 0
 
 

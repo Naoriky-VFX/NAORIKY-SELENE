@@ -61,7 +61,7 @@ cookies ou dados de cliente. O `.gitignore` cobre a maior parte — confira ante
 - Terminais e sessões abertas (rodar em janela separada e isolada).
 - `C:\LicencasServidor` — é outro projeto (PROJETO TEST), não este.
 
-## 7. A etiqueta do agente é da SELENE
+## 7. A etiqueta e o backup do banco são da SELENE
 
 `bats/AGENT SELENE.txt` é responsabilidade **da SELENE**, não do dono:
 
@@ -70,3 +70,10 @@ cookies ou dados de cliente. O `.gitignore` cobre a maior parte — confira ante
 - o bloco `ULTIMO TRABALHO` é escrito **por ela, sem pedir autorização** — é a
   memória de retomada dela mesma;
 - `bats/.sessao` fica fora do git (`.gitignore`).
+
+O mesmo comando faz a foto do banco em `bats/backups/` (`backup-sessao.py`):
+cópia consistente pela API do SQLite, rotação de 10 arquivos, os antigos vão para
+a **Lixeira** (nunca apagados em definitivo).
+
+**`bats/backups/` está no `.gitignore` e deve continuar.** O banco tem histórico
+de conversa e a tabela `credential`; o repositório é público.

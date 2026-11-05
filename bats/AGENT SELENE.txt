@@ -3,7 +3,7 @@ AGENT SELENE - PROJETO NAORIKY-SELENE
 
 SESSAO   : ses_e55f23212ffeAs7UsadEVghf7x
 RETOMAR  : cd "D:\PROJETOS DE PROGRAMAÇÃO\NAORIKY-SELENE" && selene --session ses_e55f23212ffeAs7UsadEVghf7x
-ATUALIZADO: 05/11/2026 04:37
+ATUALIZADO: 05/11/2026 04:40
 
 ULTIMO TRABALHO
 ---------------
@@ -36,3 +36,14 @@ RETOMAR e ATUALIZADO deste arquivo.
 
 O bloco ULTIMO TRABALHO e da SELENE: ela escreve e atualiza sozinha, sem pedir
 autorizacao. O script nao mexe nele de proposito.
+
+BACKUP DO BANCO
+---------------
+O mesmo comando grava uma foto de selene.db em bats\backups\:
+
+    python bats\backup-sessao.py            -> faz o backup
+    python bats\backup-sessao.py --listar   -> mostra os que existem
+
+Guarda os 10 mais recentes; os antigos vao para a Lixeira.
+bats\backups\ esta no .gitignore e NAO vai para o GitHub: o banco tem
+historico de conversa e a tabela `credential`, e o repositorio e publico.

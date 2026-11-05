@@ -39,6 +39,7 @@ tsconfig.tsbuildinfo
 # --- SELENE ---
 packages/cli/.bun-cache/
 bats/.sessao
+bats/backups/
 CONVERSAS.md
 CHECKPOINT.md
 *.vsix
